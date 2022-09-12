@@ -1,0 +1,34 @@
+errores
+
+
+3. Problema al seleccionar los 4 jugadores, la ultima foto no se bloquea.
+
+7. no se pasan los puntos de una escena a otra.
+
+canciones
+licencia:
+Adventure-Alexander Nakarada
+https://creativecommons.org/licenses/by/3.0/
+
+
+sonidos
+licencia: This work is licensed under the Creative Commons Licenses.
+
+
+
+
+
+
+
+
+1. pop up pregunta: cuando se responde bien o mal, aparece el color rojo o verde, y sacamos el click de encima 
+cambia de color. Problema: el pointerout de los botones. // SOLUCIONADO //
+
+2. funciones de avanzar y retroceder, no suma ni resta al acumulador de pixeles, por lo tanto el personaje en el proximo tiro va a
+cualquier parte //SOLUCIONADO//
+
+4. los personajes en la seleccion de personajes siguen apareciendo una vez que se elijen ya los 4. //SOLUCIONADO  //
+
+5. los puntos no se suman en el momento, si salimos y volvemos a jugar aparecen. // SOLUCIONADO //
+
+6. cuando el personaje avanza o retrocede y cae en otra casilla con funcion, esta no se reproduce. // SOLUCIONADO //
