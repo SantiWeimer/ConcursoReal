@@ -1,14 +1,14 @@
 import Phaser from 'phaser'
 
-import { Preloads } from "../scenes/preloads.js";
-import { MainMenu } from "../scenes/mainmenu.js";
-import { Configuracion } from "../scenes/configuracion.js";
-import { Instrucciones } from "../scenes/instrucciones.js";
-import { Creditos } from "../scenes/creditos.js";
-import { SeleccionDePersonaje } from "../scenes/SeleccionDePersonaje.js";
-import { Game } from "../scenes/game.js";
-import { Resultado } from "../scenes/resultado.js";
-import { PreloadsMenu } from "../scenes/preloadsmenu.js";
+import { Preloads } from "./scenes/preloads.js";
+import { MainMenu } from "./scenes/mainmenu.js";
+import { Configuracion } from "./scenes/configuracion.js";
+import { Instrucciones } from "./scenes/instrucciones.js";
+import { Creditos } from "./scenes/creditos.js";
+import { SeleccionDePersonaje } from "./scenes/SeleccionDePersonaje.js";
+import { Game } from "./scenes/game.js";
+import { Resultado } from "./scenes/resultado.js";
+import { PreloadsMenu } from "./scenes/preloadsmenu.js";
 
 
 var config = {
