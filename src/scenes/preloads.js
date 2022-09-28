@@ -14,7 +14,7 @@ export class Preloads extends Phaser.Scene {
       this.load.image("flechanegra", "public/assets/images/flechanegra.png");
   
       //tablero y casillas
-      this.load.tilemapTiledJSON("tilemap", "public/assets/tilemaps/tilemap.json");
+      //this.load.tilemapTiledJSON("tilemap", "public/assets/tilemaps/tilemap.json");
       this.load.image("tablero", "public/assets/images/tablero.png");
       this.load.image("casilla1", "public/assets/images/casillacomun1.png");
       this.load.image("casilla2", "public/assets/images/casillacomun2.png");
@@ -58,38 +58,22 @@ export class Preloads extends Phaser.Scene {
       //sonidos
       
       //ruleta
-      this.load.audio("ruleta-sonido","public/assets/sounds/SFX/ruletafinal.mp3");
+      //this.load.audio("ruleta-sonido","public/assets/sounds/SFX/ruletafinal.mp3");
       
       //popup pregunta
-      this.load.audio("monedaayuda","public/assets/sounds/SFX/monedaayuda.wav");
-      this.load.audio("respuestaincorrecta","public/assets/sounds/SFX/respuestaincorrecta.mp3");
-      this.load.audio("respuestacorrecta","public/assets/sounds/SFX/respuestacorrecta.wav");
+      //this.load.audio("monedaayuda","public/assets/sounds/SFX/monedaayuda.wav");
+      //this.load.audio("respuestaincorrecta","public/assets/sounds/SFX/respuestaincorrecta.mp3");
+      //this.load.audio("respuestacorrecta","public/assets/sounds/SFX/respuestacorrecta.wav");
       //carteles
-      this.load.audio("sonido-cartelbosque","public/assets/sounds/SFX/cartel-bosque.wav");
+      //this.load.audio("sonido-cartelbosque","public/assets/sounds/SFX/cartel-bosque.wav");
       //casillas
-      this.load.audio("sonidocasillamonedas","public/assets/sounds/SFX/casillamonedas.mp3");
+      //this.load.audio("sonidocasillamonedas","public/assets/sounds/SFX/casillamonedas.mp3");
   
     }
   
     create() {
   
-      this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'preload').setScale(1);
-  
-    
-  
-      var monedacarga = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, 'monedacarga');
-      
-  
-      monedacarga.anims.create({
-        key: 'monedacarga',
-        frames: this.anims.generateFrameNumbers('monedacarga', { start: 0, end: 4 }),
-        frameRate: 2.5,
-        repeat: -1,
-        
-      });
-  
-      monedacarga.anims.play('monedacarga', true);
-  
+     
   
         setTimeout(() => {
   

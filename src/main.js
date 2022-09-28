@@ -36,7 +36,8 @@ var config = {
   },
   // Listado de todas las escenas del juego, en orden
   // La primera escena es con la cual empieza el juego
-  scene: [PreloadsMenu, MainMenu, Configuracion, Instrucciones, Creditos, SeleccionDePersonaje, Preloads, Game, Resultado],
+  scene: [PreloadsMenu, Preloads, Game, Resultado],
+  //scene: [PreloadsMenu, MainMenu, Configuracion, Instrucciones, Creditos, SeleccionDePersonaje, Preloads, Game, Resultado],
 };
 
 //var game = new Phaser.Game(config);

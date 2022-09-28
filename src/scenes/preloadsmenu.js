@@ -64,29 +64,24 @@ export class PreloadsMenu extends Phaser.Scene {
     this.load.image("carahechicerobyn", "public/assets/images/carahechicerobyn.jpg");
       
     //musica
-    this.load.audio("musicamainmenu", "public/assets/sounds/music/mainmenu.mp3");
+    //this.load.audio("musicamainmenu", "public/assets/sounds/music/mainmenu.mp3");
 
     //SFX
 
-    this.load.audio("sonidobotones1", "public/assets/sounds/SFX/sonidobotones1.wav");
-    this.load.audio("sonidobotones2", "public/assets/sounds/SFX/sonidobotones2.mp3");
-    this.load.audio("sonidobotones3", "public/assets/sounds/SFX/sonidobotones3.mp3");
-    this.load.audio("caraspersonajes", "public/assets/sounds/SFX/caraspersonajes.wav");
+    //this.load.audio("sonidobotones1", "public/assets/sounds/SFX/sonidobotones1.wav");
+    //this.load.audio("sonidobotones2", "public/assets/sounds/SFX/sonidobotones2.mp3");
+    //this.load.audio("sonidobotones3", "public/assets/sounds/SFX/sonidobotones3.mp3");
+    //this.load.audio("caraspersonajes", "public/assets/sounds/SFX/caraspersonajes.wav");
     }
   
     create() {
-
-      this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'transparencia').setScale(1)
-
-      this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo').setScale(1);
-
 
 
 
       setTimeout(() => {
 
 
-        this.scene.start("MainMenu");
+        this.scene.start("Preloads");
 
 
 
