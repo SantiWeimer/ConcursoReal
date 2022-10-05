@@ -1,17 +1,9 @@
-var xpos = 400;
-var numjugador = 1;
-var numjugador2 = 1;
-var xposjugadores = 280;
-
-
+import Phaser from 'phaser'
 
 //personajes
 
 
-var playerOgro
-var playerBardo
-var playerHechicero
-var playerPrincesa
+
 
 
 
@@ -22,10 +14,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
     }
 
     init (data) {
-      playerOgro = data.playerOgro; 
-      playerBardo = data.playerBardo;
-      playerHechicero = data.playerHechicero;
-      playerPrincesa = data.playerPrincesa;
+      
     }
   
     create() {

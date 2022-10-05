@@ -1,3 +1,5 @@
+import Phaser from 'phaser'
+
 export class PreloadsMenu extends Phaser.Scene {
     constructor() {
       
