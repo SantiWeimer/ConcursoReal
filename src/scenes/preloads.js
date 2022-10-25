@@ -85,6 +85,8 @@ export class Preloads extends Phaser.Scene {
 
     //HUD
     this.load.image("hud", "assets/images/marco_gameplay.png");
+    this.load.image("hudmadera", "assets/images/hud_madera.png");
+    this.load.image("cartelfunciones", "assets/images/cartel_aviso_funciones.png");
     this.load.image("cartelpantano", "assets/images/cartel_pantano.png");
     this.load.image("cartelbosque", "assets/images/cartel_bosque.png");
     this.load.image("cartelaldea", "assets/images/cartel_aldea.png");
@@ -94,8 +96,13 @@ export class Preloads extends Phaser.Scene {
 
     //preguntas
     this.load.image("popup", "assets/images/popup-pregunta.png");
-    this.load.image("popup-pregunta", "assets/images/popup-pregunta1.png");
-    this.load.image("popup-respuesta", "assets/images/popup-respuesta.png");
+    this.load.image("boton_respuesta", "assets/images/boton_respuesta.jpg");
+    this.load.image("boton_respuesta2", "assets/images/boton_respuesta2.jpg");
+    this.load.image("popup_respuesta_correcta", "assets/images/boton_respuesta_correcta.jpg");
+    this.load.image("popup_respuesta_incorrecta", "assets/images/boton_respuesta_incorrecta.jpg");
+    this.load.image("boton_ayuda", "assets/images/boton_ayuda.jpg");
+    this.load.image("boton_ayuda2", "assets/images/boton_ayuda2.jpg");
+    this.load.image("boton_ayuda3", "assets/images/boton_ayuda3.jpg");
     
     //final
     this.load.image("resultado", "assets/images/fin_del_juego.png");

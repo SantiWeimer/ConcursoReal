@@ -6,10 +6,12 @@ class Player {
         this.imagen = imagen;
         this.x = x;
         this.y = y;
-        this.monedas = monedas
-        this.casilla = -1
+        this.monedas = monedas;
+        this.casilla = -1;
         this.acumulador = 0;
         this.jugador = jugador;
+        this.perderTurno = false;
+        this.contadorPerderTurno = 0;
 
     }
 

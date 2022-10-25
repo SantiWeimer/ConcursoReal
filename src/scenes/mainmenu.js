@@ -10,6 +10,7 @@ export class MainMenu extends Phaser.Scene {
   create() {
 
      //musica
+    
 
     var volumenmusica = 1;
     var sonidomusica = 0;
@@ -40,9 +41,8 @@ export class MainMenu extends Phaser.Scene {
      var botoninstrucciones;
      var botonconfiguracion;
      var botoncreditos;
- 
-   
- 
+     
+
      this.add.image(1600, 810, 'postemenu').setScale(1);
      //this.add.image(1100, 600, 'rey').setScale(0.4);
      this.add.image(1400, 250, 'titulojuego').setScale(0.9);
@@ -121,6 +121,11 @@ export class MainMenu extends Phaser.Scene {
        });
     
  
+
+      
      
   }
+
+
+  
 }

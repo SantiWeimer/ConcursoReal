@@ -62,10 +62,13 @@ export class PreloadsMenu extends Phaser.Scene {
 
       //seleccion de personajes
 
-      this.load.image("popupseleccion", "assets/images/popup-jugadores.png");
-      this.load.image("popupseleccion2", "assets/images/popup-jugadores-2.png");
-      this.load.image("popupseleccion3", "assets/images/popup-jugadores-3.png");
-      this.load.image("popupseleccion4", "assets/images/popup-jugadores-4.png");
+      this.load.image("fondoseleccion", "assets/images/pantalla_seleccion.jpg");
+
+      this.load.image("popupseleccion", "assets/images/cartel_seleccion.png");
+      this.load.image("cadenaseleccion", "assets/images/cadena.png");
+      this.load.image("botonseleccion1", "assets/images/boton_seleccion1.jpg");
+      this.load.image("botonseleccion2", "assets/images/boton_seleccion2.jpg");
+      
 
       this.load.image("recuadrojugador1", "assets/images/recuadro-jugador-1.png");
       this.load.image("recuadrojugador2", "assets/images/recuadro-jugador-4.png");

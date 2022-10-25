@@ -1,27 +1,11 @@
 import Phaser from "phaser";
-import Boton from "../clases/boton.js";
-import {
-  CasillaAvanzar,
-  CasillaMonedas,
-  CasillaRetroceder,
-  CasillaPregunta,
-} from "../clases/casilla.js";
-import Ruleta from "../clases/Ruleta.js";
-
-import preguntas from "./preguntas.js";
-
-console.log(preguntas["1"].pregunta);
-console.log(preguntas["1"].opciones);
-
-console.log(preguntas["1"].opciones["2"].texto);
-console.log(preguntas["1"].opciones["2"].esCorrecta);
+import Pregunta from "../clases/Pregunta.js";
+import preguntasArray from "./preguntas.js";
 
 var dado = 0;
-var duracion = 0;
-//
-var tiro1 = 1;
-var monedabotonayuda = 0;
-var acumcartelbosque = 0;
+
+var monedabotonayuda = false;
+
 //
 //monedas
 var textmonedasjugador1;
@@ -30,6 +14,7 @@ var textmonedasjugador3;
 var textmonedasjugador4;
 
 //
+var cartelfunc = 0;
 var cartelpantano;
 var cartelbosque;
 var segcomienzo = 15;
@@ -45,11 +30,10 @@ var monedaayuda;
 var CantidadJugadores;
 
 //turnos
-
 var players;
 var playerActivo;
 var turno = 0;
-var contadorturno = 0;
+var contadorturno = false;
 var primerturno = 0;
 var textoTurnoJugador;
 
@@ -59,10 +43,22 @@ var camara;
 
 //casillas
 var casillas = [];
+//casilla preguntas
+var turnPregunta = 0;
+var contadorPregunta = false;
+var respPregunta = [];
+
+    respPregunta.push(preguntasArray[turnPregunta].opciones["1"]);
+    respPregunta.push(preguntasArray[turnPregunta].opciones["2"]);
+    respPregunta.push(preguntasArray[turnPregunta].opciones["3"]);
+    respPregunta.push(preguntasArray[turnPregunta].opciones["4"]);
+
+    respPregunta.sort(() => Math.random() - 0.5)
+    
 
 //ruleta y hud
 var ruleta;
-var contadorRuleta = 0;
+var contadorRuleta = true;
 var bloqueoruleta;
 var bloqueruletaboolean = 0;
 
@@ -105,154 +101,47 @@ export class Game extends Phaser.Scene {
 
     const map = this.make.tilemap({ key: "tilemap" });
 
-    const casilla1 = map.addTilesetImage(
-      "casilla_pantano_comun",
-      "casilla_pantano_comun"
-    );
-    const casilla2 = map.addTilesetImage(
-      "casilla_pantano_pierde_turno",
-      "casilla_pantano_pierde_turno"
-    );
-    const casilla3 = map.addTilesetImage(
-      "casilla_pantano_volver",
-      "casilla_pantano_volver"
-    );
-    const casilla4 = map.addTilesetImage(
-      "casilla_pantano_pregunta_X",
-      "casilla_pantano_pregunta_X"
-    );
-    const casilla5 = map.addTilesetImage(
-      "casilla_pantano_pregunta_Y",
-      "casilla_pantano_pregunta_Y"
-    );
-    const casilla6 = map.addTilesetImage(
-      "casilla_pantano_avanzar",
-      "casilla_pantano_avanzar"
-    );
-    const casilla7 = map.addTilesetImage(
-      "casilla_pantano_moneda_X",
-      "casilla_pantano_moneda_X"
-    );
-    const casilla8 = map.addTilesetImage(
-      "casilla_pantano_moneda_Y",
-      "casilla_pantano_moneda_Y"
-    );
-    const casilla9 = map.addTilesetImage(
-      "casilla_pantano_esquina",
-      "casilla_pantano_esquina"
-    );
+    const casilla1 = map.addTilesetImage("casilla_pantano_comun","casilla_pantano_comun");
+    const casilla2 = map.addTilesetImage("casilla_pantano_pierde_turno","casilla_pantano_pierde_turno");
+    const casilla3 = map.addTilesetImage("casilla_pantano_volver","casilla_pantano_volver");
+    const casilla4 = map.addTilesetImage("casilla_pantano_pregunta_X","casilla_pantano_pregunta_X");
+    const casilla5 = map.addTilesetImage("casilla_pantano_pregunta_Y","casilla_pantano_pregunta_Y");
+    const casilla6 = map.addTilesetImage("casilla_pantano_avanzar","casilla_pantano_avanzar");
+    const casilla7 = map.addTilesetImage("casilla_pantano_moneda_X","casilla_pantano_moneda_X");
+    const casilla8 = map.addTilesetImage("casilla_pantano_moneda_Y","casilla_pantano_moneda_Y");
+    const casilla9 = map.addTilesetImage("casilla_pantano_esquina","casilla_pantano_esquina");
     const troncos = map.addTilesetImage("troncos_pantano", "troncos_pantano");
 
-    const casilla10 = map.addTilesetImage(
-      "casilla_bosque_comun",
-      "casilla_bosque_comun"
-    );
-    const casilla11 = map.addTilesetImage(
-      "casilla_bosque_pierde_turno",
-      "casilla_bosque_pierde_turno"
-    );
-    const casilla12 = map.addTilesetImage(
-      "casilla_bosque_volver",
-      "casilla_bosque_volver"
-    );
-    const casilla13 = map.addTilesetImage(
-      "casilla_bosque_pregunta_X",
-      "casilla_bosque_pregunta_X"
-    );
-    const casilla14 = map.addTilesetImage(
-      "casilla_bosque_pregunta_Y",
-      "casilla_bosque_pregunta_Y"
-    );
-    const casilla15 = map.addTilesetImage(
-      "casilla_bosque_avanzar",
-      "casilla_bosque_avanzar"
-    );
-    const casilla16 = map.addTilesetImage(
-      "casilla_bosque_moneda_X",
-      "casilla_bosque_moneda_X"
-    );
-    const casilla17 = map.addTilesetImage(
-      "casilla_bosque_moneda_Y",
-      "casilla_bosque_moneda_Y"
-    );
-    const casilla18 = map.addTilesetImage(
-      "casilla_bosque_esquina",
-      "casilla_bosque_esquina"
+    const casilla10 = map.addTilesetImage("casilla_bosque_comun","casilla_bosque_comun");
+    const casilla11 = map.addTilesetImage("casilla_bosque_pierde_turno","casilla_bosque_pierde_turno");
+    const casilla12 = map.addTilesetImage("casilla_bosque_volver","casilla_bosque_volver");
+    const casilla13 = map.addTilesetImage("casilla_bosque_pregunta_X","casilla_bosque_pregunta_X");
+    const casilla14 = map.addTilesetImage("casilla_bosque_pregunta_Y","casilla_bosque_pregunta_Y");
+    const casilla15 = map.addTilesetImage("casilla_bosque_avanzar","casilla_bosque_avanzar");
+    const casilla16 = map.addTilesetImage("casilla_bosque_moneda_X","casilla_bosque_moneda_X");
+    const casilla17 = map.addTilesetImage("casilla_bosque_moneda_Y","casilla_bosque_moneda_Y");
+    const casilla18 = map.addTilesetImage("casilla_bosque_esquina","casilla_bosque_esquina"
     );
 
-    const casilla19 = map.addTilesetImage(
-      "casilla_aldea_comun",
-      "casilla_aldea_comun"
-    );
-    const casilla20 = map.addTilesetImage(
-      "casilla_aldea_pierde_turno",
-      "casilla_aldea_pierde_turno"
-    );
-    const casilla21 = map.addTilesetImage(
-      "casilla_aldea_volver",
-      "casilla_aldea_volver"
-    );
-    const casilla22 = map.addTilesetImage(
-      "casilla_aldea_pregunta_X",
-      "casilla_aldea_pregunta_X"
-    );
-    const casilla23 = map.addTilesetImage(
-      "casilla_aldea_pregunta_Y",
-      "casilla_aldea_pregunta_Y"
-    );
-    const casilla24 = map.addTilesetImage(
-      "casilla_aldea_avanzar",
-      "casilla_aldea_avanzar"
-    );
-    const casilla25 = map.addTilesetImage(
-      "casilla_aldea_moneda_X",
-      "casilla_aldea_moneda_X"
-    );
-    const casilla26 = map.addTilesetImage(
-      "casilla_aldea_moneda_Y",
-      "casilla_aldea_moneda_Y"
-    );
-    const casilla27 = map.addTilesetImage(
-      "casilla_aldea_esquina",
-      "casilla_aldea_esquina"
-    );
+    const casilla19 = map.addTilesetImage("casilla_aldea_comun","casilla_aldea_comun");
+    const casilla20 = map.addTilesetImage("casilla_aldea_pierde_turno","casilla_aldea_pierde_turno");
+    const casilla21 = map.addTilesetImage("casilla_aldea_volver","casilla_aldea_volver");
+    const casilla22 = map.addTilesetImage("casilla_aldea_pregunta_X","casilla_aldea_pregunta_X");
+    const casilla23 = map.addTilesetImage("casilla_aldea_pregunta_Y","casilla_aldea_pregunta_Y");
+    const casilla24 = map.addTilesetImage("casilla_aldea_avanzar","casilla_aldea_avanzar");
+    const casilla25 = map.addTilesetImage("casilla_aldea_moneda_X","casilla_aldea_moneda_X");
+    const casilla26 = map.addTilesetImage("casilla_aldea_moneda_Y","casilla_aldea_moneda_Y");
+    const casilla27 = map.addTilesetImage("casilla_aldea_esquina","casilla_aldea_esquina");
 
-    const casilla28 = map.addTilesetImage(
-      "casilla_castillo_comun",
-      "casilla_castillo_comun"
-    );
-    const casilla29 = map.addTilesetImage(
-      "casilla_castillo_pierde_turno",
-      "casilla_castillo_pierde_turno"
-    );
-    const casilla30 = map.addTilesetImage(
-      "casilla_castillo_volver",
-      "casilla_castillo_volver"
-    );
-    const casilla31 = map.addTilesetImage(
-      "casilla_castillo_pregunta_X",
-      "casilla_castillo_pregunta_X"
-    );
-    const casilla32 = map.addTilesetImage(
-      "casilla_castillo_pregunta_Y",
-      "casilla_castillo_pregunta_Y"
-    );
-    const casilla33 = map.addTilesetImage(
-      "casilla_castillo_avanzar",
-      "casilla_castillo_avanzar"
-    );
-    const casilla34 = map.addTilesetImage(
-      "casilla_castillo_moneda_X",
-      "casilla_castillo_moneda_X"
-    );
-    const casilla35 = map.addTilesetImage(
-      "casilla_castillo_moneda_Y",
-      "casilla_castillo_moneda_Y"
-    );
-    const casilla36 = map.addTilesetImage(
-      "casilla_castillo_esquina",
-      "casilla_castillo_esquina"
-    );
+    const casilla28 = map.addTilesetImage("casilla_castillo_comun","casilla_castillo_comun");
+    const casilla29 = map.addTilesetImage("casilla_castillo_pierde_turno","casilla_castillo_pierde_turno");
+    const casilla30 = map.addTilesetImage("casilla_castillo_volver","casilla_castillo_volver");
+    const casilla31 = map.addTilesetImage("casilla_castillo_pregunta_X","casilla_castillo_pregunta_X");
+    const casilla32 = map.addTilesetImage("casilla_castillo_pregunta_Y","casilla_castillo_pregunta_Y");
+    const casilla33 = map.addTilesetImage("casilla_castillo_avanzar","casilla_castillo_avanzar");
+    const casilla34 = map.addTilesetImage("casilla_castillo_moneda_X","casilla_castillo_moneda_X");
+    const casilla35 = map.addTilesetImage("casilla_castillo_moneda_Y","casilla_castillo_moneda_Y");
+    const casilla36 = map.addTilesetImage("casilla_castillo_esquina","casilla_castillo_esquina");
 
     //layers
 
@@ -623,12 +512,10 @@ export class Game extends Phaser.Scene {
     this.InformacionPlayers();
 
     //hud
-    this.add
-      .image(this.cameras.main.centerX, this.cameras.main.centerY, "hud")
-      .setScale(1)
-      .setScrollFactor(0);
+    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "hud").setScrollFactor(0);
+    this.add.image(this.cameras.main.centerX + 10, 108, 'hudmadera').setScale(1.05).setScrollFactor(0)
     this.TextoMonedas();
-
+   
     //camara
     camara = this.cameras.main;
 
@@ -649,7 +536,7 @@ export class Game extends Phaser.Scene {
         this.sound.play("ruleta-sonido");
         this.girar(ruleta);
         ruleta.disableInteractive();
-        contadorRuleta = 1;
+        contadorRuleta = false;
         bloqueoruleta = this.add
           .image(1280, 25, "bloqueoruleta")
           .setScale(0.03)
@@ -658,7 +545,7 @@ export class Game extends Phaser.Scene {
         setTimeout(() => {
           primerturno = primerturno + 1;
           this.moverDerecha(playerActivo);
-        }, 2750);
+        }, 3000);
       })
       .on("pointerover", () => {
         resplandor = this.add
@@ -671,66 +558,107 @@ export class Game extends Phaser.Scene {
       });
 
     this.add.image(1200, 20, "agujaruleta").setScale(1).setScrollFactor(0);
+    
   }
 
   //update
 
   update() {
-    /* if(contadorturno === 0){
-  
-        turno++
-  
-        if(turno + 1 === CantidadJugadores){
-          turno = 0
-        }
-      } */
-
     ////
     //monedas jugadores
     this.ActualizarMonedas();
-    ////
     //bloqueador de ruleta para no apretar muchas veces a la vez
-    if (contadorRuleta === 0) {
+    if (contadorRuleta === true) {
       ruleta.setInteractive();
       if (bloqueruletaboolean === 1) {
         bloqueoruleta.destroy();
         bloqueruletaboolean = 0;
       }
     }
-
-    ////
     //turnos jugadores
-
     playerActivo = players[turno].imagen;
-    //camara.setScroll(players[turno].x, players[turno].y)
+    //camara
     camara.startFollow(playerActivo);
 
-    if (primerturno === 0) {
-      //solucion errores primer turno
-      contadorturno = contadorturno + 1;
-      //console.log(players[turno])
-    } else {
-      //cambio a turnos normales
+    ////
+    //turnos
 
-      for (turno = turno; contadorturno === 0; turno++) {
-        contadorturno = contadorturno + 1;
-        //console.log(players[turno])
+    //cambio a turnos normales
+    while (contadorturno === true) {
+      turno++;
+      contadorturno = false;
 
-        if (turno === 1 && CantidadJugadores === 2) {
-          turno = -1;
+      //reinicio de variable
+      if (turno === 2 && CantidadJugadores === 2) {
+        turno = 0;
+      }
+
+      if (turno === 3 && CantidadJugadores === 3) {
+        turno = 0;
+      }
+
+      if (turno === 4 && CantidadJugadores === 4) {
+        turno = 0;
+      }
+
+      //funcion perder turno
+      if (players[turno].perderTurno === true) {
+        if (players[turno].contadorPerderTurno === 2) {
+          players[turno].perderTurno = false;
+          players[turno].contadorPerderTurno = 0;
+        } else {
+          contadorturno = true;
+          players[turno].contadorPerderTurno++;
+          if (players[turno].contadorPerderTurno === 2) {
+            players[turno].perderTurno = false;
+            players[turno].contadorPerderTurno = 0;
+          }
         }
+      }
+    }
 
-        if (turno === 2 && CantidadJugadores === 3) {
-          turno = -1;
-        }
-
-        if (turno === 3 && CantidadJugadores === 4) {
-          turno = -1;
+    //desbug perder turno
+    if (players[turno].perderTurno === true) {
+      if (
+        CantidadJugadores === 2 &&
+        players[0].perderTurno === true &&
+        players[1].perderTurno === true
+      ) {
+        if (players[0].contadorPerderTurno > players[1].contadorPerderTurno) {
+          players[0].perderTurno = false;
+          players[0].contadorPerderTurno = 0;
+          players[1].contadorPerderTurno++;
+        } else if (
+          players[0].contadorPerderTurno < players[1].contadorPerderTurno
+        ) {
+          players[1].perderTurno = false;
+          players[1].contadorPerderTurno = 0;
+          players[0].contadorPerderTurno++;
+        } else {
+          players[1].perderTurno = false;
+          players[0].perderTurno = false;
+          players[1].contadorPerderTurno = 0;
+          players[0].contadorPerderTurno = 0;
         }
       }
     }
 
     ////
+
+    //turnos para que las preguntas vayan cambiando
+
+    while (contadorPregunta === true) {
+      turnPregunta++;
+      contadorPregunta = false;
+
+      respPregunta.push(preguntasArray[turnPregunta].opciones["1"]);
+      respPregunta.push(preguntasArray[turnPregunta].opciones["2"]);
+      respPregunta.push(preguntasArray[turnPregunta].opciones["3"]);
+      respPregunta.push(preguntasArray[turnPregunta].opciones["4"]);
+
+      respPregunta.sort(() => Math.random() - 0.5)
+    }
+
   }
 
   girar(ruleta) {
@@ -747,48 +675,28 @@ export class Game extends Phaser.Scene {
         console.log("termino movimiento ruleta");
         var grados = Phaser.Math.RadToDeg(ruleta.rotation);
         /* if (grados > -45 && grados <= 45) {
-            dado = 1;
-          }
-          if (grados > 45 && grados <= 90) {
-            dado = 6;
-          }
-          if (grados > 90 && grados <= 135) {
-            dado = 5;
-          }
-          if (
-            (grados <= -135 && grados > -180) ||
-            (grados >= 135 && grados < 180)
-          ) {
-            dado = 4;
-          }
-          if (grados <= -45 && grados > -90) {
-            dado = 2;
-          }
-          if (grados <= -90 && grados > -135) {
-            dado = 3;
-          }  */
-
-        dado = 5;
-
-        //duracion cambio de turno
-        if (dado === 1) {
-          duracion = 1000;
+          dado = 1;
         }
-        if (dado === 2) {
-          duracion = 1400;
+        if (grados > 45 && grados <= 90) {
+          dado = 6;
         }
-        if (dado === 3) {
-          duracion = 1800;
+        if (grados > 90 && grados <= 135) {
+          dado = 5;
         }
-        if (dado === 4) {
-          duracion = 2200;
+        if (
+          (grados <= -135 && grados > -180) ||
+          (grados >= 135 && grados < 180)
+        ) {
+          dado = 4;
         }
-        if (dado === 5) {
-          duracion = 2600;
+        if (grados <= -45 && grados > -90) {
+          dado = 2;
         }
-        if (dado === 6) {
-          duracion = 3000;
-        }
+        if (grados <= -90 && grados > -135) {
+          dado = 3;
+        }  */
+        dado = 3;
+        
       },
     });
   }
@@ -833,38 +741,37 @@ export class Game extends Phaser.Scene {
   //funcion de avanzar
 
   avanzar(playerActivo) {
-    
-      let count = 0;
-      for (
-        let i = players[turno].casilla > 0 ? players[turno].casilla : 0;
-        i <= players[turno].casilla + dado;
-        i++
-      ) {
-        this.tweens.add({
-          targets: playerActivo,
-          delay: 400 * count,
-          duration: 400 * (count + 1),
-          x: casillas[i].pixelX + 100 / 2,
-          y: casillas[i].pixelY - 100 / 2,
-          ease: "Power3",
-          repeat: 0,
-          yoyo: false,
-          onComplete: () => {
-            if (i == players[turno].casilla + dado) {
-              players[turno].casilla += dado;
-              players[turno].acumulador += dado;
+    let count = 0;
+    for (
+      let i = players[turno].casilla > 0 ? players[turno].casilla : 0;
+      i <= players[turno].casilla + dado;
+      i++
+    ) {
+      this.tweens.add({
+        targets: playerActivo,
+        delay: 400 * count,
+        duration: 400 * (count + 1),
+        x: casillas[i].pixelX + 100 / 2,
+        y: casillas[i].pixelY - 100 / 2,
+        ease: "Power3",
+        repeat: 0,
+        yoyo: false,
+        onComplete: () => {
+          if (i == players[turno].casilla + dado) {
+            players[turno].casilla += dado;
+            players[turno].acumulador += dado;
 
-              if (players[turno].acumulador > 100) {
-                players[turno].acumulador = 100;
-              }
-
-              this.corroborarCasillas();
+            if (players[turno].acumulador > 100) {
+              players[turno].acumulador = 100;
             }
-          },
-        });
 
-        count++;
-      }
+            this.corroborarCasillas();
+          }
+        },
+      });
+
+      count++;
+    }
   }
 
   //funcion retroceder
@@ -873,7 +780,6 @@ export class Game extends Phaser.Scene {
     let count = 0;
     let endTweenCounter = 0;
     for (let i = players[turno].casilla; i > players[turno].casilla - 3; i--) {
-      console.log(i);
       this.tweens.add({
         targets: playerActivo,
         delay: 400 * count,
@@ -886,7 +792,7 @@ export class Game extends Phaser.Scene {
         onComplete: () => {
           if (endTweenCounter == 2) {
             players[turno].casilla = players[turno].casilla - 2;
-            players[turno].acumulador += dado;
+            players[turno].acumulador -= 2;
 
             if (players[turno].acumulador > 100) {
               players[turno].acumulador = 100;
@@ -903,370 +809,433 @@ export class Game extends Phaser.Scene {
 
   //funcion perder turno
 
-  perderturno() {}
+  funcPerderTurno() {
+    players[turno].perderTurno = true;
+  }
 
   //funcion de pregunta
 
-  pregunta() {
-    //pop up pregunta
-    var popup;
-    var trans;
-    var cuadropregunta;
-    var botonrespuesta1;
-    var botonrespuesta2;
-    var botonrespuesta3;
-    var botonrespuesta4;
-    var magotriste;
-    var magofestejando;
-    var botonayuda;
-    var textpreg;
+  pregunta(){
 
-    //comienzo timeout popup
-    setTimeout(() => {
-      trans = this.add
-        .image(
-          this.cameras.main.centerX,
-          this.cameras.main.centerY,
-          "transparencia"
-        )
-        .setScale(1)
-        .setAlpha(0.5)
-        .setScrollFactor(0);
+    var trans = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY,"transparencia").setAlpha(0.5).setScrollFactor(0);
+    var popup = this.add.image(this.cameras.main.centerX, 625, "popup").setScale(1.1).setScrollFactor(0);
+    var mago = this.add.image(1400, 600, "magopregunta").setScale(1).setScrollFactor(0);
+    //monedas boton ayuda
+    var iconomonedaayuda = this.add.image(930, 920, "iconomoneda").setScale(0.8).setScrollFactor(0);
+    var textmonedasayuda = this.add.text(955, 900, "50", {
+        fontFamily: "Times",
+        fontSize: "36px",
+        color: "#2B2B2B",
+    }).setScrollFactor(0);
 
-      popup = this.add
-        .image(this.cameras.main.centerX, 625, "popup")
-        .setScale(1.1)
-        .setScrollFactor(0);
-      cuadropregunta = this.add
-        .image(this.cameras.main.centerX, 430, "popup-pregunta")
-        .setScale(1)
-        .setScrollFactor(0)
-        .setAlpha(0);
-      var magopregunta = this.add
-        .image(1400, 600, "magopregunta")
-        .setScale(1)
-        .setScrollFactor(0);
+    ////
+    //respuesta 1
+    var botonRespuesta1 = this.add.image(this.cameras.main.centerX, 560, "boton_respuesta").setScale(1.1).setScrollFactor(0)
+    .setInteractive({ useHandCursor: true })
+    .on("pointerdown", () => {
 
-      //monedas boton ayuda
-      var iconomonedaayuda = this.add
-        .image(930, 920, "iconomoneda")
-        .setScale(0.8)
-        .setScrollFactor(0);
-      var textmonedasayuda = this.add
-        .text(955, 900, "50", {
-          fontFamily: "Times",
-          fontSize: "36px",
-          color: "#2B2B2B",
-        })
-        .setScrollFactor(0);
-      //botones de respuestas
+      botonRespuesta1.removeInteractive();
+      botonRespuesta2.removeInteractive();
+      botonRespuesta3.removeInteractive();
+      botonRespuesta4.removeInteractive();
+      if(respPregunta[0].esCorrecta === true){
 
-      //boton respuesta 1
+        botonRespuesta1.setTexture('popup_respuesta_correcta')
 
-      botonrespuesta1 = this.add
-        .text(this.cameras.main.centerX, 560, "500 aC a 500 dC")
-        .setScrollFactor(0)
-        .setOrigin(0.5)
-        .setPadding(80, 10)
-        .setStyle({
-          backgroundColor: "#C2A26A",
-          fontSize: "36px",
-          fill: "#2B2B2B",
-          fontFamily: "Times",
-        })
-        .setInteractive({ useHandCursor: true })
-        .on("pointerdown", () => {
-          botonrespuesta1.setStyle({
-            fill: "#000",
-            backgroundColor: "#C63B3B",
-          });
-          magopregunta.destroy();
+        setTimeout(() => {
+          respuestacorrecta.play();
+          mago.setTexture('magofestejando')
+        }, 200);
 
-          setTimeout(() => {
-            respuestaincorrecta.play();
-            magotriste = this.add
-              .image(1400, 600, "magotriste")
-              .setScale(1)
-              .setScrollFactor(0);
-          }, 200);
+        //suma de puntos respuesta correcta
+        setTimeout(() => {
+          if (monedabotonayuda === false) {
+            players[turno].monedas = players[turno].monedas + 100;
+          } else {
+            players[turno].monedas = players[turno].monedas + 50;
+          }
+          sonidocasillamonedas.play();
+          mago.destroy();
+        }, 2000);
 
-          setTimeout(() => {
-            magotriste.destroy();
-            popup.destroy();
-            trans.destroy();
-            cuadropregunta.destroy();
-            botonayuda.destroy();
-            textpreg.destroy();
+      }else{
 
-            botonrespuesta1.destroy();
-            botonrespuesta2.destroy();
-            botonrespuesta3.destroy();
-            botonrespuesta4.destroy();
-            botonayuda.destroy();
-            textmonedasayuda.destroy();
-            iconomonedaayuda.destroy();
-          }, 2000);
+        botonRespuesta1.setTexture('popup_respuesta_incorrecta')
 
-          setTimeout(() => {
-            contadorturno = 0;
-            contadorRuleta = 0;
-          }, 2500);
+        setTimeout(() => {
+          respuestaincorrecta.play();
+          mago.setTexture('magotriste')
+        }, 200);
+        setTimeout(() => {
+          mago.destroy();
+        }, 2000);
+      }
 
-          botonrespuesta1.removeInteractive();
-        })
-        .on("pointerover", () =>
-          botonrespuesta1.setStyle({ fill: "#000", backgroundColor: "#C89B4B" })
-        )
-        .on("pointerout", () =>
-          botonrespuesta1.setStyle({
-            fill: "#2B2B2B",
-            backgroundColor: "#C2A26A",
-          })
-        );
+      //fin de juego de pregunta
 
-      //boton respuesta 2
-      botonrespuesta2 = this.add
-        .text(this.cameras.main.centerX, 640, "1 dC a 1500 dC")
-        .setScrollFactor(0)
-        .setOrigin(0.5)
-        .setPadding(80, 10)
-        .setStyle({
-          backgroundColor: "#C2A26A",
-          fontSize: "36px",
-          fill: "#2B2B2B",
-          fontFamily: "Times",
-        })
-        .setInteractive({ useHandCursor: true })
-        .on("pointerdown", () => {
-          botonrespuesta2.setStyle({
-            fill: "#000",
-            backgroundColor: "#C63B3B",
-          });
-          magopregunta.destroy();
+      setTimeout(() => {
+        //cambiador de turnos
+        contadorturno = true;
+        contadorRuleta = true;
+        
+        //vaciar y reiniciar array
+        contadorPregunta = true;
+        respPregunta.pop();
+        respPregunta.pop();
+        respPregunta.pop();
+        respPregunta.pop();
 
-          setTimeout(() => {
-            respuestaincorrecta.play();
-            magotriste = this.add
-              .image(1400, 600, "magotriste")
-              .setScale(1)
-              .setScrollFactor(0);
-          }, 200);
+        //desaparecer objetos
+        trans.destroy();
+        popup.destroy();
+        iconomonedaayuda.destroy();
+        textmonedasayuda.destroy();
+        botonRespuesta1.destroy();
+        botonRespuesta2.destroy();
+        botonRespuesta3.destroy();
+        botonRespuesta4.destroy();
+        botonayudaimg.destroy();
+        botonayuda.destroy();
+        textopreg.destroy();
+        resp1.destroy();
+        resp2.destroy();
+        resp3.destroy();
+        resp4.destroy();
 
-          setTimeout(() => {
-            magotriste.destroy();
-            popup.destroy();
-            trans.destroy();
-            cuadropregunta.destroy();
-            botonayuda.destroy();
-            textpreg.destroy();
+      }, 2500);
 
-            botonrespuesta1.destroy();
-            botonrespuesta2.destroy();
-            botonrespuesta3.destroy();
-            botonrespuesta4.destroy();
-            botonayuda.destroy();
-            textmonedasayuda.destroy();
-            iconomonedaayuda.destroy();
-          }, 2000);
+    })
+    .on("pointerover", () => {
 
-          botonrespuesta2.removeInteractive();
+      botonRespuesta1.setTexture('boton_respuesta2')
+    })
+    .on("pointerout", () => {
+      botonRespuesta1.setTexture('boton_respuesta')
+    });
+    ////
+    //respuesta 2
+    var botonRespuesta2 = this.add.image(this.cameras.main.centerX, 640, "boton_respuesta").setScale(1.1).setScrollFactor(0)
+    .setInteractive({ useHandCursor: true })
+    .on("pointerdown", () => {
 
-          setTimeout(() => {
-            contadorturno = 0;
-            contadorRuleta = 0;
-          }, 2500);
-        })
-        .on("pointerover", () =>
-          botonrespuesta2.setStyle({ fill: "#000", backgroundColor: "#C89B4B" })
-        )
-        .on("pointerout", () =>
-          botonrespuesta2.setStyle({
-            fill: "#2B2B2B",
-            backgroundColor: "#C2A26A",
-          })
-        );
+      botonRespuesta1.removeInteractive();
+      botonRespuesta2.removeInteractive();
+      botonRespuesta3.removeInteractive();
+      botonRespuesta4.removeInteractive();
+      if(respPregunta[1].esCorrecta  === true){
 
-      //boton respuesta 3
+        botonRespuesta2.setTexture('popup_respuesta_correcta')
 
-      botonrespuesta3 = this.add
-        .text(this.cameras.main.centerX, 720, "500 dC a 1500 dC")
-        .setScrollFactor(0)
-        .setOrigin(0.5)
-        .setPadding(80, 10)
-        .setStyle({
-          backgroundColor: "#C2A26A",
-          fontSize: "36px",
-          fill: "#2B2B2B",
-          fontFamily: "Times",
-        })
-        .setInteractive({ useHandCursor: true })
-        .on("pointerdown", () => {
-          botonrespuesta3.setStyle({
-            fill: "#000",
-            backgroundColor: "#42CB37",
-          });
-          magopregunta.destroy();
+        setTimeout(() => {
+          respuestacorrecta.play();
+          mago.setTexture('magofestejando')
+        }, 200);
 
-          setTimeout(() => {
-            respuestacorrecta.play();
-            magofestejando = this.add
-              .image(1400, 600, "magofestejando")
-              .setScale(1)
-              .setScrollFactor(0);
-          }, 200);
+        //suma de puntos respuesta correcta
+        setTimeout(() => {
+          if (monedabotonayuda === false) {
+            players[turno].monedas = players[turno].monedas + 100;
+          } else {
+            players[turno].monedas = players[turno].monedas + 50;
+          }
+          sonidocasillamonedas.play();
+          mago.destroy();
+        }, 2000);
 
-          //suma de puntos respuesta correcta
-          setTimeout(() => {
-            if (monedabotonayuda === 0) {
-              players[turno].monedas = players[turno].monedas + 100;
-            } else {
-              players[turno].monedas = players[turno].monedas + 50;
-            }
-            sonidocasillamonedas.play();
-          }, 2000);
+      }else{
+        botonRespuesta2.setTexture('popup_respuesta_incorrecta')
 
-          setTimeout(() => {
-            magofestejando.destroy();
-            popup.destroy();
-            trans.destroy();
-            cuadropregunta.destroy();
-            botonayuda.destroy();
-            textpreg.destroy();
+        setTimeout(() => {
+          respuestaincorrecta.play();
+          mago.setTexture('magotriste')
+        }, 200);
 
-            botonrespuesta1.destroy();
-            botonrespuesta2.destroy();
-            botonrespuesta3.destroy();
-            botonrespuesta4.destroy();
-            botonayuda.destroy();
-            textmonedasayuda.destroy();
-            iconomonedaayuda.destroy();
-          }, 2000);
+        setTimeout(() => {
+          mago.destroy();
+        }, 2000);
+      }
 
-          botonrespuesta3.removeInteractive();
+      //fin de juego de pregunta
 
-          setTimeout(() => {
-            contadorturno = 0;
-            contadorRuleta = 0;
-          }, 2500);
-        })
-        .on("pointerover", () =>
-          botonrespuesta3.setStyle({ fill: "#000", backgroundColor: "#C89B4B" })
-        )
-        .on("pointerout", () =>
-          botonrespuesta3.setStyle({
-            fill: "#2B2B2B",
-            backgroundColor: "#C2A26A",
-          })
-        );
+      setTimeout(() => {
+        //cambiador de turnos
+        contadorturno = true;
+        contadorRuleta = true;
+        
+        //vaciar y reiniciar array
+        contadorPregunta = true;
+        respPregunta.pop();
+        respPregunta.pop();
+        respPregunta.pop();
+        respPregunta.pop();
 
-      //boton respuesta 4
+        //desaparecer objetos
+        trans.destroy();
+        popup.destroy();
+        iconomonedaayuda.destroy();
+        textmonedasayuda.destroy();
+        botonRespuesta1.destroy();
+        botonRespuesta2.destroy();
+        botonRespuesta3.destroy();
+        botonRespuesta4.destroy();
+        botonayudaimg.destroy();
+        botonayuda.destroy();
+        textopreg.destroy();
+        resp1.destroy();
+        resp2.destroy();
+        resp3.destroy();
+        resp4.destroy();
 
-      botonrespuesta4 = this.add
-        .text(this.cameras.main.centerX, 800, "1000 dC a 2000 dC")
-        .setScrollFactor(0)
-        .setOrigin(0.5)
-        .setPadding(80, 10)
-        .setStyle({
-          backgroundColor: "#C2A26A",
-          fontSize: "36px",
-          fill: "#2B2B2B",
-          fontFamily: "Times",
-        })
-        .setInteractive({ useHandCursor: true })
-        .on("pointerdown", () => {
-          botonrespuesta4.setStyle({
-            fill: "#000",
-            backgroundColor: "#C63B3B",
-          });
-          magopregunta.destroy();
+      }, 2500);
+    })
+    .on("pointerover", () => {
 
-          setTimeout(() => {
-            respuestaincorrecta.play();
-            magotriste = this.add
-              .image(1400, 600, "magotriste")
-              .setScale(1)
-              .setScrollFactor(0);
-          }, 200);
+      botonRespuesta2.setTexture('boton_respuesta2')
+    })
+    .on("pointerout", () => {
+      botonRespuesta2.setTexture('boton_respuesta')
+    });
+    
+    ////
+    //respuesta 3
+    var botonRespuesta3 = this.add.image(this.cameras.main.centerX, 720, "boton_respuesta").setScale(1.1).setScrollFactor(0)
+    .setInteractive({ useHandCursor: true })
+    .on("pointerdown", () => {
 
-          setTimeout(() => {
-            magotriste.destroy();
-            popup.destroy();
-            trans.destroy();
-            cuadropregunta.destroy();
-            botonayuda.destroy();
-            textpreg.destroy();
+      botonRespuesta1.removeInteractive();
+      botonRespuesta2.removeInteractive();
+      botonRespuesta3.removeInteractive();
+      botonRespuesta4.removeInteractive();
+      if(respPregunta[2].esCorrecta  === true){
 
-            botonrespuesta1.destroy();
-            botonrespuesta2.destroy();
-            botonrespuesta3.destroy();
-            botonrespuesta4.destroy();
-            botonayuda.destroy();
-            textmonedasayuda.destroy();
-            iconomonedaayuda.destroy();
-          }, 2000);
-          botonrespuesta4.removeInteractive();
+        botonRespuesta3.setTexture('popup_respuesta_correcta')
+        setTimeout(() => {
+          respuestacorrecta.play();
+          mago.setTexture('magofestejando')
+        }, 200);
 
-          setTimeout(() => {
-            contadorturno = 0;
-            contadorRuleta = 0;
-          }, 2500);
-        })
-        .on("pointerover", () =>
-          botonrespuesta4.setStyle({ fill: "#000", backgroundColor: "#C89B4B" })
-        )
-        .on("pointerout", () =>
-          botonrespuesta4.setStyle({
-            fill: "#2B2B2B",
-            backgroundColor: "#C2A26A",
-          })
-        );
+        //suma de puntos respuesta correcta
+        setTimeout(() => {
+          if (monedabotonayuda === false) {
+            players[turno].monedas = players[turno].monedas + 100;
+          } else {
+            players[turno].monedas = players[turno].monedas + 50;
+          }
+          sonidocasillamonedas.play();
+          mago.destroy();
+        }, 2000);
 
-      //boton de ayuda
+        
+      }else{
+        botonRespuesta3.setTexture('popup_respuesta_incorrecta')
 
-      botonayuda = this.add
-        .text(1100, 920, "Ayuda")
-        .setScrollFactor(0)
-        .setOrigin(0.5)
-        .setPadding(40, 10)
-        .setStyle({
-          backgroundColor: "#C89B4B",
-          fontSize: "36px",
-          fill: "#E5B86B",
-          fontFamily: "Times",
-        })
-        .setInteractive({ useHandCursor: true })
-        .on("pointerdown", () => {
-          monedaayuda.play();
+        setTimeout(() => {
+          respuestaincorrecta.play();
+          mago.setTexture('magotriste')
+        }, 200);
+        setTimeout(() => {
+          mago.destroy();
+        }, 2000);
+      }
 
-          monedabotonayuda = monedabotonayuda + 1;
+      //fin de juego de pregunta
 
-          botonayuda.setStyle({ fill: "#A88D5D", backgroundColor: "#C2A26A" });
-          botonrespuesta2.destroy();
-          botonrespuesta4.destroy();
-          botonayuda.removeInteractive();
-        })
-        .on("pointerover", () => botonayuda.setStyle({ fill: "#000" }))
-        .on("pointerout", () => botonayuda.setStyle({ fill: "#E5B86B" }));
+      setTimeout(() => {
+        //cambiador de turnos
+        contadorturno = true;
+        contadorRuleta = true;
+        
+        //vaciar y reiniciar array
+        contadorPregunta = true;
+        respPregunta.pop();
+        respPregunta.pop();
+        respPregunta.pop();
+        respPregunta.pop();
 
-      //pregunta
-      textpreg = this.add
-        .text(
-          750,
-          350,
-          "¿Qué franja temporal cubre\naproximadamente la Edad\nMedia?"
-        )
-        .setScrollFactor(0)
-        .setStyle({
-          maxLines: 20,
-          fontFamily: "Times",
-          fontSize: "36px",
-          fill: "#FFFFF",
-          fixedWidth: 2000,
-        });
+        //desaparecer objetos
+        trans.destroy();
+        popup.destroy();
+        iconomonedaayuda.destroy();
+        textmonedasayuda.destroy();
+        botonRespuesta1.destroy();
+        botonRespuesta2.destroy();
+        botonRespuesta3.destroy();
+        botonRespuesta4.destroy();
+        botonayudaimg.destroy();
+        botonayuda.destroy();
+        textopreg.destroy();
+        resp1.destroy();
+        resp2.destroy();
+        resp3.destroy();
+        resp4.destroy();
 
-      //fin timeout popup
-    }, 1000);
+      }, 2500);
+    })
+    .on("pointerover", () => {
+
+      botonRespuesta3.setTexture('boton_respuesta2')
+    })
+    .on("pointerout", () => {
+      botonRespuesta3.setTexture('boton_respuesta')
+    });
+    
+    ////
+    //respuesta 4
+    var botonRespuesta4 = this.add.image(this.cameras.main.centerX, 800, "boton_respuesta").setScale(1.1).setScrollFactor(0)
+    .setInteractive({ useHandCursor: true })
+    .on("pointerdown", () => {
+
+      botonRespuesta1.removeInteractive();
+      botonRespuesta2.removeInteractive();
+      botonRespuesta3.removeInteractive();
+      botonRespuesta4.removeInteractive();
+      if(respPregunta[3].esCorrecta  === true){
+
+        botonRespuesta4.setTexture('popup_respuesta_correcta')
+
+        setTimeout(() => {
+          respuestacorrecta.play();
+          mago.setTexture('magofestejando')
+        }, 200);
+
+        //suma de puntos respuesta correcta
+        setTimeout(() => {
+          if (monedabotonayuda === false) {
+            players[turno].monedas = players[turno].monedas + 100;
+          } else {
+            players[turno].monedas = players[turno].monedas + 50;
+          }
+          sonidocasillamonedas.play();
+          mago.destroy();
+        }, 2000);
+      }else{
+        botonRespuesta4.setTexture('popup_respuesta_incorrecta')
+
+        setTimeout(() => {
+          respuestaincorrecta.play();
+          mago.setTexture('magotriste')
+        }, 200);
+        setTimeout(() => {
+          mago.destroy();
+        }, 2000);
+        
+      }
+
+      //fin de juego de pregunta
+
+      setTimeout(() => {
+        //cambiador de turnos
+        contadorturno = true;
+        contadorRuleta = true;
+        
+        //vaciar y reiniciar array
+        contadorPregunta = true;
+        respPregunta.pop();
+        respPregunta.pop();
+        respPregunta.pop();
+        respPregunta.pop();
+
+        //desaparecer objetos
+        trans.destroy();
+        popup.destroy();
+        iconomonedaayuda.destroy();
+        textmonedasayuda.destroy();
+        botonRespuesta1.destroy();
+        botonRespuesta2.destroy();
+        botonRespuesta3.destroy();
+        botonRespuesta4.destroy();
+        botonayudaimg.destroy();
+        botonayuda.destroy();
+        textopreg.destroy();
+        resp1.destroy();
+        resp2.destroy();
+        resp3.destroy();
+        resp4.destroy();
+
+      }, 2500);
+
+    })
+    .on("pointerover", () => {
+
+      botonRespuesta4.setTexture('boton_respuesta2')
+    })
+    .on("pointerout", () => {
+      botonRespuesta4.setTexture('boton_respuesta')
+    });
+
+    //boton de ayuda
+
+    var botonayudaimg = this.add.image(1100, 920, "boton_ayuda").setScrollFactor(0)
+    .setInteractive({ useHandCursor: true })
+    .on("pointerdown", () => {
+      monedaayuda.play();
+
+      monedabotonayuda = true;
+
+      botonayuda.setStyle({ fill: "#63562E"});
+      botonayudaimg.setTexture('boton_ayuda3');
+      botonRespuesta2.destroy();
+      botonRespuesta4.destroy();
+      botonayudaimg.removeInteractive();
+    })
+    .on("pointerover", () => {
+      //botonayuda.setStyle({ fill: "#fff" });
+      botonayudaimg.setTexture('boton_ayuda2');
+    })
+    .on("pointerout", () => {
+      botonayuda.setStyle({ fill: "#3B3B3B" });
+      botonayudaimg.setTexture('boton_ayuda')
+    });
+    var botonayuda = this.add.text(1055, 900, "Ayuda").setScrollFactor(0)
+    .setStyle({
+      fontSize: "32px",
+      fill: "#3B3B3B",
+      fontFamily: "Times",
+    })
+    
+
+
+    //pregunta
+    var textopreg = this.add.text(750,350, preguntasArray[turnPregunta].pregunta)
+    .setScrollFactor(0)
+    .setStyle({
+      maxLines: 20,
+      fontFamily: "Times",
+      fontSize: "36px",
+      fill: "#FFFFF",
+      fixedWidth: 2000,
+    });
+
+    //textos respuestas
+    var resp1 = this.add.text(this.cameras.main.centerX - 200, 540, respPregunta[0].texto).setScrollFactor(0)
+    .setStyle({
+      fontSize: "36px",
+      fill: "#2B2B2B",
+      fontFamily: "Times",
+    })
+    
+    var resp2 = this.add.text(this.cameras.main.centerX - 200, 620, respPregunta[1].texto).setScrollFactor(0)
+    .setStyle({
+      fontSize: "36px",
+      fill: "#2B2B2B",
+      fontFamily: "Times",
+    })
+    var resp3 = this.add.text(this.cameras.main.centerX - 200, 700, respPregunta[2].texto).setScrollFactor(0)
+    .setStyle({
+      fontSize: "36px",
+      fill: "#2B2B2B",
+      fontFamily: "Times",
+    })
+    var resp4 = this.add.text(this.cameras.main.centerX - 200, 780, respPregunta[3].texto).setScrollFactor(0)
+    .setStyle({
+      fontSize: "36px",
+      fill: "#2B2B2B",
+      fontFamily: "Times",
+    })
+
   }
+
+  
 
   //funcion monedas
 
@@ -1290,9 +1259,12 @@ export class Game extends Phaser.Scene {
       players[turno].acumulador === 93
     ) {
       //funcion preguntas (casillas: 4, 12, 20, 25, 36, 40)
+      cartelfunc = 1;
+      this.cartelFunciones();
 
-    this.pregunta();
-      
+      setTimeout(() => {
+        this.pregunta();
+      }, 2000);
     } else if (
       players[turno].acumulador === 5 ||
       players[turno].acumulador === 25 ||
@@ -1318,32 +1290,16 @@ export class Game extends Phaser.Scene {
       //funcion monedas  (casillas: 6, 18, 31, 42)
 
       //ogro.anims.play('ogrofeliz', true);
-
+      cartelfunc = 2;
+      this.cartelFunciones();
+      this.monedas();
+      sonidocasillamonedas.play();
+  
       setTimeout(() => {
-        this.monedas();
-        sonidocasillamonedas.play();
-      }, duracion - 400);
-      setTimeout(() => {
-        contadorturno = 0;
-        contadorRuleta = 0;
-      }, duracion);
-      setTimeout(() => {
-        textoTurnoJugador = this.add.text(
-          this.cameras.main.centerX - 200,
-          this.cameras.main.centerY - 350,
-          "Turno " + players[turno].jugador,
-          {
-            fontFamily: "Times",
-            fontStyle: "italic",
-            fontSize: "64px",
-            color: "#000000",
-          }
-        );
-        textoTurnoJugador.setScrollFactor(0);
-      }, duracion + 500);
-      setTimeout(() => {
-        textoTurnoJugador.destroy();
-      }, duracion + 2500);
+        contadorturno = true;
+        contadorRuleta = true;
+        this.moverTexto();
+      }, 2000);
     } else if (
       players[turno].acumulador === 8 ||
       players[turno].acumulador === 17 ||
@@ -1355,7 +1311,6 @@ export class Game extends Phaser.Scene {
       players[turno].acumulador === 99
     ) {
       //funcion retroceder  (casillas: 8, 17, 27, 39)
-
       this.retroceder(playerActivo);
     } else if (
       players[turno].acumulador === 10 ||
@@ -1364,56 +1319,27 @@ export class Game extends Phaser.Scene {
       players[turno].acumulador === 97
     ) {
       //funcion perder turno  (casillas: 10, 38)
-
-      contadorturno = 0;
-      contadorRuleta = 0;
-      textoTurnoJugador = this.add.text(
-          this.cameras.main.centerX - 200,
-          this.cameras.main.centerY - 350,
-          "Turno " + players[turno].jugador,
-          {
-            fontFamily: "Times",
-            fontStyle: "italic",
-            fontSize: "64px",
-            color: "#000000",
-          }
-        );
-        textoTurnoJugador.setScrollFactor(0);
-
+      cartelfunc = 3;
+      this.cartelFunciones();
+      this.funcPerderTurno();
       setTimeout(() => {
-        textoTurnoJugador.destroy();
-      }, 2500);
+        contadorturno = true;
+        contadorRuleta = true;
+        this.moverTexto();
+      }, 2000);
     } else if (players[turno].acumulador === 100) {
       setTimeout(() => {
         this.scene.start("Resultado", {
           CantidadJugadores: CantidadJugadores,
           players: players,
         });
-      }, 1000);
+      }, 500);
     } else {
       setTimeout(() => {
-        contadorturno = 0;
-        contadorRuleta = 0;
-      }, duracion);
-
-      setTimeout(() => {
-        textoTurnoJugador = this.add.text(
-          this.cameras.main.centerX - 200,
-          this.cameras.main.centerY - 350,
-          "Turno " + players[turno].jugador,
-          {
-            fontFamily: "Times",
-            fontStyle: "italic",
-            fontSize: "64px",
-            color: "#000000",
-          }
-        );
-        textoTurnoJugador.setScrollFactor(0);
-      }, duracion + 500);
-
-      setTimeout(() => {
-        textoTurnoJugador.destroy();
-      }, duracion + 2500);
+        contadorturno = true;
+        contadorRuleta = true;
+        this.moverTexto();
+      }, 500);
     }
   }
 
@@ -1433,6 +1359,154 @@ export class Game extends Phaser.Scene {
       textmonedasjugador3.setText("Jugador 3:        " + players[2].monedas);
       textmonedasjugador4.setText("Jugador 4:        " + players[3].monedas);
     }
+  }
+
+  moverTexto() {
+    setTimeout(() => {
+      var textoTurnoJugador = this.add.text(
+        -200,
+        this.cameras.main.centerY - 350,
+        "Turno " + players[turno].jugador,
+        {
+          fontFamily: "Times",
+          fontStyle: "italic",
+          fontSize: "64px",
+          color: "#ffffff",
+        }
+      );
+      textoTurnoJugador.setShadow(3, 3, "#000", 0).setScrollFactor(0);
+
+      this.tweens.add({
+        targets: textoTurnoJugador,
+        duration: 2000,
+        x: this.cameras.main.centerX - 200,
+        ease: "Power3",
+        repeat: 0,
+        yoyo: false,
+        onComplete: () => {
+          this.tweens.add({
+            targets: textoTurnoJugador,
+            delay: 1000,
+            duration: 2000,
+            x: 2200,
+            ease: "Power3",
+            repeat: 0,
+            yoyo: false,
+            onComplete: () => {
+              textoTurnoJugador.destroy();
+            },
+          });
+        },
+      });
+    }, 500);
+  }
+
+  cartelFunciones(){
+
+    var cartel = this.add.image(this.cameras.main.centerX + 10, 145, 'cartelfunciones').setScale(0.35).setScrollFactor(0)
+    var cad1 = this.add.image(this.cameras.main.centerX - 100, 67, 'cadenaseleccion').setScale(0.35).setScrollFactor(0)
+    var cad2 = this.add.image(this.cameras.main.centerX + 120, 67, 'cadenaseleccion').setScale(0.35).setScrollFactor(0)
+    var texto = this.add.text(this.cameras.main.centerX - 118, 125, ' ').setScrollFactor(0)
+    .setStyle({
+            fontFamily: 'Times', 
+            fontStyle: 'italic', 
+            fontSize: '26px', 
+            fill: '#FFFFFF',
+            align: 'center',
+          });
+
+    if(cartelfunc === 1){
+      texto.setText('¡Respondé la pregunta!')
+    }else if(cartelfunc === 2){
+
+      texto.setText('   ¡Ganaste monedas!')
+    }else if(cartelfunc === 3){
+      texto.setText('  ¡Perdiste dos turnos!')
+    }
+          
+    var madera = this.add.image(this.cameras.main.centerX + 10, 108, 'hudmadera').setScale(1.05).setScrollFactor(0)
+    
+    
+    this.tweens.add({
+      targets: cartel,
+      duration: 1500,
+      y: this.cameras.main.centerY - 230,
+      ease: "Power3",
+      repeat: 0,
+      yoyo: false,
+      onComplete: () => {
+        this.tweens.add({
+          targets: cartel,
+          duration: 800,
+          y: 145,
+          ease: "Power3",
+          repeat: 0,
+          yoyo: false,
+          onComplete: () => {
+            cartel.destroy();
+            cad1.destroy();
+            cad2.destroy();
+            madera.destroy();
+            texto.destroy();
+          }
+        });
+      },
+    });
+    this.tweens.add({
+      targets: cad1,
+      duration: 1500,
+      y:  this.cameras.main.centerY - 310,
+      ease: "Power3",
+      repeat: 0,
+      yoyo: false,
+      onComplete: () => {
+        this.tweens.add({
+          targets: cad1,
+          duration: 800,
+          y: 67,
+          ease: "Power3",
+          repeat: 0,
+          yoyo: false,
+        });
+      },
+    });
+    this.tweens.add({
+      targets: cad2,
+      duration: 1500,
+      y:  this.cameras.main.centerY - 310,
+      ease: "Power3",
+      repeat: 0,
+      yoyo: false,
+      onComplete: () => {
+        this.tweens.add({
+          targets: cad2,
+          duration: 800,
+          y: 67,
+          ease: "Power3",
+          repeat: 0,
+          yoyo: false,
+        });
+      },
+    });
+    this.tweens.add({
+      targets: texto,
+      duration: 1500,
+      y:  this.cameras.main.centerY - 245,
+      ease: "Power3",
+      repeat: 0,
+      yoyo: false,
+      onComplete: () => {
+        this.tweens.add({
+          targets: texto,
+          duration: 800,
+          y: 125,
+          ease: "Power3",
+          repeat: 0,
+          yoyo: false,
+        });
+      },
+    });
+    
   }
 
   InformacionPlayers() {
