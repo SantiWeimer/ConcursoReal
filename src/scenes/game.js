@@ -69,7 +69,17 @@ var respuestacorrecta;
 var sonidocasillamonedas;
 var monedaayuda;
 
+
+
+
 export class Game extends Phaser.Scene {
+
+  //temporizador
+
+  scoreTime;
+  scoreTimeText;
+  timedEvent;
+
   constructor() {
     // Se asigna una key para despues poder llamar a la escena
     super("Game");
@@ -147,12 +157,7 @@ export class Game extends Phaser.Scene {
     //layers
 
     //pantano
-    const casilla1Layer = map.createLayer(
-      "casilla_pantano_comun",
-      casilla1,
-      0,
-      0
-    );
+    const casilla1Layer = map.createLayer("casilla_pantano_comun",casilla1,0,0);
     const casilla2Layer = map.createLayer(
       "casilla_pantano_pierde_turno",
       casilla2,
@@ -522,6 +527,21 @@ export class Game extends Phaser.Scene {
     //camara
     camara = this.cameras.main;
 
+    this.pregunta();
+
+    this.timedEvent = this.time.addEvent({ 
+      delay: 1000, 
+      callback: this.onSecond, 
+      callbackScope: this, 
+      loop: true 
+    });
+
+    this.scoreTime = 15;
+    this.scoreTimeText = this.add.text(this.cameras.main.centerX - 180, this.cameras.main.centerY + 360, "50", {
+      fontFamily: "Times",
+      fontSize: "36px",
+      color: "#2B2B2B",
+  }).setScrollFactor(0);
     ////
 
     //ruleta
@@ -666,6 +686,17 @@ export class Game extends Phaser.Scene {
 
   }
 
+  onSecond() {
+   
+    this.scoreTime = this.scoreTime - 1;
+    this.scoreTimeText.setText(this.scoreTime);
+
+    if(this.scoreTime === 0){
+      
+    }
+  
+  }
+
   girar(ruleta) {
     dado = 0;
     console.log("girar ", ruleta);
@@ -679,7 +710,7 @@ export class Game extends Phaser.Scene {
       onComplete: function () {
         console.log("termino movimiento ruleta");
         var grados = Phaser.Math.RadToDeg(ruleta.rotation);
-        /* if (grados > -45 && grados <= 45) {
+        if (grados > -45 && grados <= 45) {
           dado = 1;
         }
         if (grados > 45 && grados <= 90) {
@@ -699,8 +730,7 @@ export class Game extends Phaser.Scene {
         }
         if (grados <= -90 && grados > -135) {
           dado = 3;
-        }  */
-        dado = 3;
+        } 
         
       },
     });
@@ -1229,7 +1259,7 @@ export class Game extends Phaser.Scene {
 
 
     //pregunta
-    var textopreg = this.add.text(750,350, preguntasArray[turnPregunta].pregunta)
+    var textopreg = this.add.text(740,350, preguntasArray[turnPregunta].pregunta)
     .setScrollFactor(0)
     .setStyle({
       maxLines: 20,
@@ -1242,26 +1272,26 @@ export class Game extends Phaser.Scene {
     //textos respuestas
     var resp1 = this.add.text(this.cameras.main.centerX - 200, 540, respPregunta[0].texto).setScrollFactor(0)
     .setStyle({
-      fontSize: "36px",
+      fontSize: "32px",
       fill: "#2B2B2B",
       fontFamily: "Times",
     })
     
     var resp2 = this.add.text(this.cameras.main.centerX - 200, 620, respPregunta[1].texto).setScrollFactor(0)
     .setStyle({
-      fontSize: "36px",
+      fontSize: "32px",
       fill: "#2B2B2B",
       fontFamily: "Times",
     })
     var resp3 = this.add.text(this.cameras.main.centerX - 200, 700, respPregunta[2].texto).setScrollFactor(0)
     .setStyle({
-      fontSize: "36px",
+      fontSize: "32px",
       fill: "#2B2B2B",
       fontFamily: "Times",
     })
     var resp4 = this.add.text(this.cameras.main.centerX - 200, 780, respPregunta[3].texto).setScrollFactor(0)
     .setStyle({
-      fontSize: "36px",
+      fontSize: "32px",
       fill: "#2B2B2B",
       fontFamily: "Times",
     })
@@ -1412,7 +1442,7 @@ export class Game extends Phaser.Scene {
     var cartel = this.add.image(this.cameras.main.centerX + 10, 145, 'cartelfunciones').setScale(0.35).setScrollFactor(0)
     var cad1 = this.add.image(this.cameras.main.centerX - 100, 67, 'cadenaseleccion').setScale(0.35).setScrollFactor(0)
     var cad2 = this.add.image(this.cameras.main.centerX + 120, 67, 'cadenaseleccion').setScale(0.35).setScrollFactor(0)
-    var texto = this.add.text(this.cameras.main.centerX - 118, 125, '¡Respondé la pregunta!').setScrollFactor(0)
+    var texto = this.add.text(this.cameras.main.centerX - 118, 125, ' ').setScrollFactor(0)//.setDepth(1)
     .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -1515,11 +1545,13 @@ export class Game extends Phaser.Scene {
   
   }
 
+  Temporizador(){
+
+  }
+
 
   IconoTurno(){
 
-    console.log(players[turno])
-    console.log('icono turno ', players[turno].jugador)
     triangulo = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY - 190, 'triangulo').setScale(0.2).setScrollFactor(0);
     textoTurnoJugador = this.add.text(this.cameras.main.centerX -69,this.cameras.main.centerY - 260, players[turno].jugador,
       {
@@ -1536,7 +1568,7 @@ export class Game extends Phaser.Scene {
       y:  this.cameras.main.centerY - 160,
       ease: "Power3",
       yoyo: false,
-      repeat: 3,
+      repeat: 2,
     });
     this.tweens.add({
       targets: textoTurnoJugador,
@@ -1544,9 +1576,10 @@ export class Game extends Phaser.Scene {
       y:  this.cameras.main.centerY - 230,
       ease: "Power3",
       yoyo: false,
-      repeat: 3,
+      repeat: 2,
     });
   }
+
   InformacionPlayers() {
     if (CantidadJugadores === 2) {
       //player2

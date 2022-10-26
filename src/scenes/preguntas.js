@@ -138,7 +138,7 @@ const preguntas = {
     },
 
     '7': {
-        pregunta: "¿Qué nombre recibe la organización \nsocial y económica desarrollada \ndurante la Edad Media?",
+        pregunta: "¿Qué nombre recibe la organi-\nzación social y económica desa-\nrrollada durante la Edad Media?",
         opciones: {
             "1": {
                 texto: "Feudalismo",
@@ -161,7 +161,7 @@ const preguntas = {
     },
 
     '8': {
-        pregunta: "¿Mediante qué ceremonia el vasallo \njuraba fidelidad al señor?",
+        pregunta: "¿Mediante qué ceremonia el \nvasallo juraba fidelidad al \nseñor?",
         opciones: {
             "1": {
                 texto: "Investidura",
@@ -184,7 +184,7 @@ const preguntas = {
     },
 
     '9': {
-        pregunta: "¿De donde era originaria la peste \nnegra?",
+        pregunta: "¿De donde era originaria la \npeste negra?",
         opciones: {
             "1": {
                 texto: "De Asia",
@@ -230,7 +230,7 @@ const preguntas = {
     },
 
     '11': {
-        pregunta: "¿Dónde surgió la religión islámica?",
+        pregunta: "¿Dónde surgió la religión \nislámica?",
         opciones: {
             "1": {
                 texto: "En la Península de Arabia",
@@ -276,7 +276,7 @@ const preguntas = {
     },
 
     '13': {
-        pregunta: "¿Cuál es una característica \nde la Edad Media?",
+        pregunta: "¿Cuál es una característica de \nla Edad Media?",
         opciones: {
             "1": {
                 texto: "Economía de auto-subsistencia",
@@ -299,7 +299,7 @@ const preguntas = {
     },
 
     '14': {
-        pregunta: "En el periodo medieval, el \nestamento más alto después \ndel rey no pagaba impuestos. ¿A \nqué grupo social corresponde \nla descripción?",
+        pregunta: "En el periodo medieval, el \nestamento más alto después del\nrey no pagaba impuestos. ¿A \nqué grupo social corresponde?",
         opciones: {
             "1": {
                 texto: "La nobleza",
@@ -368,7 +368,7 @@ const preguntas = {
     },
 
     '17': {
-        pregunta: "¿Cuántos siglos duro la Edad Media?",
+        pregunta: "¿Cuántos siglos duro la Edad \nMedia?",
         opciones: {
             "1": {
                 texto: "10 siglos",
@@ -391,7 +391,7 @@ const preguntas = {
     },
 
     '18': {
-        pregunta: "¿Con qué le pagaban los siervos \npor el uso de las tierras a \nlos señores?",
+        pregunta: "¿Con qué le pagaban los siervos \npor el uso de las tierras a los \nseñores?",
         opciones: {
             "1": {
                 texto: "Un tributo en dinero",
@@ -414,7 +414,7 @@ const preguntas = {
     },
 
     '19': {
-        pregunta: "¿Cuál no es característica de \nla Baja Edad Media",
+        pregunta: "¿Cuál no es característica de \nla Edad Media?",
         opciones: {
             "1": {
                 texto: "Aparición de los Parlamentos",
