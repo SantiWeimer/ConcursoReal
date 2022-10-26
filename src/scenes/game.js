@@ -1521,7 +1521,7 @@ export class Game extends Phaser.Scene {
     console.log(players[turno])
     console.log('icono turno ', players[turno].jugador)
     triangulo = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY - 190, 'triangulo').setScale(0.2).setScrollFactor(0);
-    textoTurnoJugador = this.add.text(this.cameras.main.centerX -65,this.cameras.main.centerY - 260, players[turno].jugador,
+    textoTurnoJugador = this.add.text(this.cameras.main.centerX -69,this.cameras.main.centerY - 260, players[turno].jugador,
       {
         fontFamily: "Times",
         fontStyle: "italic",
