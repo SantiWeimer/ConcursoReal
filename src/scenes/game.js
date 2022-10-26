@@ -35,6 +35,7 @@ var playerActivo;
 var turno = 0;
 var contadorturno = false;
 var primerturno = 0;
+var triangulo;
 var textoTurnoJugador;
 
 //camara
@@ -516,6 +517,8 @@ export class Game extends Phaser.Scene {
     this.add.image(this.cameras.main.centerX + 10, 108, 'hudmadera').setScale(1.05).setScrollFactor(0)
     this.TextoMonedas();
    
+    this.IconoTurno();
+
     //camara
     camara = this.cameras.main;
 
@@ -545,6 +548,7 @@ export class Game extends Phaser.Scene {
         setTimeout(() => {
           primerturno = primerturno + 1;
           this.moverDerecha(playerActivo);
+
         }, 3000);
       })
       .on("pointerover", () => {
@@ -575,11 +579,12 @@ export class Game extends Phaser.Scene {
         bloqueruletaboolean = 0;
       }
     }
+
     //turnos jugadores
     playerActivo = players[turno].imagen;
     //camara
     camara.startFollow(playerActivo);
-
+    //cambio texto jugador
     ////
     //turnos
 
@@ -587,7 +592,7 @@ export class Game extends Phaser.Scene {
     while (contadorturno === true) {
       turno++;
       contadorturno = false;
-
+      console.log('turno ', turno)
       //reinicio de variable
       if (turno === 2 && CantidadJugadores === 2) {
         turno = 0;
@@ -874,10 +879,6 @@ export class Game extends Phaser.Scene {
       //fin de juego de pregunta
 
       setTimeout(() => {
-        //cambiador de turnos
-        contadorturno = true;
-        contadorRuleta = true;
-        
         //vaciar y reiniciar array
         contadorPregunta = true;
         respPregunta.pop();
@@ -902,7 +903,18 @@ export class Game extends Phaser.Scene {
         resp3.destroy();
         resp4.destroy();
 
-      }, 2500);
+      }, 2000);
+      setTimeout(() => {
+        //cambiador de turnos
+        contadorturno = true;
+        contadorRuleta = true;
+      }, 3000);
+      setTimeout(() => {
+        //reinicio animacion icono de jugador
+        triangulo.destroy();
+        textoTurnoJugador.destroy();
+        this.IconoTurno();
+      }, 3300);
 
     })
     .on("pointerover", () => {
@@ -958,10 +970,6 @@ export class Game extends Phaser.Scene {
       //fin de juego de pregunta
 
       setTimeout(() => {
-        //cambiador de turnos
-        contadorturno = true;
-        contadorRuleta = true;
-        
         //vaciar y reiniciar array
         contadorPregunta = true;
         respPregunta.pop();
@@ -986,7 +994,18 @@ export class Game extends Phaser.Scene {
         resp3.destroy();
         resp4.destroy();
 
-      }, 2500);
+      }, 2000);
+      setTimeout(() => {
+        //cambiador de turnos
+        contadorturno = true;
+        contadorRuleta = true;
+      }, 3000);
+      setTimeout(() => {
+        //reinicio animacion icono de jugador
+        triangulo.destroy();
+        textoTurnoJugador.destroy();
+        this.IconoTurno();
+      }, 3300);
     })
     .on("pointerover", () => {
 
@@ -1041,10 +1060,6 @@ export class Game extends Phaser.Scene {
       //fin de juego de pregunta
 
       setTimeout(() => {
-        //cambiador de turnos
-        contadorturno = true;
-        contadorRuleta = true;
-        
         //vaciar y reiniciar array
         contadorPregunta = true;
         respPregunta.pop();
@@ -1069,7 +1084,18 @@ export class Game extends Phaser.Scene {
         resp3.destroy();
         resp4.destroy();
 
-      }, 2500);
+      }, 2000);
+      setTimeout(() => {
+        //cambiador de turnos
+        contadorturno = true;
+        contadorRuleta = true;
+      }, 3000);
+      setTimeout(() => {
+        //reinicio animacion icono de jugador
+        triangulo.destroy();
+        textoTurnoJugador.destroy();
+        this.IconoTurno();
+      }, 3300);
     })
     .on("pointerover", () => {
 
@@ -1124,10 +1150,6 @@ export class Game extends Phaser.Scene {
       //fin de juego de pregunta
 
       setTimeout(() => {
-        //cambiador de turnos
-        contadorturno = true;
-        contadorRuleta = true;
-        
         //vaciar y reiniciar array
         contadorPregunta = true;
         respPregunta.pop();
@@ -1152,7 +1174,18 @@ export class Game extends Phaser.Scene {
         resp3.destroy();
         resp4.destroy();
 
-      }, 2500);
+      }, 2000);
+      setTimeout(() => {
+        //cambiador de turnos
+        contadorturno = true;
+        contadorRuleta = true;
+      }, 3000);
+      setTimeout(() => {
+        //reinicio animacion icono de jugador
+        triangulo.destroy();
+        textoTurnoJugador.destroy();
+        this.IconoTurno();
+      }, 3300);
 
     })
     .on("pointerover", () => {
@@ -1298,8 +1331,12 @@ export class Game extends Phaser.Scene {
       setTimeout(() => {
         contadorturno = true;
         contadorRuleta = true;
-        this.moverTexto();
       }, 2000);
+      setTimeout(() => {
+        triangulo.destroy();
+        textoTurnoJugador.destroy();
+        this.IconoTurno();
+      }, 2300);
     } else if (
       players[turno].acumulador === 8 ||
       players[turno].acumulador === 17 ||
@@ -1325,8 +1362,12 @@ export class Game extends Phaser.Scene {
       setTimeout(() => {
         contadorturno = true;
         contadorRuleta = true;
-        this.moverTexto();
       }, 2000);
+      setTimeout(() => {
+        triangulo.destroy();
+        textoTurnoJugador.destroy();
+        this.IconoTurno();
+      }, 2300);
     } else if (players[turno].acumulador === 100) {
       setTimeout(() => {
         this.scene.start("Resultado", {
@@ -1338,8 +1379,12 @@ export class Game extends Phaser.Scene {
       setTimeout(() => {
         contadorturno = true;
         contadorRuleta = true;
-        this.moverTexto();
       }, 500);
+      setTimeout(() => {
+        triangulo.destroy();
+        textoTurnoJugador.destroy();
+        this.IconoTurno();
+      }, 800);
     }
   }
 
@@ -1361,52 +1406,13 @@ export class Game extends Phaser.Scene {
     }
   }
 
-  moverTexto() {
-    setTimeout(() => {
-      var textoTurnoJugador = this.add.text(
-        -200,
-        this.cameras.main.centerY - 350,
-        "Turno " + players[turno].jugador,
-        {
-          fontFamily: "Times",
-          fontStyle: "italic",
-          fontSize: "64px",
-          color: "#ffffff",
-        }
-      );
-      textoTurnoJugador.setShadow(3, 3, "#000", 0).setScrollFactor(0);
-
-      this.tweens.add({
-        targets: textoTurnoJugador,
-        duration: 2000,
-        x: this.cameras.main.centerX - 200,
-        ease: "Power3",
-        repeat: 0,
-        yoyo: false,
-        onComplete: () => {
-          this.tweens.add({
-            targets: textoTurnoJugador,
-            delay: 1000,
-            duration: 2000,
-            x: 2200,
-            ease: "Power3",
-            repeat: 0,
-            yoyo: false,
-            onComplete: () => {
-              textoTurnoJugador.destroy();
-            },
-          });
-        },
-      });
-    }, 500);
-  }
 
   cartelFunciones(){
 
     var cartel = this.add.image(this.cameras.main.centerX + 10, 145, 'cartelfunciones').setScale(0.35).setScrollFactor(0)
     var cad1 = this.add.image(this.cameras.main.centerX - 100, 67, 'cadenaseleccion').setScale(0.35).setScrollFactor(0)
     var cad2 = this.add.image(this.cameras.main.centerX + 120, 67, 'cadenaseleccion').setScale(0.35).setScrollFactor(0)
-    var texto = this.add.text(this.cameras.main.centerX - 118, 125, ' ').setScrollFactor(0)
+    var texto = this.add.text(this.cameras.main.centerX - 118, 125, '¡Respondé la pregunta!').setScrollFactor(0)
     .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -1430,14 +1436,14 @@ export class Game extends Phaser.Scene {
     this.tweens.add({
       targets: cartel,
       duration: 1500,
-      y: this.cameras.main.centerY - 230,
+      y: this.cameras.main.centerY - 280,
       ease: "Power3",
       repeat: 0,
       yoyo: false,
       onComplete: () => {
         this.tweens.add({
           targets: cartel,
-          duration: 800,
+          duration: 700,
           y: 145,
           ease: "Power3",
           repeat: 0,
@@ -1455,14 +1461,14 @@ export class Game extends Phaser.Scene {
     this.tweens.add({
       targets: cad1,
       duration: 1500,
-      y:  this.cameras.main.centerY - 310,
+      y:  this.cameras.main.centerY - 360,
       ease: "Power3",
       repeat: 0,
       yoyo: false,
       onComplete: () => {
         this.tweens.add({
           targets: cad1,
-          duration: 800,
+          duration: 700,
           y: 67,
           ease: "Power3",
           repeat: 0,
@@ -1473,14 +1479,14 @@ export class Game extends Phaser.Scene {
     this.tweens.add({
       targets: cad2,
       duration: 1500,
-      y:  this.cameras.main.centerY - 310,
+      y:  this.cameras.main.centerY - 360,
       ease: "Power3",
       repeat: 0,
       yoyo: false,
       onComplete: () => {
         this.tweens.add({
           targets: cad2,
-          duration: 800,
+          duration: 700,
           y: 67,
           ease: "Power3",
           repeat: 0,
@@ -1491,14 +1497,14 @@ export class Game extends Phaser.Scene {
     this.tweens.add({
       targets: texto,
       duration: 1500,
-      y:  this.cameras.main.centerY - 245,
+      y:  this.cameras.main.centerY - 295,
       ease: "Power3",
       repeat: 0,
       yoyo: false,
       onComplete: () => {
         this.tweens.add({
           targets: texto,
-          duration: 800,
+          duration: 700,
           y: 125,
           ease: "Power3",
           repeat: 0,
@@ -1506,9 +1512,41 @@ export class Game extends Phaser.Scene {
         });
       },
     });
-    
+  
   }
 
+
+  IconoTurno(){
+
+    console.log(players[turno])
+    console.log('icono turno ', players[turno].jugador)
+    triangulo = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY - 190, 'triangulo').setScale(0.2).setScrollFactor(0);
+    textoTurnoJugador = this.add.text(this.cameras.main.centerX -65,this.cameras.main.centerY - 260, players[turno].jugador,
+      {
+        fontFamily: "Times",
+        fontStyle: "italic",
+        fontSize: "36px",
+        color: "#ffffff",
+      }
+    );
+    textoTurnoJugador.setShadow(3, 3, "#000", 0).setScrollFactor(0);
+    this.tweens.add({
+      targets: triangulo,
+      duration: 1000,
+      y:  this.cameras.main.centerY - 160,
+      ease: "Power3",
+      yoyo: false,
+      repeat: 3,
+    });
+    this.tweens.add({
+      targets: textoTurnoJugador,
+      duration: 1000,
+      y:  this.cameras.main.centerY - 230,
+      ease: "Power3",
+      yoyo: false,
+      repeat: 3,
+    });
+  }
   InformacionPlayers() {
     if (CantidadJugadores === 2) {
       //player2

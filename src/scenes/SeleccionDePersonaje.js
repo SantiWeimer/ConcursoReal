@@ -483,7 +483,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
         var popupseleccion = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY + 30, 'popupseleccion')
 
       //2 jugadores
-      var popupseleccion2 = this.add.image(this.cameras.main.centerX, 530, 'botonseleccion1')
+      var popupseleccion2 = this.add.image(this.cameras.main.centerX, 530, 'botonseleccion1').setScale(0.9)
       .setInteractive({
         useHandCursor: true
        })
@@ -524,7 +524,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
 
       //3 jugadores
-      var popupseleccion3 = this.add.image(this.cameras.main.centerX, 630, 'botonseleccion1')
+      var popupseleccion3 = this.add.image(this.cameras.main.centerX, 630, 'botonseleccion1').setScale(0.9)
       .setInteractive({
         useHandCursor: true
        })
@@ -563,7 +563,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
 
       //4 jugadores
-      var popupseleccion4 = this.add.image(this.cameras.main.centerX, 730, 'botonseleccion1')
+      var popupseleccion4 = this.add.image(this.cameras.main.centerX, 730, 'botonseleccion1').setScale(0.9)
       .setInteractive({
         useHandCursor: true
        })
@@ -600,7 +600,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
         textCuatroJug.setStyle({ fill: '#ffffff'})
       });
 
-    var textJugadores = this.add.text(800, 360, 'Elegir un número\n de jugadores')
+    var textJugadores = this.add.text(790, 360, 'Elegir un número\n de jugadores')
     .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 

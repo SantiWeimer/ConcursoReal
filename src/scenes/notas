@@ -11,15 +11,12 @@ licencia: This work is licensed under the Creative Commons Licenses.
 ///
 
 cosas por hacer:
-1. Funcion de perder turno.
-2. emplear la clase de preguntas para la casilla preguntas.
 
 
 ///
 ideas:
 
 1. poner imagenes de los personajes tristes cuando no son seleccionados.
-2. resaltar al personaje que le toque jugar.
 
 
 
@@ -27,29 +24,5 @@ ideas:
 
 errores
 
-1. no funcionan correctamente la funcion retroceder.
-2. Por algun motivo en particular se pierden turnos.
+1. Por algun motivo en particular se pierden turnos.
 
-
-
-
-
-
-
-1. pop up pregunta: cuando se responde bien o mal, aparece el color rojo o verde, y sacamos el click de encima 
-cambia de color. Problema: el pointerout de los botones. // SOLUCIONADO //
-
-2. funciones de avanzar y retroceder, no suma ni resta al acumulador de pixeles, por lo tanto el personaje en el proximo tiro va a
-cualquier parte //SOLUCIONADO//
-
-3. Problema al seleccionar los 4 jugadores, la ultima foto no se bloquea. //SOLUCIONADO//
-
-4. los personajes en la seleccion de personajes siguen apareciendo una vez que se elijen ya los 4. //SOLUCIONADO  //
-
-5. los puntos no se suman en el momento, si salimos y volvemos a jugar aparecen. // SOLUCIONADO //
-
-6. cuando el personaje avanza o retrocede y cae en otra casilla con funcion, esta no se reproduce. // SOLUCIONADO //
-
-7. no se pasan los puntos de una escena a otra. // SOLUCIONADO //
-
-8. bug seleccion de personaje al pasar rapido con el mouse por los jugadores. //SOLUCIONADO//
