@@ -54,7 +54,7 @@ export class MainMenu extends Phaser.Scene {
     this.add.image(1400, 250, "titulojuego").setScale(0.9);
 
     botonjugar = this.add
-      .image(1600, 550, "botonjugar")
+      .image(1600, 550, "botonmenu")
       .setInteractive({
         useHandCursor: true,
       })
@@ -67,13 +67,16 @@ export class MainMenu extends Phaser.Scene {
       .on("pointerover", () => {
         sonidobotones1.play();
         botonjugar.setScale(1.1);
+        textojugar.setScale(1.1);
       })
       .on("pointerout", () => {
         botonjugar.setScale(1);
+        textojugar.setScale(1);
       });
+    
 
     botoninstrucciones = this.add
-      .image(1600, 680, "botoninstrucciones")
+      .image(1600, 680, "botonmenu")
       .setInteractive({
         useHandCursor: true,
       })
@@ -90,7 +93,7 @@ export class MainMenu extends Phaser.Scene {
       });
 
     botonconfiguracion = this.add
-      .image(1600, 780, "botonconfiguracion")
+      .image(1600, 780, "botonmenu").setFlip(true,false)
       .setInteractive({
         useHandCursor: true,
       })
@@ -107,7 +110,7 @@ export class MainMenu extends Phaser.Scene {
       });
 
     botoncreditos = this.add
-      .image(1600, 900, "botoncreditos")
+      .image(1600, 900, "botonmenu").setFlip(true,false)
       .setInteractive({
         useHandCursor: true,
       })
@@ -124,6 +127,27 @@ export class MainMenu extends Phaser.Scene {
       });
 
 
+    
+    var textojugar = this.add.text(1500, 505, "Jugar", {
+        fontFamily: "Papyrus",
+        fontSize: "64px",
+        color: "#000",
+    })
+    this.add.text(1490, 650, "Instrucciones", {
+      fontFamily: "Papyrus",
+      fontSize: "40px",
+      color: "#000",
+    })
+    this.add.text(1485, 750, "Configuración", {
+      fontFamily: "Papyrus",
+      fontSize: "40px",
+      color: "#000",
+    })
+    this.add.text(1530, 875, "Créditos", {
+      fontFamily: "Papyrus",
+      fontSize: "40px",
+      color: "#000",
+    })
     //temporizador
 
     if (this.temporizador > 0) {

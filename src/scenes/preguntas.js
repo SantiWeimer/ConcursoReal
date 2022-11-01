@@ -531,10 +531,7 @@ preguntasArray.push(preguntas["21"]);
 preguntasArray.push(preguntas["22"]);
 
 
-/* for (var i = '0'; i === '20'; i = i + '1'){
-    
-    preguntasArray.push(preguntas[i]);
-} */
+
 console.log(preguntasArray)
 preguntasArray.sort(() => Math.random() - 0.5)
 

@@ -28,6 +28,8 @@ export class PreloadsMenu extends Phaser.Scene {
       this.load.image("botonconfiguracion", "assets/images/boton_configuracion.png");
       this.load.image("botoncreditos", "assets/images/boton_creditos.png");
       this.load.image("postemenu", "assets/images/poste_menu.jpg");
+      this.load.image("botonmenu", "assets/images/boton_menuprincipal.png");
+
 
       //configuracion
       this.load.image("banderinidioma", "assets/images/banderin_idioma.png");

@@ -105,9 +105,16 @@ export class Instrucciones extends Phaser.Scene {
       .on("pointerover", () => {
         sonidobotones1.play();
         botonvolver.setScale(1.1);
+        textojugar.setScale(1.1);
       })
       .on("pointerout", () => {
         botonvolver.setScale(1);
+        textojugar.setScale(1);
       });
+    var textojugar = this.add.text(200, 950, "Volver", {
+      fontFamily: "Papyrus",
+      fontSize: "64px",
+      color: "#000",
+    })
   }
 }
