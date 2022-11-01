@@ -2,83 +2,73 @@ import Phaser from "phaser";
 import Pregunta from "../clases/Pregunta.js";
 import preguntasArray from "./preguntas.js";
 
+
 var dado = 0;
 
-var monedabotonayuda = false;
 
-//
-//monedas
-var textmonedasjugador1;
-var textmonedasjugador2;
-var textmonedasjugador3;
-var textmonedasjugador4;
 
-//
-var cartelfunc = 0;
-var cartelpantano;
-var cartelbosque;
-var segcomienzo = 15;
-
-//sonidos
-var respuestaincorrecta;
-var respuestacorrecta;
-var sonidocasillamonedas;
-var monedaayuda;
-
-//jugadores
-
-var CantidadJugadores;
-
-//turnos
-var players;
-var playerActivo;
-var turno = 0;
-var contadorturno = false;
-var primerturno = 0;
-var triangulo;
-var textoTurnoJugador;
-
-//camara
-
-var camara;
-
-//casillas
-var casillas = [];
-//casilla preguntas
-var turnPregunta = 0;
-var contadorPregunta = false;
-var respPregunta = [];
-
-    respPregunta.push(preguntasArray[turnPregunta].opciones["1"]);
-    respPregunta.push(preguntasArray[turnPregunta].opciones["2"]);
-    respPregunta.push(preguntasArray[turnPregunta].opciones["3"]);
-    respPregunta.push(preguntasArray[turnPregunta].opciones["4"]);
-
-    respPregunta.sort(() => Math.random() - 0.5)
-    
-
-//ruleta y hud
-var ruleta;
-var contadorRuleta = true;
-var bloqueoruleta;
-var bloqueruletaboolean = 0;
-
-//sonidos
-var respuestaincorrecta;
-var respuestacorrecta;
-var sonidocasillamonedas;
-var monedaayuda;
 
 
 
 
 export class Game extends Phaser.Scene {
 
-  //temporizador
+  //dado 
+  
 
-  scoreTime;
-  scoreTimeText;
-  timedEvent;
+  //sonidos
+  respuestaincorrecta;
+  respuestacorrecta;
+  sonidocasillamonedas;
+  monedaayuda;
+
+  //camara
+  camara;
+
+  //ruleta y hud
+  ruleta;
+  contadorRuleta = true;
+  bloqueoruleta;
+  bloqueruletaboolean = 0;
+
+
+  monedabotonayuda = false;
+
+  //casillas
+
+  casillas = [];
+
+  //casilla preguntas
+  turnPregunta = 0;
+  contadorPregunta = false;
+  respPregunta = [];
+  
+
+  //temporizador casilla preguntas
+  temporizador;
+
+  //cambio texto cartel de funciones
+  cartelfunc = 0;
+
+  //jugadores
+
+  CantidadJugadores;
+
+  //turnos
+  players;
+  playerActivo;
+  turno = 0;
+  contadorturno = false;
+  primerturno = 0;
+  triangulo;
+  textoTurnoJugador;
+
+  //
+  //monedas jugadores
+  textmonedasjugador1;
+  textmonedasjugador2;
+  textmonedasjugador3;
+  textmonedasjugador4;
 
   constructor() {
     // Se asigna una key para despues poder llamar a la escena
@@ -86,27 +76,29 @@ export class Game extends Phaser.Scene {
   }
 
   init(data) {
-    players = data.players;
-    CantidadJugadores = data.CantidadJugadores;
+    this.players = data.players;
+    this.CantidadJugadores = data.CantidadJugadores;
+    this.temporizador = data.temporizador;
   }
 
   create() {
     //sonidos
-
+    console.log(this.temporizador);
+    
     //popup
-    respuestaincorrecta = this.sound.add("respuestaincorrecta");
-    respuestaincorrecta.setVolume(0.55).setRate(1.5);
-    respuestacorrecta = this.sound.add("respuestacorrecta");
-    respuestacorrecta.setVolume(0.7).setRate(0.9);
-    sonidocasillamonedas = this.sound.add("sonidocasillamonedas");
-    sonidocasillamonedas.setVolume(1);
-    monedaayuda = this.sound.add("monedaayuda");
-    monedaayuda.setVolume(1.5);
+    this.respuestaincorrecta = this.sound.add("respuestaincorrecta");
+    this.respuestaincorrecta.setVolume(0.55).setRate(1.5);
+    this.respuestacorrecta = this.sound.add("respuestacorrecta");
+    this.respuestacorrecta.setVolume(0.7).setRate(0.9);
+    this.sonidocasillamonedas = this.sound.add("sonidocasillamonedas");
+    this.sonidocasillamonedas.setVolume(1);
+    this.monedaayuda = this.sound.add("monedaayuda");
+    this.monedaayuda.setVolume(1.5);
 
     //tablero
     var tablerogame;
 
-    tablerogame = this.add.image(4740.5, 1403.5, "tablero").setScale(1);
+    tablerogame = this.add.image(4740.5, 1403.5, "tablero").setScale(1).setDepth(1);
 
     //tilemap
 
@@ -157,346 +149,171 @@ export class Game extends Phaser.Scene {
     //layers
 
     //pantano
-    const casilla1Layer = map.createLayer("casilla_pantano_comun",casilla1,0,0);
-    const casilla2Layer = map.createLayer(
-      "casilla_pantano_pierde_turno",
-      casilla2,
-      0,
-      0
-    );
-    const casilla3Layer = map.createLayer(
-      "casilla_pantano_volver",
-      casilla3,
-      0,
-      0
-    );
-    const casilla4Layer = map.createLayer(
-      "casilla_pantano_pregunta_X",
-      casilla4,
-      0,
-      0
-    );
-    const casilla5Layer = map.createLayer(
-      "casilla_pantano_pregunta_Y",
-      casilla5,
-      0,
-      0
-    );
-    const casilla6Layer = map.createLayer(
-      "casilla_pantano_avanzar",
-      casilla6,
-      0,
-      0
-    );
-    const casilla7Layer = map.createLayer(
-      "casilla_pantano_moneda_X",
-      casilla7,
-      0,
-      0
-    );
-    const casilla8Layer = map.createLayer(
-      "casilla_pantano_moneda_Y",
-      casilla8,
-      0,
-      0
-    );
-    const casilla9Layer = map.createLayer(
-      "casilla_pantano_esquina",
-      casilla9,
-      0,
-      0
-    );
-    const troncosLayer = map.createLayer("troncos_pantano", troncos, 0, 0);
+    const casilla1Layer = map.createLayer("casilla_pantano_comun",casilla1,0,0).setDepth(1);
+    const casilla2Layer = map.createLayer("casilla_pantano_pierde_turno",casilla2,0,0).setDepth(1);
+    const casilla3Layer = map.createLayer("casilla_pantano_volver",casilla3,0,0).setDepth(1);
+    const casilla4Layer = map.createLayer("casilla_pantano_pregunta_X",casilla4,0,0).setDepth(1);
+    const casilla5Layer = map.createLayer("casilla_pantano_pregunta_Y",casilla5,0,0).setDepth(1);
+    const casilla6Layer = map.createLayer("casilla_pantano_avanzar",casilla6,0,0).setDepth(1);
+    const casilla7Layer = map.createLayer("casilla_pantano_moneda_X",casilla7,0,0).setDepth(1);
+    const casilla8Layer = map.createLayer("casilla_pantano_moneda_Y",casilla8,0,0).setDepth(1);
+    const casilla9Layer = map.createLayer("casilla_pantano_esquina",casilla9,0,0).setDepth(1);
+    const troncosLayer = map.createLayer("troncos_pantano", troncos, 0, 0).setDepth(1);
 
     //bosque
-    const casilla10Layer = map.createLayer(
-      "casilla_bosque_comun",
-      casilla10,
-      0,
-      0
-    );
-    const casilla11Layer = map.createLayer(
-      "casilla_bosque_pierde_turno",
-      casilla11,
-      0,
-      0
-    );
-    const casilla12Layer = map.createLayer(
-      "casilla_bosque_volver",
-      casilla12,
-      0,
-      0
-    );
-    const casilla13Layer = map.createLayer(
-      "casilla_bosque_pregunta_X",
-      casilla13,
-      0,
-      0
-    );
-    const casilla14Layer = map.createLayer(
-      "casilla_bosque_pregunta_Y",
-      casilla14,
-      0,
-      0
-    );
-    const casilla15Layer = map.createLayer(
-      "casilla_bosque_avanzar",
-      casilla15,
-      0,
-      0
-    );
-    const casilla16Layer = map.createLayer(
-      "casilla_bosque_moneda_X",
-      casilla16,
-      0,
-      0
-    );
-    const casilla17Layer = map.createLayer(
-      "casilla_bosque_moneda_Y",
-      casilla17,
-      0,
-      0
-    );
-    const casilla18Layer = map.createLayer(
-      "casilla_bosque_esquina",
-      casilla18,
-      0,
-      0
-    );
+    const casilla10Layer = map.createLayer("casilla_bosque_comun",casilla10,0,0).setDepth(1);
+    const casilla11Layer = map.createLayer("casilla_bosque_pierde_turno",casilla11,0,0).setDepth(1);
+    const casilla12Layer = map.createLayer("casilla_bosque_volver",casilla12,0,0).setDepth(1);
+    const casilla13Layer = map.createLayer("casilla_bosque_pregunta_X",casilla13,0,0).setDepth(1);
+    const casilla14Layer = map.createLayer("casilla_bosque_pregunta_Y",casilla14,0,0).setDepth(1);
+    const casilla15Layer = map.createLayer("casilla_bosque_avanzar",casilla15,0,0).setDepth(1);
+    const casilla16Layer = map.createLayer("casilla_bosque_moneda_X",casilla16,0,0).setDepth(1);
+    const casilla17Layer = map.createLayer("casilla_bosque_moneda_Y",casilla17,0,0).setDepth(1);
+    const casilla18Layer = map.createLayer("casilla_bosque_esquina",casilla18,0,0).setDepth(1);
 
-    //bosque
-    const casilla19Layer = map.createLayer(
-      "casilla_aldea_comun",
-      casilla19,
-      0,
-      0
-    );
-    const casilla20Layer = map.createLayer(
-      "casilla_aldea_pierde_turno",
-      casilla20,
-      0,
-      0
-    );
-    const casilla21Layer = map.createLayer(
-      "casilla_aldea_volver",
-      casilla21,
-      0,
-      0
-    );
-    const casilla22Layer = map.createLayer(
-      "casilla_aldea_pregunta_X",
-      casilla22,
-      0,
-      0
-    );
-    const casilla23Layer = map.createLayer(
-      "casilla_aldea_pregunta_Y",
-      casilla23,
-      0,
-      0
-    );
-    const casilla24Layer = map.createLayer(
-      "casilla_aldea_avanzar",
-      casilla24,
-      0,
-      0
-    );
-    const casilla25Layer = map.createLayer(
-      "casilla_aldea_moneda_X",
-      casilla25,
-      0,
-      0
-    );
-    const casilla26Layer = map.createLayer(
-      "casilla_aldea_moneda_Y",
-      casilla26,
-      0,
-      0
-    );
-    const casilla27Layer = map.createLayer(
-      "casilla_aldea_esquina",
-      casilla27,
-      0,
-      0
-    );
+    //aldea
+    const casilla19Layer = map.createLayer("casilla_aldea_comun",casilla19,0,0).setDepth(2);
+    const casilla20Layer = map.createLayer("casilla_aldea_pierde_turno",casilla20,0,0).setDepth(2);
+    const casilla21Layer = map.createLayer("casilla_aldea_volver",casilla21,0,0).setDepth(2);
+    const casilla22Layer = map.createLayer("casilla_aldea_pregunta_X",casilla22,0,0).setDepth(2);
+    const casilla23Layer = map.createLayer("casilla_aldea_pregunta_Y",casilla23,0,0).setDepth(2);
+    const casilla24Layer = map.createLayer("casilla_aldea_avanzar",casilla24,0,0).setDepth(2);
+    const casilla25Layer = map.createLayer("casilla_aldea_moneda_X",casilla25,0,0).setDepth(2);
+    const casilla26Layer = map.createLayer("casilla_aldea_moneda_Y",casilla26,0,0).setDepth(2);
+    const casilla27Layer = map.createLayer("casilla_aldea_esquina",casilla27,0,0).setDepth(2);
 
     //castillo
-    const casilla28Layer = map.createLayer(
-      "casilla_castillo_comun",
-      casilla28,
-      0,
-      0
-    );
-    const casilla29Layer = map.createLayer(
-      "casilla_castillo_pierde_turno",
-      casilla29,
-      0,
-      0
-    );
-    const casilla30Layer = map.createLayer(
-      "casilla_castillo_volver",
-      casilla30,
-      0,
-      0
-    );
-    const casilla31Layer = map.createLayer(
-      "casilla_castillo_pregunta_X",
-      casilla31,
-      0,
-      0
-    );
-    const casilla32Layer = map.createLayer(
-      "casilla_castillo_pregunta_Y",
-      casilla32,
-      0,
-      0
-    );
-    const casilla33Layer = map.createLayer(
-      "casilla_castillo_avanzar",
-      casilla33,
-      0,
-      0
-    );
-    const casilla34Layer = map.createLayer(
-      "casilla_castillo_moneda_X",
-      casilla34,
-      0,
-      0
-    );
-    const casilla35Layer = map.createLayer(
-      "casilla_castillo_moneda_Y",
-      casilla35,
-      0,
-      0
-    );
-    const casilla36Layer = map.createLayer(
-      "casilla_castillo_esquina",
-      casilla36,
-      0,
-      0
-    );
+    const casilla28Layer = map.createLayer("casilla_castillo_comun",casilla28,0,0).setDepth(2);
+    const casilla29Layer = map.createLayer("casilla_castillo_pierde_turno",casilla29,0,0).setDepth(2);
+    const casilla30Layer = map.createLayer("casilla_castillo_volver",casilla30,0,0).setDepth(2);
+    const casilla31Layer = map.createLayer("casilla_castillo_pregunta_X",casilla31,0,0).setDepth(2);
+    const casilla32Layer = map.createLayer("casilla_castillo_pregunta_Y",casilla32,0,0).setDepth(2);
+    const casilla33Layer = map.createLayer("casilla_castillo_avanzar",casilla33,0,0).setDepth(2);
+    const casilla34Layer = map.createLayer("casilla_castillo_moneda_X",casilla34,0,0).setDepth(2);
+    const casilla35Layer = map.createLayer("casilla_castillo_moneda_Y",casilla35,0,0).setDepth(2);
+    const casilla36Layer = map.createLayer("casilla_castillo_esquina",casilla36,0,0).setDepth(2);
 
     //pantano
     casilla1Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla2Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla3Layer.forEachTile((tile) => {
-      if (tile.index != -1 && tile.x > 1) casillas.push(tile);
+      if (tile.index != -1 && tile.x > 1) this.casillas.push(tile);
     });
     casilla4Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla5Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla6Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla7Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla8Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla9Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
 
     //bosque
     casilla10Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla11Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla12Layer.forEachTile((tile) => {
-      if (tile.index != -1 && tile.x > 1) casillas.push(tile);
+      if (tile.index != -1 && tile.x > 1) this.casillas.push(tile);
     });
     casilla13Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla14Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla15Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla16Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla17Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla18Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
 
     //aldea
     casilla19Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla20Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla21Layer.forEachTile((tile) => {
-      if (tile.index != -1 && tile.x > 1) casillas.push(tile);
+      if (tile.index != -1 && tile.x > 1) this.casillas.push(tile);
     });
     casilla22Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla23Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla24Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla25Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla26Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla27Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
 
     //castillo
     casilla28Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla29Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla30Layer.forEachTile((tile) => {
-      if (tile.index != -1 && tile.x > 1) casillas.push(tile);
+      if (tile.index != -1 && tile.x > 1) this.casillas.push(tile);
     });
     casilla31Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla32Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla33Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla34Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla35Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
     casilla36Layer.forEachTile((tile) => {
-      if (tile.index != -1) casillas.push(tile);
+      if (tile.index != -1) this.casillas.push(tile);
     });
 
     //ordenamiento de casillas
 
-    casillas = casillas.sort((a, b) => {
+    this.casillas = this.casillas.sort((a, b) => {
       if (a.x == b.x) {
-        let c_a = casillas.find((c) => c.x == a.x - 1);
+        let c_a = this.casillas.find((c) => c.x == a.x - 1);
         if (c_a.y > a.y) {
           return b.y - a.y;
         } else if (c_a.y < a.y) {
@@ -518,56 +335,55 @@ export class Game extends Phaser.Scene {
     this.InformacionPlayers();
 
     //hud
-    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "hud").setScrollFactor(0);
-    this.add.image(this.cameras.main.centerX + 10, 108, 'hudmadera').setScale(1.05).setScrollFactor(0)
+    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "hud").setScrollFactor(0).setDepth(3);
+    
     this.TextoMonedas();
    
     this.IconoTurno();
 
     //camara
-    camara = this.cameras.main;
+    this.camara = this.cameras.main;
+
+    //push y mezcla de respuestas de la primer pregunta
+    this.respPregunta.push(preguntasArray[this.turnPregunta].opciones["1"]);
+    this.respPregunta.push(preguntasArray[this.turnPregunta].opciones["2"]);
+    this.respPregunta.push(preguntasArray[ this.turnPregunta].opciones["3"]);
+    this.respPregunta.push(preguntasArray[ this.turnPregunta].opciones["4"]);
+
+    this.respPregunta.sort(() => Math.random() - 0.5)
+
 
     this.pregunta();
 
-    this.timedEvent = this.time.addEvent({ 
-      delay: 1000, 
-      callback: this.onSecond, 
-      callbackScope: this, 
-      loop: true 
-    });
 
-    this.scoreTime = 15;
-    this.scoreTimeText = this.add.text(this.cameras.main.centerX - 180, this.cameras.main.centerY + 360, "50", {
-      fontFamily: "Times",
-      fontSize: "36px",
-      color: "#2B2B2B",
-  }).setScrollFactor(0);
     ////
 
     //ruleta
 
     var resplandor;
 
-    ruleta = this.add
+    this.ruleta = this.add
       .image(1200, 100, "ruletaimagen")
       .setScrollFactor(0)
       .setScale(1.2)
+      .setDepth(4)
       .setInteractive({
         useHandCursor: true,
       })
       .on("pointerdown", () => {
         this.sound.play("ruleta-sonido");
-        this.girar(ruleta);
-        ruleta.disableInteractive();
-        contadorRuleta = false;
-        bloqueoruleta = this.add
+        this.girar(this.ruleta);
+        this.ruleta.disableInteractive();
+        this.contadorRuleta = false;
+        this.bloqueoruleta = this.add
           .image(1280, 25, "bloqueoruleta")
           .setScale(0.03)
-          .setScrollFactor(0);
-        bloqueruletaboolean = 1;
+          .setScrollFactor(0)
+          .setDepth(4);
+        this.bloqueruletaboolean = 1;
         setTimeout(() => {
-          primerturno = primerturno + 1;
-          this.moverDerecha(playerActivo);
+          this.primerturno = this.primerturno + 1;
+          this.moverDerecha(this.playerActivo);
 
         }, 3000);
       })
@@ -575,13 +391,14 @@ export class Game extends Phaser.Scene {
         resplandor = this.add
           .image(1200, 100, "ruleta_resplandor")
           .setScale(0.85)
-          .setScrollFactor(0);
+          .setScrollFactor(0)
+          .setDepth(4);
       })
       .on("pointerout", () => {
         resplandor.destroy();
       });
 
-    this.add.image(1200, 20, "agujaruleta").setScale(1).setScrollFactor(0);
+    this.add.image(1200, 20, "agujaruleta").setScale(1).setScrollFactor(0).setDepth(4);
     
   }
 
@@ -592,78 +409,77 @@ export class Game extends Phaser.Scene {
     //monedas jugadores
     this.ActualizarMonedas();
     //bloqueador de ruleta para no apretar muchas veces a la vez
-    if (contadorRuleta === true) {
-      ruleta.setInteractive();
-      if (bloqueruletaboolean === 1) {
-        bloqueoruleta.destroy();
-        bloqueruletaboolean = 0;
-      }
+    if (this.contadorRuleta === true) {
+      this.ruleta.setInteractive();
+    if (this.bloqueruletaboolean === 1) {
+        this.bloqueoruleta.destroy();
+        this.bloqueruletaboolean = 0;
+    }
     }
 
     //turnos jugadores
-    playerActivo = players[turno].imagen;
+    this.playerActivo = this.players[this.turno].imagen;
     //camara
-    camara.startFollow(playerActivo);
+    this.camara.startFollow(this.playerActivo);
     //cambio texto jugador
     ////
     //turnos
 
     //cambio a turnos normales
-    while (contadorturno === true) {
-      turno++;
-      contadorturno = false;
-      console.log('turno ', turno)
+    while (this.contadorturno === true) {
+      this.turno++;
+      this.contadorturno = false;
       //reinicio de variable
-      if (turno === 2 && CantidadJugadores === 2) {
-        turno = 0;
+      if (this.turno === 2 && this.CantidadJugadores === 2) {
+        this.turno = 0;
       }
 
-      if (turno === 3 && CantidadJugadores === 3) {
-        turno = 0;
+      if (this.turno === 3 && this.CantidadJugadores === 3) {
+        this.turno = 0;
       }
 
-      if (turno === 4 && CantidadJugadores === 4) {
-        turno = 0;
+      if (this.turno === 4 && this.CantidadJugadores === 4) {
+        this.turno = 0;
       }
 
       //funcion perder turno
-      if (players[turno].perderTurno === true) {
-        if (players[turno].contadorPerderTurno === 2) {
-          players[turno].perderTurno = false;
-          players[turno].contadorPerderTurno = 0;
+      if (this.players[this.turno].perderTurno === true) {
+        if (this.players[this.turno].contadorPerderTurno === 2) {
+          this.players[this.turno].perderTurno = false;
+          this.players[this.turno].contadorPerderTurno = 0;
         } else {
-          contadorturno = true;
-          players[turno].contadorPerderTurno++;
-          if (players[turno].contadorPerderTurno === 2) {
-            players[turno].perderTurno = false;
-            players[turno].contadorPerderTurno = 0;
+          this.contadorturno = true;
+          this.players[this.turno].contadorPerderTurno++;
+          if (this.players[this.turno].contadorPerderTurno === 2) {
+            this.players[this.turno].perderTurno = false;
+            this.players[this.turno].contadorPerderTurno = 0;
           }
         }
       }
     }
 
     //desbug perder turno
-    if (players[turno].perderTurno === true) {
+    if (this.players[this.turno].perderTurno === true) {
       if (
-        CantidadJugadores === 2 &&
-        players[0].perderTurno === true &&
-        players[1].perderTurno === true
+        this.CantidadJugadores === 2 &&
+        this.players[0].perderTurno === true &&
+        this.players[1].perderTurno === true
       ) {
-        if (players[0].contadorPerderTurno > players[1].contadorPerderTurno) {
-          players[0].perderTurno = false;
-          players[0].contadorPerderTurno = 0;
-          players[1].contadorPerderTurno++;
+        if (this.players[0].contadorPerderTurno > this.players[1].contadorPerderTurno) {
+          this.players[0].perderTurno = false;
+          this.players[0].contadorPerderTurno = 0;
+          this.players[1].contadorPerderTurno++;
         } else if (
-          players[0].contadorPerderTurno < players[1].contadorPerderTurno
+          this.players[0].contadorPerderTurno < this.players[1].contadorPerderTurno
         ) {
-          players[1].perderTurno = false;
-          players[1].contadorPerderTurno = 0;
-          players[0].contadorPerderTurno++;
+          this.players[1].perderTurno = false;
+          this.players[1].contadorPerderTurno = 0;
+          this.players[0].contadorPerderTurno++;
         } else {
-          players[1].perderTurno = false;
-          players[0].perderTurno = false;
-          players[1].contadorPerderTurno = 0;
-          players[0].contadorPerderTurno = 0;
+          this.players[1].perderTurno = false;
+          this.players[0].perderTurno = false;
+          this.players[1].contadorPerderTurno = 0;
+          this.players[0].contadorPerderTurno = 0;
         }
       }
     }
@@ -672,34 +488,25 @@ export class Game extends Phaser.Scene {
 
     //turnos para que las preguntas vayan cambiando
 
-    while (contadorPregunta === true) {
-      turnPregunta++;
-      contadorPregunta = false;
+    while (this.contadorPregunta === true) {
+      this.turnPregunta++;
+      this.contadorPregunta = false;
 
-      respPregunta.push(preguntasArray[turnPregunta].opciones["1"]);
-      respPregunta.push(preguntasArray[turnPregunta].opciones["2"]);
-      respPregunta.push(preguntasArray[turnPregunta].opciones["3"]);
-      respPregunta.push(preguntasArray[turnPregunta].opciones["4"]);
+      this.respPregunta.push(preguntasArray[this.turnPregunta].opciones["1"]);
+      this.respPregunta.push(preguntasArray[this.turnPregunta].opciones["2"]);
+      this.respPregunta.push(preguntasArray[this.turnPregunta].opciones["3"]);
+      this.respPregunta.push(preguntasArray[this.turnPregunta].opciones["4"]);
 
-      respPregunta.sort(() => Math.random() - 0.5)
+      this.respPregunta.sort(() => Math.random() - 0.5)
+
+      console.log(this.respPregunta)
     }
 
   }
 
-  onSecond() {
-   
-    this.scoreTime = this.scoreTime - 1;
-    this.scoreTimeText.setText(this.scoreTime);
-
-    if(this.scoreTime === 0){
-      
-    }
-  
-  }
 
   girar(ruleta) {
     dado = 0;
-    console.log("girar ", ruleta);
     this.tweens.add({
       targets: ruleta,
       duration: 2700,
@@ -708,9 +515,8 @@ export class Game extends Phaser.Scene {
       repeat: 0,
       yoyo: false,
       onComplete: function () {
-        console.log("termino movimiento ruleta");
         var grados = Phaser.Math.RadToDeg(ruleta.rotation);
-        if (grados > -45 && grados <= 45) {
+        /* if (grados > -45 && grados <= 45) {
           dado = 1;
         }
         if (grados > 45 && grados <= 90) {
@@ -730,7 +536,8 @@ export class Game extends Phaser.Scene {
         }
         if (grados <= -90 && grados > -135) {
           dado = 3;
-        } 
+        }  */
+        dado = 3;
         
       },
     });
@@ -739,29 +546,29 @@ export class Game extends Phaser.Scene {
   //movimiento personaje
 
   moverDerecha(playerActivo) {
-    console.log("mover derecha ", playerActivo);
+
     let count = 0;
     for (
-      let i = players[turno].casilla > 0 ? players[turno].casilla : 0;
-      i <= players[turno].casilla + dado;
+      let i = this.players[this.turno].casilla > 0 ? this.players[this.turno].casilla : 0;
+      i <= this.players[this.turno].casilla + dado;
       i++
     ) {
       this.tweens.add({
         targets: playerActivo,
         delay: 400 * count,
         duration: 400 * (count + 1),
-        x: casillas[i].pixelX + 100 / 2,
-        y: casillas[i].pixelY - 100 / 2,
+        x: this.casillas[i].pixelX + 100 / 2,
+        y: this.casillas[i].pixelY - 100 / 2,
         ease: "Power3",
         repeat: 0,
         yoyo: false,
         onComplete: () => {
-          if (i == players[turno].casilla + dado) {
-            players[turno].casilla += dado;
-            players[turno].acumulador += dado;
+          if (i == this.players[this.turno].casilla + dado) {
+            this.players[this.turno].casilla += dado;
+            this.players[this.turno].acumulador += dado;
 
-            if (players[turno].acumulador > 100) {
-              players[turno].acumulador = 100;
+            if (this.players[this.turno].acumulador > 100) {
+              this.players[this.turno].acumulador = 100;
             }
 
             this.corroborarCasillas();
@@ -778,26 +585,26 @@ export class Game extends Phaser.Scene {
   avanzar(playerActivo) {
     let count = 0;
     for (
-      let i = players[turno].casilla > 0 ? players[turno].casilla : 0;
-      i <= players[turno].casilla + dado;
+      let i = this.players[this.turno].casilla > 0 ? this.players[this.turno].casilla : 0;
+      i <= this.players[this.turno].casilla + dado;
       i++
     ) {
       this.tweens.add({
         targets: playerActivo,
         delay: 400 * count,
         duration: 400 * (count + 1),
-        x: casillas[i].pixelX + 100 / 2,
-        y: casillas[i].pixelY - 100 / 2,
+        x: this.casillas[i].pixelX + 100 / 2,
+        y: this.casillas[i].pixelY - 100 / 2,
         ease: "Power3",
         repeat: 0,
         yoyo: false,
         onComplete: () => {
-          if (i == players[turno].casilla + dado) {
-            players[turno].casilla += dado;
-            players[turno].acumulador += dado;
+          if (i == this.players[this.turno].casilla + dado) {
+            this.players[this.turno].casilla += dado;
+            this.players[this.turno].acumulador += dado;
 
-            if (players[turno].acumulador > 100) {
-              players[turno].acumulador = 100;
+            if (this.players[this.turno].acumulador > 100) {
+              this.players[this.turno].acumulador = 100;
             }
 
             this.corroborarCasillas();
@@ -814,23 +621,23 @@ export class Game extends Phaser.Scene {
   retroceder(playerActivo) {
     let count = 0;
     let endTweenCounter = 0;
-    for (let i = players[turno].casilla; i > players[turno].casilla - 3; i--) {
+    for (let i = this.players[this.turno].casilla; i > this.players[this.turno].casilla - 3; i--) {
       this.tweens.add({
         targets: playerActivo,
         delay: 400 * count,
         duration: 400 * (count + 1),
-        x: casillas[i].pixelX + 100 / 2,
-        y: casillas[i].pixelY - 100 / 2,
+        x: this.casillas[i].pixelX + 100 / 2,
+        y: this.casillas[i].pixelY - 100 / 2,
         ease: "Power3",
         repeat: 0,
         yoyo: false,
         onComplete: () => {
           if (endTweenCounter == 2) {
-            players[turno].casilla = players[turno].casilla - 2;
-            players[turno].acumulador -= 2;
+            this.players[this.turno].casilla = this.players[this.turno].casilla - 2;
+            this.players[this.turno].acumulador -= 2;
 
-            if (players[turno].acumulador > 100) {
-              players[turno].acumulador = 100;
+            if (this.players[this.turno].acumulador > 100) {
+              this.players[this.turno].acumulador = 100;
             }
 
             this.corroborarCasillas();
@@ -845,52 +652,53 @@ export class Game extends Phaser.Scene {
   //funcion perder turno
 
   funcPerderTurno() {
-    players[turno].perderTurno = true;
+    this.players[this.turno].perderTurno = true;
   }
 
   //funcion de pregunta
 
   pregunta(){
+    var resp1boolean = false;
+    var resp2boolean = false;
+    var resp3boolean = false;
+    var resp4boolean = false;
+    var botonayudaboolean = false;
 
-    var trans = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY,"transparencia").setAlpha(0.5).setScrollFactor(0);
-    var popup = this.add.image(this.cameras.main.centerX, 625, "popup").setScale(1.1).setScrollFactor(0);
-    var mago = this.add.image(1400, 600, "magopregunta").setScale(1).setScrollFactor(0);
+    var trans = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY,"transparencia").setAlpha(0.5).setScrollFactor(0).setDepth(6);
+    var popup = this.add.image(this.cameras.main.centerX, 625, "popup").setScale(1.1).setScrollFactor(0).setDepth(7);
+    var mago = this.add.image(1400, 600, "magopregunta").setScale(1).setScrollFactor(0).setDepth(7);
     //monedas boton ayuda
-    var iconomonedaayuda = this.add.image(930, 920, "iconomoneda").setScale(0.8).setScrollFactor(0);
-    var textmonedasayuda = this.add.text(955, 900, "50", {
+    var iconomonedaayuda = this.add.image(1000, 920, "iconomoneda").setScale(0.8).setScrollFactor(0).setDepth(7);
+    var textmonedasayuda = this.add.text(1025, 900, "50", {
         fontFamily: "Times",
         fontSize: "36px",
         color: "#2B2B2B",
-    }).setScrollFactor(0);
+    }).setScrollFactor(0).setDepth(7);
 
     ////
     //respuesta 1
-    var botonRespuesta1 = this.add.image(this.cameras.main.centerX, 560, "boton_respuesta").setScale(1.1).setScrollFactor(0)
+    var botonRespuesta1 = this.add.image(this.cameras.main.centerX, 560, "boton_respuesta").setScale(1.1).setScrollFactor(0).setDepth(7)
     .setInteractive({ useHandCursor: true })
     .on("pointerdown", () => {
 
-      botonRespuesta1.removeInteractive();
-      botonRespuesta2.removeInteractive();
-      botonRespuesta3.removeInteractive();
-      botonRespuesta4.removeInteractive();
-      if(respPregunta[0].esCorrecta === true){
+      removes();
+      if(this.respPregunta[0].esCorrecta === true){
 
         botonRespuesta1.setTexture('popup_respuesta_correcta')
 
         setTimeout(() => {
-          respuestacorrecta.play();
+          this.respuestacorrecta.play();
           mago.setTexture('magofestejando')
         }, 200);
 
         //suma de puntos respuesta correcta
         setTimeout(() => {
-          if (monedabotonayuda === false) {
-            players[turno].monedas = players[turno].monedas + 100;
+          if (this.monedabotonayuda === false) {
+            this.players[this.turno].monedas = this.players[this.turno].monedas + 100;
           } else {
-            players[turno].monedas = players[turno].monedas + 50;
+            this.players[this.turno].monedas = this.players[this.turno].monedas + 50;
           }
-          sonidocasillamonedas.play();
-          mago.destroy();
+          this.sonidocasillamonedas.play();
         }, 2000);
 
       }else{
@@ -898,53 +706,18 @@ export class Game extends Phaser.Scene {
         botonRespuesta1.setTexture('popup_respuesta_incorrecta')
 
         setTimeout(() => {
-          respuestaincorrecta.play();
+          this.respuestaincorrecta.play();
           mago.setTexture('magotriste')
         }, 200);
-        setTimeout(() => {
-          mago.destroy();
-        }, 2000);
       }
 
       //fin de juego de pregunta
 
-      setTimeout(() => {
-        //vaciar y reiniciar array
-        contadorPregunta = true;
-        respPregunta.pop();
-        respPregunta.pop();
-        respPregunta.pop();
-        respPregunta.pop();
-
-        //desaparecer objetos
-        trans.destroy();
-        popup.destroy();
-        iconomonedaayuda.destroy();
-        textmonedasayuda.destroy();
-        botonRespuesta1.destroy();
-        botonRespuesta2.destroy();
-        botonRespuesta3.destroy();
-        botonRespuesta4.destroy();
-        botonayudaimg.destroy();
-        botonayuda.destroy();
-        textopreg.destroy();
-        resp1.destroy();
-        resp2.destroy();
-        resp3.destroy();
-        resp4.destroy();
-
-      }, 2000);
-      setTimeout(() => {
-        //cambiador de turnos
-        contadorturno = true;
-        contadorRuleta = true;
-      }, 3000);
-      setTimeout(() => {
-        //reinicio animacion icono de jugador
-        triangulo.destroy();
-        textoTurnoJugador.destroy();
-        this.IconoTurno();
-      }, 3300);
+      
+      //desaparecer objetos
+      destroys()
+      
+      this.finalPopUp();
 
     })
     .on("pointerover", () => {
@@ -956,86 +729,47 @@ export class Game extends Phaser.Scene {
     });
     ////
     //respuesta 2
-    var botonRespuesta2 = this.add.image(this.cameras.main.centerX, 640, "boton_respuesta").setScale(1.1).setScrollFactor(0)
+    var botonRespuesta2 = this.add.image(this.cameras.main.centerX, 640, "boton_respuesta").setScale(1.1).setScrollFactor(0).setDepth(7)
     .setInteractive({ useHandCursor: true })
     .on("pointerdown", () => {
 
-      botonRespuesta1.removeInteractive();
-      botonRespuesta2.removeInteractive();
-      botonRespuesta3.removeInteractive();
-      botonRespuesta4.removeInteractive();
-      if(respPregunta[1].esCorrecta  === true){
+      removes();
+      if(this.respPregunta[1].esCorrecta  === true){
 
         botonRespuesta2.setTexture('popup_respuesta_correcta')
 
         setTimeout(() => {
-          respuestacorrecta.play();
+          this.respuestacorrecta.play();
           mago.setTexture('magofestejando')
         }, 200);
 
         //suma de puntos respuesta correcta
         setTimeout(() => {
-          if (monedabotonayuda === false) {
-            players[turno].monedas = players[turno].monedas + 100;
+          if (this.monedabotonayuda === false) {
+            this.players[this.turno].monedas = this.players[this.turno].monedas + 100;
           } else {
-            players[turno].monedas = players[turno].monedas + 50;
+            this.players[this.turno].monedas = this.players[this.turno].monedas + 50;
           }
-          sonidocasillamonedas.play();
-          mago.destroy();
+          this.sonidocasillamonedas.play();
         }, 2000);
 
       }else{
         botonRespuesta2.setTexture('popup_respuesta_incorrecta')
 
         setTimeout(() => {
-          respuestaincorrecta.play();
+          this.respuestaincorrecta.play();
           mago.setTexture('magotriste')
         }, 200);
 
-        setTimeout(() => {
-          mago.destroy();
-        }, 2000);
       }
 
       //fin de juego de pregunta
 
-      setTimeout(() => {
-        //vaciar y reiniciar array
-        contadorPregunta = true;
-        respPregunta.pop();
-        respPregunta.pop();
-        respPregunta.pop();
-        respPregunta.pop();
-
-        //desaparecer objetos
-        trans.destroy();
-        popup.destroy();
-        iconomonedaayuda.destroy();
-        textmonedasayuda.destroy();
-        botonRespuesta1.destroy();
-        botonRespuesta2.destroy();
-        botonRespuesta3.destroy();
-        botonRespuesta4.destroy();
-        botonayudaimg.destroy();
-        botonayuda.destroy();
-        textopreg.destroy();
-        resp1.destroy();
-        resp2.destroy();
-        resp3.destroy();
-        resp4.destroy();
-
-      }, 2000);
-      setTimeout(() => {
-        //cambiador de turnos
-        contadorturno = true;
-        contadorRuleta = true;
-      }, 3000);
-      setTimeout(() => {
-        //reinicio animacion icono de jugador
-        triangulo.destroy();
-        textoTurnoJugador.destroy();
-        this.IconoTurno();
-      }, 3300);
+      
+      //desaparecer objetos
+      destroys()
+      
+      this.finalPopUp();
     })
     .on("pointerover", () => {
 
@@ -1047,31 +781,27 @@ export class Game extends Phaser.Scene {
     
     ////
     //respuesta 3
-    var botonRespuesta3 = this.add.image(this.cameras.main.centerX, 720, "boton_respuesta").setScale(1.1).setScrollFactor(0)
+    var botonRespuesta3 = this.add.image(this.cameras.main.centerX, 720, "boton_respuesta").setScale(1.1).setScrollFactor(0).setDepth(7)
     .setInteractive({ useHandCursor: true })
     .on("pointerdown", () => {
 
-      botonRespuesta1.removeInteractive();
-      botonRespuesta2.removeInteractive();
-      botonRespuesta3.removeInteractive();
-      botonRespuesta4.removeInteractive();
-      if(respPregunta[2].esCorrecta  === true){
+      removes();
+      if(this.respPregunta[2].esCorrecta  === true){
 
         botonRespuesta3.setTexture('popup_respuesta_correcta')
         setTimeout(() => {
-          respuestacorrecta.play();
+          this.respuestacorrecta.play();
           mago.setTexture('magofestejando')
         }, 200);
 
         //suma de puntos respuesta correcta
         setTimeout(() => {
-          if (monedabotonayuda === false) {
-            players[turno].monedas = players[turno].monedas + 100;
+          if (this.monedabotonayuda === false) {
+            this.players[this.turno].monedas = this.players[this.turno].monedas + 100;
           } else {
-            players[turno].monedas = players[turno].monedas + 50;
+            this.players[this.turno].monedas = this.players[this.turno].monedas + 50;
           }
-          sonidocasillamonedas.play();
-          mago.destroy();
+          this.sonidocasillamonedas.play();
         }, 2000);
 
         
@@ -1079,53 +809,19 @@ export class Game extends Phaser.Scene {
         botonRespuesta3.setTexture('popup_respuesta_incorrecta')
 
         setTimeout(() => {
-          respuestaincorrecta.play();
+          this.respuestaincorrecta.play();
           mago.setTexture('magotriste')
         }, 200);
-        setTimeout(() => {
-          mago.destroy();
-        }, 2000);
+        
       }
 
       //fin de juego de pregunta
 
-      setTimeout(() => {
-        //vaciar y reiniciar array
-        contadorPregunta = true;
-        respPregunta.pop();
-        respPregunta.pop();
-        respPregunta.pop();
-        respPregunta.pop();
-
-        //desaparecer objetos
-        trans.destroy();
-        popup.destroy();
-        iconomonedaayuda.destroy();
-        textmonedasayuda.destroy();
-        botonRespuesta1.destroy();
-        botonRespuesta2.destroy();
-        botonRespuesta3.destroy();
-        botonRespuesta4.destroy();
-        botonayudaimg.destroy();
-        botonayuda.destroy();
-        textopreg.destroy();
-        resp1.destroy();
-        resp2.destroy();
-        resp3.destroy();
-        resp4.destroy();
-
-      }, 2000);
-      setTimeout(() => {
-        //cambiador de turnos
-        contadorturno = true;
-        contadorRuleta = true;
-      }, 3000);
-      setTimeout(() => {
-        //reinicio animacion icono de jugador
-        triangulo.destroy();
-        textoTurnoJugador.destroy();
-        this.IconoTurno();
-      }, 3300);
+      
+      //desaparecer objetos
+      destroys()
+      
+      this.finalPopUp();
     })
     .on("pointerover", () => {
 
@@ -1137,85 +833,47 @@ export class Game extends Phaser.Scene {
     
     ////
     //respuesta 4
-    var botonRespuesta4 = this.add.image(this.cameras.main.centerX, 800, "boton_respuesta").setScale(1.1).setScrollFactor(0)
+    var botonRespuesta4 = this.add.image(this.cameras.main.centerX, 800, "boton_respuesta").setScale(1.1).setScrollFactor(0).setDepth(7)
     .setInteractive({ useHandCursor: true })
     .on("pointerdown", () => {
 
-      botonRespuesta1.removeInteractive();
-      botonRespuesta2.removeInteractive();
-      botonRespuesta3.removeInteractive();
-      botonRespuesta4.removeInteractive();
-      if(respPregunta[3].esCorrecta  === true){
+      removes();
+      if(this.respPregunta[3].esCorrecta  === true){
 
         botonRespuesta4.setTexture('popup_respuesta_correcta')
 
         setTimeout(() => {
-          respuestacorrecta.play();
+          this.respuestacorrecta.play();
           mago.setTexture('magofestejando')
         }, 200);
 
         //suma de puntos respuesta correcta
         setTimeout(() => {
-          if (monedabotonayuda === false) {
-            players[turno].monedas = players[turno].monedas + 100;
+          if (this.monedabotonayuda === false) {
+            this.players[this.turno].monedas = this.players[this.turno].monedas + 100;
           } else {
-            players[turno].monedas = players[turno].monedas + 50;
+            this.players[this.turno].monedas = this.players[this.turno].monedas + 50;
           }
-          sonidocasillamonedas.play();
-          mago.destroy();
+          this.sonidocasillamonedas.play();
+          
         }, 2000);
       }else{
         botonRespuesta4.setTexture('popup_respuesta_incorrecta')
 
         setTimeout(() => {
-          respuestaincorrecta.play();
+          this.respuestaincorrecta.play();
           mago.setTexture('magotriste')
         }, 200);
-        setTimeout(() => {
-          mago.destroy();
-        }, 2000);
         
       }
 
       //fin de juego de pregunta
 
-      setTimeout(() => {
-        //vaciar y reiniciar array
-        contadorPregunta = true;
-        respPregunta.pop();
-        respPregunta.pop();
-        respPregunta.pop();
-        respPregunta.pop();
-
-        //desaparecer objetos
-        trans.destroy();
-        popup.destroy();
-        iconomonedaayuda.destroy();
-        textmonedasayuda.destroy();
-        botonRespuesta1.destroy();
-        botonRespuesta2.destroy();
-        botonRespuesta3.destroy();
-        botonRespuesta4.destroy();
-        botonayudaimg.destroy();
-        botonayuda.destroy();
-        textopreg.destroy();
-        resp1.destroy();
-        resp2.destroy();
-        resp3.destroy();
-        resp4.destroy();
-
-      }, 2000);
-      setTimeout(() => {
-        //cambiador de turnos
-        contadorturno = true;
-        contadorRuleta = true;
-      }, 3000);
-      setTimeout(() => {
-        //reinicio animacion icono de jugador
-        triangulo.destroy();
-        textoTurnoJugador.destroy();
-        this.IconoTurno();
-      }, 3300);
+      
+      //desaparecer objetos
+      destroys()
+      
+      this.finalPopUp();
 
     })
     .on("pointerover", () => {
@@ -1227,19 +885,53 @@ export class Game extends Phaser.Scene {
     });
 
     //boton de ayuda
-
-    var botonayudaimg = this.add.image(1100, 920, "boton_ayuda").setScrollFactor(0)
+    var botonayudaimg = this.add.image(1140, 920, "boton_ayuda").setScrollFactor(0).setDepth(7)
     .setInteractive({ useHandCursor: true })
     .on("pointerdown", () => {
-      monedaayuda.play();
+      this.monedaayuda.play();
 
-      monedabotonayuda = true;
+      this.monedabotonayuda = true;
+      botonayudaboolean = true;
 
       botonayuda.setStyle({ fill: "#63562E"});
       botonayudaimg.setTexture('boton_ayuda3');
-      botonRespuesta2.destroy();
-      botonRespuesta4.destroy();
       botonayudaimg.removeInteractive();
+
+      if(this.respPregunta[0].esCorrecta  === true){
+        botonRespuesta2.destroy();
+        resp2boolean = true;
+        resp2.destroy();
+        botonRespuesta4.destroy();
+        resp4boolean = true;
+        resp4.destroy();
+      }
+
+      if(this.respPregunta[1].esCorrecta  === true){
+        botonRespuesta1.destroy();
+        resp1boolean = true;
+        resp1.destroy();
+        botonRespuesta4.destroy();
+        resp4boolean = true;
+        resp4.destroy();
+      }
+
+      if(this.respPregunta[2].esCorrecta  === true){
+        botonRespuesta2.destroy();
+        resp2boolean = true;
+        resp2.destroy();
+        botonRespuesta1.destroy();
+        resp1boolean = true;
+        resp1.destroy();
+      }
+
+      if(this.respPregunta[3].esCorrecta  === true){
+        botonRespuesta2.destroy();
+        resp2boolean = true;
+        resp2.destroy();
+        botonRespuesta3.destroy();
+        resp3boolean = true;
+        resp3.destroy();
+      }
     })
     .on("pointerover", () => {
       //botonayuda.setStyle({ fill: "#fff" });
@@ -1249,7 +941,7 @@ export class Game extends Phaser.Scene {
       botonayuda.setStyle({ fill: "#3B3B3B" });
       botonayudaimg.setTexture('boton_ayuda')
     });
-    var botonayuda = this.add.text(1055, 900, "Ayuda").setScrollFactor(0)
+    var botonayuda = this.add.text(1095, 900, "Ayuda").setScrollFactor(0).setDepth(7)
     .setStyle({
       fontSize: "32px",
       fill: "#3B3B3B",
@@ -1259,8 +951,8 @@ export class Game extends Phaser.Scene {
 
 
     //pregunta
-    var textopreg = this.add.text(740,350, preguntasArray[turnPregunta].pregunta)
-    .setScrollFactor(0)
+    var textopreg = this.add.text(740,350, preguntasArray[this.turnPregunta].pregunta)
+    .setScrollFactor(0).setDepth(7)
     .setStyle({
       maxLines: 20,
       fontFamily: "Times",
@@ -1270,149 +962,267 @@ export class Game extends Phaser.Scene {
     });
 
     //textos respuestas
-    var resp1 = this.add.text(this.cameras.main.centerX - 200, 540, respPregunta[0].texto).setScrollFactor(0)
+    var resp1 = this.add.text(this.cameras.main.centerX - 200, 540, this.respPregunta[0].texto).setScrollFactor(0).setDepth(7)
     .setStyle({
       fontSize: "32px",
       fill: "#2B2B2B",
       fontFamily: "Times",
     })
     
-    var resp2 = this.add.text(this.cameras.main.centerX - 200, 620, respPregunta[1].texto).setScrollFactor(0)
+    var resp2 = this.add.text(this.cameras.main.centerX - 200, 620, this.respPregunta[1].texto).setScrollFactor(0).setDepth(7)
     .setStyle({
       fontSize: "32px",
       fill: "#2B2B2B",
       fontFamily: "Times",
     })
-    var resp3 = this.add.text(this.cameras.main.centerX - 200, 700, respPregunta[2].texto).setScrollFactor(0)
+    var resp3 = this.add.text(this.cameras.main.centerX - 200, 700, this.respPregunta[2].texto).setScrollFactor(0).setDepth(7)
     .setStyle({
       fontSize: "32px",
       fill: "#2B2B2B",
       fontFamily: "Times",
     })
-    var resp4 = this.add.text(this.cameras.main.centerX - 200, 780, respPregunta[3].texto).setScrollFactor(0)
+    var resp4 = this.add.text(this.cameras.main.centerX - 200, 780, this.respPregunta[3].texto).setScrollFactor(0).setDepth(7)
     .setStyle({
       fontSize: "32px",
       fill: "#2B2B2B",
       fontFamily: "Times",
     })
 
+  
+  //temporizador
+
+  if(this.temporizador === 0){
+
+  }else{
+
+    var timedEvent = this.time.addEvent({ 
+      delay: 1000, 
+      callback: onSecond, 
+      callbackScope: this, 
+      repeat: this.temporizador
+    });
+
+    var TempTime = this.temporizador;
+    var tempTimeText = this.add.text(this.cameras.main.centerX - 160, this.cameras.main.centerY + 360, this.temporizador, {
+    fontFamily: "Times",
+    fontSize: "36px",
+    color: "#2B2B2B",
+    }).setScrollFactor(0).setDepth(7);
+    var cronometro = this.add.image(770, 915, 'cronometro').setScrollFactor(0).setDepth(7).setScale(0.4)
   }
+
+  function onSecond() {
+   
+    if(TempTime === 0){
+      tempTimeText.setText('0');
+      mago.setTexture('magotriste')
+      removes();
+      destroys();
+      this.finalPopUp();
+      
+    }else{
+      TempTime = TempTime - 1;
+      tempTimeText.setText(TempTime);
+    }   
+  }
+
+
+
+  function removes(){
+
+    if(resp1boolean === false){
+      botonRespuesta1.removeInteractive();
+    }
+
+    if(resp2boolean === false){
+      botonRespuesta2.removeInteractive();
+    }
+
+    if(resp3boolean === false){
+      botonRespuesta3.removeInteractive();
+    }
+
+    if(resp4boolean === false){
+      botonRespuesta4.removeInteractive();
+    }
+
+    if(botonayudaboolean === false){
+      botonayudaimg.removeInteractive();
+    }
+  }
+  
+  var destroyboolean = this.temporizador;
+  function destroys(){
+    setTimeout(() => {
+      trans.destroy();
+      popup.destroy();
+      iconomonedaayuda.destroy();
+      textmonedasayuda.destroy();
+      botonRespuesta1.destroy();
+      botonRespuesta2.destroy();
+      botonRespuesta3.destroy();
+      botonRespuesta4.destroy();
+      botonayudaimg.destroy();
+      botonayuda.destroy();
+      textopreg.destroy();
+      resp1.destroy();
+      resp2.destroy();
+      resp3.destroy();
+      resp4.destroy();
+      mago.destroy();
+    
+      if(destroyboolean > 0){
+        tempTimeText.destroy();
+        timedEvent.destroy();
+        cronometro.destroy();
+      }
+    }, 2000);
+  }
+
+
+  //fin pregunta
+  }
+
+  finalPopUp(){
+    setTimeout(() => {
+      //vaciar y reiniciar array
+      this.contadorPregunta = true;
+      this.respPregunta.pop();
+      this.respPregunta.pop();
+      this.respPregunta.pop();
+      this.respPregunta.pop();
+
+    }, 2000);
+    setTimeout(() => {
+      //cambiador de turnos
+      this.contadorturno = true;
+      this.contadorRuleta = true;
+    }, 3000);
+    setTimeout(() => {
+      //reinicio animacion icono de jugador
+      this.triangulo.destroy();
+      this.textoTurnoJugador.destroy();
+      this.IconoTurno();
+    }, 3300);
+  }
+
+
 
   
 
   //funcion monedas
 
   monedas() {
-    players[turno].monedas = players[turno].monedas + 500;
+    this.players[this.turno].monedas = this.players[this.turno].monedas + 500;
   }
 
   corroborarCasillas() {
     if (
-      players[turno].acumulador === 3 ||
-      players[turno].acumulador === 12 ||
-      players[turno].acumulador === 22 ||
-      players[turno].acumulador === 27 ||
-      players[turno].acumulador === 39 ||
-      players[turno].acumulador === 45 ||
-      players[turno].acumulador === 55 ||
-      players[turno].acumulador === 62 ||
-      players[turno].acumulador === 72 ||
-      players[turno].acumulador === 80 ||
-      players[turno].acumulador === 88 ||
-      players[turno].acumulador === 93
+      this.players[this.turno].acumulador === 3 ||
+      this.players[this.turno].acumulador === 12 ||
+      this.players[this.turno].acumulador === 22 ||
+      this.players[this.turno].acumulador === 27 ||
+      this.players[this.turno].acumulador === 39 ||
+      this.players[this.turno].acumulador === 45 ||
+      this.players[this.turno].acumulador === 55 ||
+      this.players[this.turno].acumulador === 62 ||
+      this.players[this.turno].acumulador === 72 ||
+      this.players[this.turno].acumulador === 80 ||
+      this.players[this.turno].acumulador === 88 ||
+      this.players[this.turno].acumulador === 93
     ) {
       //funcion preguntas (casillas: 4, 12, 20, 25, 36, 40)
-      cartelfunc = 1;
+      this.cartelfunc = 1;
       this.cartelFunciones();
 
       setTimeout(() => {
         this.pregunta();
       }, 2000);
     } else if (
-      players[turno].acumulador === 5 ||
-      players[turno].acumulador === 25 ||
-      players[turno].acumulador === 36 ||
-      players[turno].acumulador === 50 ||
-      players[turno].acumulador === 59 ||
-      players[turno].acumulador === 66 ||
-      players[turno].acumulador === 76 ||
-      players[turno].acumulador === 87
+      this.players[this.turno].acumulador === 5 ||
+      this.players[this.turno].acumulador === 25 ||
+      this.players[this.turno].acumulador === 36 ||
+      this.players[this.turno].acumulador === 50 ||
+      this.players[this.turno].acumulador === 59 ||
+      this.players[this.turno].acumulador === 66 ||
+      this.players[this.turno].acumulador === 76 ||
+      this.players[this.turno].acumulador === 87
     ) {
       //funcion avanzar (casillas: 5, 24, 34)
-      this.avanzar(playerActivo);
+      this.avanzar(this.playerActivo);
     } else if (
-      players[turno].acumulador === 6 ||
-      players[turno].acumulador === 19 ||
-      players[turno].acumulador === 33 ||
-      players[turno].acumulador === 48 ||
-      players[turno].acumulador === 58 ||
-      players[turno].acumulador === 70 ||
-      players[turno].acumulador === 78 ||
-      players[turno].acumulador === 96
+      this.players[this.turno].acumulador === 6 ||
+      this.players[this.turno].acumulador === 19 ||
+      this.players[this.turno].acumulador === 33 ||
+      this.players[this.turno].acumulador === 48 ||
+      this.players[this.turno].acumulador === 58 ||
+      this.players[this.turno].acumulador === 70 ||
+      this.players[this.turno].acumulador === 78 ||
+      this.players[this.turno].acumulador === 96
     ) {
       //funcion monedas  (casillas: 6, 18, 31, 42)
 
       //ogro.anims.play('ogrofeliz', true);
-      cartelfunc = 2;
+      this.cartelfunc = 2;
       this.cartelFunciones();
       this.monedas();
-      sonidocasillamonedas.play();
+      this.sonidocasillamonedas.play();
   
       setTimeout(() => {
-        contadorturno = true;
-        contadorRuleta = true;
+        this.contadorturno = true;
+        this.contadorRuleta = true;
       }, 2000);
       setTimeout(() => {
-        triangulo.destroy();
-        textoTurnoJugador.destroy();
+        this.triangulo.destroy();
+        this.textoTurnoJugador.destroy();
         this.IconoTurno();
       }, 2300);
     } else if (
-      players[turno].acumulador === 8 ||
-      players[turno].acumulador === 17 ||
-      players[turno].acumulador === 29 ||
-      players[turno].acumulador === 43 ||
-      players[turno].acumulador === 56 ||
-      players[turno].acumulador === 65 ||
-      players[turno].acumulador === 82 ||
-      players[turno].acumulador === 99
+      this.players[this.turno].acumulador === 8 ||
+      this.players[this.turno].acumulador === 17 ||
+      this.players[this.turno].acumulador === 29 ||
+      this.players[this.turno].acumulador === 43 ||
+      this.players[this.turno].acumulador === 56 ||
+      this.players[this.turno].acumulador === 65 ||
+      this.players[this.turno].acumulador === 82 ||
+      this.players[this.turno].acumulador === 99
     ) {
       //funcion retroceder  (casillas: 8, 17, 27, 39)
-      this.retroceder(playerActivo);
+      this.retroceder(this.playerActivo);
     } else if (
-      players[turno].acumulador === 10 ||
-      players[turno].acumulador === 42 ||
-      players[turno].acumulador === 64 ||
-      players[turno].acumulador === 97
+      this.players[this.turno].acumulador === 10 ||
+      this.players[this.turno].acumulador === 42 ||
+      this.players[this.turno].acumulador === 64 ||
+      this.players[this.turno].acumulador === 97
     ) {
       //funcion perder turno  (casillas: 10, 38)
-      cartelfunc = 3;
+      this.cartelfunc = 3;
       this.cartelFunciones();
       this.funcPerderTurno();
       setTimeout(() => {
-        contadorturno = true;
-        contadorRuleta = true;
+        this.contadorturno = true;
+        this.contadorRuleta = true;
       }, 2000);
       setTimeout(() => {
-        triangulo.destroy();
-        textoTurnoJugador.destroy();
+        this.triangulo.destroy();
+        this.textoTurnoJugador.destroy();
         this.IconoTurno();
       }, 2300);
-    } else if (players[turno].acumulador === 100) {
+    } else if (this.players[this.turno].acumulador === 100) {
       setTimeout(() => {
         this.scene.start("Resultado", {
-          CantidadJugadores: CantidadJugadores,
-          players: players,
+          CantidadJugadores: this.CantidadJugadores,
+          players: this.players,
         });
       }, 500);
     } else {
       setTimeout(() => {
-        contadorturno = true;
-        contadorRuleta = true;
+        this.contadorturno = true;
+        this.contadorRuleta = true;
       }, 500);
       setTimeout(() => {
-        triangulo.destroy();
-        textoTurnoJugador.destroy();
+        this.triangulo.destroy();
+        this.textoTurnoJugador.destroy();
         this.IconoTurno();
       }, 800);
     }
@@ -1421,28 +1231,25 @@ export class Game extends Phaser.Scene {
   //funcion para actualizar monedas
 
   ActualizarMonedas() {
-    if (CantidadJugadores === 2) {
-      textmonedasjugador1.setText("Jugador 1:        " + players[0].monedas);
-      textmonedasjugador2.setText("Jugador 2:        " + players[1].monedas);
-    } else if (CantidadJugadores === 3) {
-      textmonedasjugador1.setText("Jugador 1:        " + players[0].monedas);
-      textmonedasjugador2.setText("Jugador 2:        " + players[1].monedas);
-      textmonedasjugador3.setText("Jugador 3:        " + players[2].monedas);
-    } else if (CantidadJugadores === 4) {
-      textmonedasjugador1.setText("Jugador 1:        " + players[0].monedas);
-      textmonedasjugador2.setText("Jugador 2:        " + players[1].monedas);
-      textmonedasjugador3.setText("Jugador 3:        " + players[2].monedas);
-      textmonedasjugador4.setText("Jugador 4:        " + players[3].monedas);
+    if (this.CantidadJugadores >= 2) {
+      this.textmonedasjugador1.setText("Jugador 1:        " + this.players[0].monedas);
+      this.textmonedasjugador2.setText("Jugador 2:        " + this.players[1].monedas);
+    } 
+    if (this.CantidadJugadores >= 3) {
+      this.textmonedasjugador3.setText("Jugador 3:        " + this.players[2].monedas);
+    }
+    if (this.CantidadJugadores === 4) {
+      this.textmonedasjugador4.setText("Jugador 4:        " + this.players[3].monedas);
     }
   }
 
 
   cartelFunciones(){
 
-    var cartel = this.add.image(this.cameras.main.centerX + 10, 145, 'cartelfunciones').setScale(0.35).setScrollFactor(0)
-    var cad1 = this.add.image(this.cameras.main.centerX - 100, 67, 'cadenaseleccion').setScale(0.35).setScrollFactor(0)
-    var cad2 = this.add.image(this.cameras.main.centerX + 120, 67, 'cadenaseleccion').setScale(0.35).setScrollFactor(0)
-    var texto = this.add.text(this.cameras.main.centerX - 118, 125, ' ').setScrollFactor(0)//.setDepth(1)
+    var cartel = this.add.image(this.cameras.main.centerX + 10, 145, 'cartelfunciones').setScale(0.35).setScrollFactor(0).setDepth(1)
+    var cad1 = this.add.image(this.cameras.main.centerX - 100, 67, 'cadenaseleccion').setScale(0.35).setScrollFactor(0).setDepth(1)
+    var cad2 = this.add.image(this.cameras.main.centerX + 120, 67, 'cadenaseleccion').setScale(0.35).setScrollFactor(0).setDepth(1)
+    var texto = this.add.text(this.cameras.main.centerX - 118, 125, ' ').setScrollFactor(0).setDepth(1)
     .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -1451,17 +1258,14 @@ export class Game extends Phaser.Scene {
             align: 'center',
           });
 
-    if(cartelfunc === 1){
+    if(this.cartelfunc === 1){
       texto.setText('¡Respondé la pregunta!')
-    }else if(cartelfunc === 2){
+    }else if(this.cartelfunc === 2){
 
       texto.setText('   ¡Ganaste monedas!')
-    }else if(cartelfunc === 3){
+    }else if(this.cartelfunc === 3){
       texto.setText('  ¡Perdiste dos turnos!')
     }
-          
-    var madera = this.add.image(this.cameras.main.centerX + 10, 108, 'hudmadera').setScale(1.05).setScrollFactor(0)
-    
     
     this.tweens.add({
       targets: cartel,
@@ -1482,7 +1286,6 @@ export class Game extends Phaser.Scene {
             cartel.destroy();
             cad1.destroy();
             cad2.destroy();
-            madera.destroy();
             texto.destroy();
           }
         });
@@ -1545,15 +1348,12 @@ export class Game extends Phaser.Scene {
   
   }
 
-  Temporizador(){
-
-  }
 
 
   IconoTurno(){
 
-    triangulo = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY - 190, 'triangulo').setScale(0.2).setScrollFactor(0);
-    textoTurnoJugador = this.add.text(this.cameras.main.centerX -69,this.cameras.main.centerY - 260, players[turno].jugador,
+    this.triangulo = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY - 190, 'triangulo').setScale(0.2).setScrollFactor(0).setDepth(5);
+    this.textoTurnoJugador = this.add.text(this.cameras.main.centerX -69,this.cameras.main.centerY - 260, this.players[this.turno].jugador,
       {
         fontFamily: "Times",
         fontStyle: "italic",
@@ -1561,9 +1361,9 @@ export class Game extends Phaser.Scene {
         color: "#ffffff",
       }
     );
-    textoTurnoJugador.setShadow(3, 3, "#000", 0).setScrollFactor(0);
+    this.textoTurnoJugador.setShadow(3, 3, "#000", 0).setScrollFactor(0).setDepth(5);
     this.tweens.add({
-      targets: triangulo,
+      targets: this.triangulo,
       duration: 1000,
       y:  this.cameras.main.centerY - 160,
       ease: "Power3",
@@ -1571,7 +1371,7 @@ export class Game extends Phaser.Scene {
       repeat: 2,
     });
     this.tweens.add({
-      targets: textoTurnoJugador,
+      targets: this.textoTurnoJugador,
       duration: 1000,
       y:  this.cameras.main.centerY - 230,
       ease: "Power3",
@@ -1581,174 +1381,98 @@ export class Game extends Phaser.Scene {
   }
 
   InformacionPlayers() {
-    if (CantidadJugadores === 2) {
+    if (this.CantidadJugadores >= 2) {
       //player2
-      players[1].x = 880;
-      players[1].y = 1830;
-      players[1].monedas = 0;
-      players[1].jugador = "Jugador 2";
-      players[1].imagen = this.add
-        .image(players[1].x, players[1].y, players[1].nombre)
-        .setScale(0.5);
+      this.players[1].x = 880;
+      this.players[1].y = 1830;
+      this.players[1].monedas = 0;
+      this.players[1].jugador = "Jugador 2";
+      this.players[1].imagen = this.add
+        .image(this.players[1].x, this.players[1].y, this.players[1].nombre)
+        .setScale(0.5).setDepth(1);
 
       //player 1
-      players[0].x = 930;
-      players[0].y = 1830;
-      players[0].monedas = 0;
-      players[0].jugador = "Jugador 1";
-      players[0].imagen = this.add
-        .image(players[0].x, players[0].y, players[0].nombre)
-        .setScale(0.5);
-    } else if (CantidadJugadores === 3) {
-      players[2].x = 830;
-      players[2].y = 1830;
-      players[2].monedas = 0;
-      players[2].jugador = "Jugador 3";
-      players[2].imagen = this.add
-        .image(players[2].x, players[2].y, players[2].nombre)
-        .setScale(0.5);
-
-      players[1].x = 880;
-      players[1].y = 1830;
-      players[1].monedas = 0;
-      players[1].jugador = "Jugador 2";
-      players[1].imagen = this.add
-        .image(players[1].x, players[1].y, players[1].nombre)
-        .setScale(0.5);
-
-      players[0].x = 930;
-      players[0].y = 1830;
-      players[0].monedas = 0;
-      players[0].jugador = "Jugador 1";
-      players[0].imagen = this.add
-        .image(players[0].x, players[0].y, players[0].nombre)
-        .setScale(0.5);
-    } else if (CantidadJugadores === 4) {
-      players[3].x = 780;
-      players[3].y = 1830;
-      players[3].monedas = 0;
-      players[3].jugador = "Jugador 4";
-      players[3].imagen = this.add
-        .image(players[3].x, players[3].y, players[3].nombre)
-        .setScale(0.5);
-
-      players[2].x = 830;
-      players[2].y = 1830;
-      players[2].monedas = 0;
-      players[2].jugador = "Jugador 3";
-      players[2].imagen = this.add
-        .image(players[2].x, players[2].y, players[2].nombre)
-        .setScale(0.5);
-
-      players[1].x = 880;
-      players[1].y = 1830;
-      players[1].monedas = 0;
-      players[1].jugador = "Jugador 2";
-      players[1].imagen = this.add
-        .image(players[1].x, players[1].y, players[1].nombre)
-        .setScale(0.5);
-
-      players[0].x = 930;
-      players[0].y = 1830;
-      players[0].monedas = 0;
-      players[0].jugador = "Jugador 1";
-      players[0].imagen = this.add
-        .image(players[0].x, players[0].y, players[0].nombre)
-        .setScale(0.5);
+      this.players[0].x = 930;
+      this.players[0].y = 1830;
+      this.players[0].monedas = 0;
+      this.players[0].jugador = "Jugador 1";
+      this.players[0].imagen = this.add
+        .image(this.players[0].x, this.players[0].y, this.players[0].nombre)
+        .setScale(0.5).setDepth(1);
+    }
+    if (this.CantidadJugadores >= 3) {
+      //player 3
+      this.players[2].x = 830;
+      this.players[2].y = 1830;
+      this.players[2].monedas = 0;
+      this.players[2].jugador = "Jugador 3";
+      this.players[2].imagen = this.add
+        .image(this.players[2].x, this.players[2].y, this.players[2].nombre)
+        .setScale(0.5).setDepth(1);
+    }
+    if (this.CantidadJugadores === 4) {
+      //player 4
+      this.players[3].x = 780;
+      this.players[3].y = 1830;
+      this.players[3].monedas = 0;
+      this.players[3].jugador = "Jugador 4";
+      this.players[3].imagen = this.add
+        .image(this.players[3].x, this.players[3].y, this.players[3].nombre)
+        .setScale(0.5).setDepth(1);
     }
   }
 
   TextoMonedas() {
-    if (CantidadJugadores === 2) {
-      this.add.image(730, 37, "iconomoneda").setScale(0.7).setScrollFactor(0);
-      textmonedasjugador1 = this.add
-        .text(550, 20, "Jugador 1:        " + players[1].monedas, {
-          fontFamily: "Times",
-          fontStyle: "italic",
-          fontSize: "32px",
-          color: "#FFFFFF",
-        })
-        .setScrollFactor(0);
 
-      this.add.image(730, 77, "iconomoneda").setScale(0.7).setScrollFactor(0);
-      textmonedasjugador2 = this.add
-        .text(550, 60, "Jugador 2:        " + players[0].monedas, {
+    if(this.CantidadJugadores >= 2){
+      //player 1
+      this.add.image(730, 37, "iconomoneda").setScale(0.7).setScrollFactor(0).setDepth(4);
+      this.textmonedasjugador1 = this.add
+        .text(550, 20, "Jugador 1:        " + this.players[0].monedas, {
           fontFamily: "Times",
           fontStyle: "italic",
           fontSize: "32px",
           color: "#FFFFFF",
         })
-        .setScrollFactor(0);
-    } else if (CantidadJugadores === 3) {
-      this.add.image(730, 37, "iconomoneda").setScale(0.7).setScrollFactor(0);
-      textmonedasjugador1 = this.add
-        .text(550, 20, "Jugador 1:        " + players[2].monedas, {
-          fontFamily: "Times",
-          fontStyle: "italic",
-          fontSize: "32px",
-          color: "#FFFFFF",
-        })
-        .setScrollFactor(0);
+        .setScrollFactor(0).setDepth(4);
 
-      this.add.image(730, 77, "iconomoneda").setScale(0.7).setScrollFactor(0);
-      textmonedasjugador2 = this.add
-        .text(550, 60, "Jugador 2:        " + players[1].monedas, {
+      //player 2
+      this.add.image(730, 77, "iconomoneda").setScale(0.7).setScrollFactor(0).setDepth(4);
+      this.textmonedasjugador2 = this.add
+        .text(550, 60, "Jugador 2:        " + this.players[1].monedas, {
           fontFamily: "Times",
           fontStyle: "italic",
           fontSize: "32px",
           color: "#FFFFFF",
         })
-        .setScrollFactor(0);
-
-      this.add.image(730, 117, "iconomoneda").setScale(0.7).setScrollFactor(0);
-      textmonedasjugador3 = this.add
-        .text(550, 100, "Jugador 3:        " + players[0].monedas, {
-          fontFamily: "Times",
-          fontStyle: "italic",
-          fontSize: "32px",
-          color: "#FFFFFF",
-        })
-        .setScrollFactor(0);
-    } else if (CantidadJugadores === 4) {
-      this.add.image(730, 37, "iconomoneda").setScale(0.7).setScrollFactor(0);
-      textmonedasjugador1 = this.add
-        .text(550, 20, "Jugador 1:        " + players[3].monedas, {
-          fontFamily: "Times",
-          fontStyle: "italic",
-          fontSize: "32px",
-          color: "#FFFFFF",
-        })
-        .setScrollFactor(0);
-
-      this.add.image(730, 77, "iconomoneda").setScale(0.7).setScrollFactor(0);
-      textmonedasjugador2 = this.add
-        .text(550, 60, "Jugador 2:        " + players[2].monedas, {
-          fontFamily: "Times",
-          fontStyle: "italic",
-          fontSize: "32px",
-          color: "#FFFFFF",
-        })
-        .setScrollFactor(0);
-
-      this.add.image(730, 117, "iconomoneda").setScale(0.7).setScrollFactor(0);
-      textmonedasjugador3 = this.add
-        .text(550, 100, "Jugador 3:        " + players[1].monedas, {
-          fontFamily: "Times",
-          fontStyle: "italic",
-          fontSize: "32px",
-          color: "#FFFFFF",
-        })
-        .setScrollFactor(0);
-
-      this.add.image(730, 157, "iconomoneda").setScale(0.7).setScrollFactor(0);
-      textmonedasjugador4 = this.add
-        .text(550, 140, "Jugador 4:        " + players[0].monedas, {
-          fontFamily: "Times",
-          fontStyle: "italic",
-          fontSize: "32px",
-          color: "#FFFFFF",
-        })
-        .setScrollFactor(0);
+        .setScrollFactor(0).setDepth(4);   
     }
+    if(this.CantidadJugadores >= 3){
+       //player 3
+      this.add.image(730, 117, "iconomoneda").setScale(0.7).setScrollFactor(0).setDepth(4);
+      this.textmonedasjugador3 = this.add
+        .text(550, 100, "Jugador 3:        " + this.players[2].monedas, {
+          fontFamily: "Times",
+          fontStyle: "italic",
+          fontSize: "32px",
+          color: "#FFFFFF",
+        })
+        .setScrollFactor(0).setDepth(4);
+    }
+    if(this.CantidadJugadores === 4){
+       //player 4
+      this.add.image(730, 157, "iconomoneda").setScale(0.7).setScrollFactor(0).setDepth(4);
+      this.textmonedasjugador4 = this.add
+        .text(550, 140, "Jugador 4:        " + this.players[3].monedas, {
+          fontFamily: "Times",
+          fontStyle: "italic",
+          fontSize: "32px",
+          color: "#FFFFFF",
+        })
+        .setScrollFactor(0).setDepth(4);
+    }
+
+
+   
   }
 }

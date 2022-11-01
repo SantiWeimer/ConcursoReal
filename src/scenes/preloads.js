@@ -1,8 +1,11 @@
 import Phaser from 'phaser'
 
-var players;
-var CantidadJugadores;
+
 export class Preloads extends Phaser.Scene {
+
+  players;
+  CantidadJugadores;
+  temporizador;
     constructor() {
       // Se asigna una key para despues poder llamar a la escena
       super("Preloads");
@@ -11,8 +14,9 @@ export class Preloads extends Phaser.Scene {
   
     init (data) {
     
-      players = data.players; 
-      CantidadJugadores = data.CantidadJugadores;
+      this.players = data.players; 
+      this.CantidadJugadores = data.CantidadJugadores;
+      this.temporizador = data.temporizador;
       
     }
 
@@ -104,6 +108,8 @@ export class Preloads extends Phaser.Scene {
     this.load.image("boton_ayuda", "assets/images/boton_ayuda.jpg");
     this.load.image("boton_ayuda2", "assets/images/boton_ayuda2.jpg");
     this.load.image("boton_ayuda3", "assets/images/boton_ayuda3.jpg");
+    this.load.image("cronometro", "assets/images/simbolo_cronometro.png");
+
     
     //final
     this.load.image("resultado", "assets/images/fin_del_juego.png");
@@ -150,8 +156,9 @@ export class Preloads extends Phaser.Scene {
 
         this.scene.start(
           "Game",
-          { players: players,
-            CantidadJugadores: CantidadJugadores,   
+          { players: this.players,
+            CantidadJugadores: this.CantidadJugadores,
+            temporizador: this.temporizador
           })
 
       }, 4000)

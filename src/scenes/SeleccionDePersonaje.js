@@ -1,50 +1,53 @@
 import Phaser from 'phaser'
 import Player from '../clases/Player';
 
-//acumuladores o contadores
-var ContadorInteraccion = 0;
-var numjugador = 1;
-
-//boton
-var botonjugar;
-var sonidobotones1;
-var sonidobotones2;
-var sonidobotones3;
-
-//seleccion de jugadores
-var players;
-var CantidadJugadores;
-var selplayer1;
-
-//animaciones;
-var ogroAnimacion;
-var princesaAnimacion;
-var bardoAnimacion;
-var hechiceroAnimacion;
-
-//desbuguea la animacion
-var ogronum = 0;
-var princesanum = 0;
-var bardonum = 0;
-var hechiceronum = 0;
-
-//bloquea los jugadores no seleccionados
-var ogroboolean = 0;
-var princesaboolean = 0;
-var bardoboolean = 0;
-var hechiceroboolean = 0;
-
-
 
 
 export class SeleccionDePersonaje extends Phaser.Scene {
+
+  //acumuladores o contadores
+  ContadorInteraccion = 0;
+  numjugador = 1;
+
+  //boton
+  botonjugar;
+  sonidobotones1;
+  sonidobotones2;
+  sonidobotones3;
+
+  //seleccion de jugadores
+  players;
+  CantidadJugadores;
+  selplayer1;
+
+  //animaciones;
+  ogroAnimacion;
+  princesaAnimacion;
+  bardoAnimacion;
+  hechiceroAnimacion;
+
+  //desbuguea la animacion
+  ogronum = 0;
+  princesanum = 0;
+  bardonum = 0;
+  hechiceronum = 0;
+
+  //bloquea los jugadores no seleccionados
+  ogroboolean = 0;
+  princesaboolean = 0;
+  bardoboolean = 0;
+  hechiceroboolean = 0;
+
+  //temporizador
+  temporizador
+
     constructor() {
       // Se asigna una key para despues poder llamar a la escena
       super("SeleccionDePersonaje");
     }
 
-    init (data) {
-      
+    init(data) {
+      this.temporizador = data.temporizador;
     }
   
     
@@ -56,11 +59,11 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
       var caraspersonajes;
 
-      sonidobotones1 = this.sound.add('sonidobotones1');
-      sonidobotones1.setVolume(0.3);
-      sonidobotones2 = this.sound.add('sonidobotones2');
-      sonidobotones2
-      sonidobotones3 = this.sound.add('sonidobotones3');
+      this.sonidobotones1 = this.sound.add('sonidobotones1');
+      this.sonidobotones1.setVolume(0.3);
+      this.sonidobotones2 = this.sound.add('sonidobotones2');
+      this.sonidobotones2
+      this.sonidobotones3 = this.sound.add('sonidobotones3');
       caraspersonajes = this.sound.add('caraspersonajes');
       caraspersonajes.setVolume(0.1);
 
@@ -85,8 +88,8 @@ export class SeleccionDePersonaje extends Phaser.Scene {
        })
       .on('pointerdown', () => {
 
-        if (ContadorInteraccion === 1){
-          sonidobotones3.play()
+        if (this.ContadorInteraccion === 1){
+          this.sonidobotones3.play()
           this.scene.start("MainMenu");
 
           //funcion reseteadora
@@ -96,8 +99,8 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
         })
         .on('pointerover', () => {
-          if (ContadorInteraccion === 1){
-          sonidobotones1.play()
+          if (this.ContadorInteraccion === 1){
+            this.sonidobotones1.play()
           botonvolver.setScale(1.1)
           
           }
@@ -126,7 +129,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       var textoHechicero;
 
 
-      players = []
+      this.players = []
 
       var ogro = new Player('ogro');
       var princesa = new Player('princesa');
@@ -136,25 +139,25 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
       //ogro
 
-      ogroAnimacion = this.add.sprite(250, this.cameras.main.centerY + 83, 'ogro-spritesheet').setScale(1)
+      this.ogroAnimacion = this.add.sprite(250, this.cameras.main.centerY + 83, 'ogro-spritesheet').setScale(1)
        .setInteractive({
         useHandCursor: true
        })
       .on('pointerdown', () => {
 
         //desbloqueo de click // bloqueo para no poder tocar mientras esta el pop up
-        if (ContadorInteraccion === 1){
+        if (this.ContadorInteraccion === 1){
 
-          ogroAnimacion.play('ogroSeleccionado')
-          ogroAnimacion.removeInteractive();
-          ogroboolean = 1;
+          this.ogroAnimacion.play('ogroSeleccionado')
+          this.ogroAnimacion.removeInteractive();
+          this.ogroboolean = 1;
           //desabilitar jugadores
           this.BloqueoYDesbloqueo();
-          players.push(ogro);
-          console.log(players);
+          this.players.push(ogro);
+          console.log(this.players);
 
           this.add.image(250, this.cameras.main.centerY + 83, 'recuadrojugador2').setScale(0.93)
-          this.add.text(135, 293, 'Jugador ' + numjugador)
+          this.add.text(135, 293, 'Jugador ' + this.numjugador)
           .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -162,25 +165,25 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fill: '#42FF1C',
           });
           
-          numjugador = numjugador + 1;
+          this.numjugador = this.numjugador + 1;
 
-          if(numjugador > 4){
+          if(this.numjugador > 4){
           }else{
             //texto de seleccion de jugador segun la cantidad de jugadores
-            if(numjugador <= CantidadJugadores){
-              selplayer1.setText('Selección jugador ' + numjugador)
+            if(this.numjugador <= this.CantidadJugadores){
+              this.selplayer1.setText('Selección jugador ' + this.numjugador)
             }
           } 
         }   
       })
       .on('pointerover', () => {
 
-        if (ContadorInteraccion === 1){
+        if (this.ContadorInteraccion === 1){
 
           recuadrojugador2 = this.add.image(250, this.cameras.main.centerY + 83, 'recuadrojugador2').setScale(0.93);
           this.animacionSeleccionOgro();
 
-           textoOgro = this.add.text(135, 293, 'Jugador ' + numjugador)
+           textoOgro = this.add.text(135, 293, 'Jugador ' + this.numjugador)
           .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -194,7 +197,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       })
       .on('pointerout', () => {
         
-        if (ContadorInteraccion === 1){
+        if (this.ContadorInteraccion === 1){
 
           // destruccion colores de recuadros por cada jugador
           recuadrojugador2.destroy();
@@ -208,25 +211,25 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
       //princesa
 
-      princesaAnimacion = this.add.sprite(750, this.cameras.main.centerY + 100, 'princesa-spritesheet').setScale(1)
+      this.princesaAnimacion = this.add.sprite(750, this.cameras.main.centerY + 100, 'princesa-spritesheet').setScale(1)
        .setInteractive({
         useHandCursor: true
        })
       .on('pointerdown', () => {
 
         //desbloqueo de click // bloqueo para no poder tocar mientras esta el pop up
-       if (ContadorInteraccion === 1){
+       if (this.ContadorInteraccion === 1){
 
-        princesaAnimacion.play('princesaSeleccionado')
-        princesaAnimacion.removeInteractive();
-        princesaboolean = 1;
+        this.princesaAnimacion.play('princesaSeleccionado')
+        this.princesaAnimacion.removeInteractive();
+        this.princesaboolean = 1;
         //desabilitar jugadores
         this.BloqueoYDesbloqueo();
-        players.push(princesa);
-        console.log(players);
+        this.players.push(princesa);
+        console.log(this.players);
 
         this.add.image(750, this.cameras.main.centerY + 100, 'recuadrojugador1').setScale(0.93);
-        this.add.text(635, 310, 'Jugador ' + numjugador)
+        this.add.text(635, 310, 'Jugador ' + this.numjugador)
         .setStyle({
           fontFamily: 'Times', 
           fontStyle: 'italic', 
@@ -234,12 +237,12 @@ export class SeleccionDePersonaje extends Phaser.Scene {
           fill: '#1CFFFF',
         });
         
-        numjugador = numjugador + 1;
-        if(numjugador > 4){
+        this.numjugador = this.numjugador + 1;
+        if(this.numjugador > 4){
         }else{
           //texto de seleccion de jugador segun la cantidad de jugadores
-          if(numjugador <= CantidadJugadores){
-            selplayer1.setText('Selección jugador ' + numjugador)
+          if(this.numjugador <= this.CantidadJugadores){
+            this.selplayer1.setText('Selección jugador ' + this.numjugador)
           }
         }
         }
@@ -247,10 +250,10 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       })
       .on('pointerover', () => {
         
-        if (ContadorInteraccion === 1){
+        if (this.ContadorInteraccion === 1){
           recuadrojugador1 = this.add.image(750, this.cameras.main.centerY + 100, 'recuadrojugador1').setScale(0.93)
           this.animacionSeleccionPrincesa();
-          textoPrincesa = this.add.text(635, 310, 'Jugador ' + numjugador)
+          textoPrincesa = this.add.text(635, 310, 'Jugador ' + this.numjugador)
           .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -261,7 +264,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       })
       .on('pointerout', () => {
         
-        if (ContadorInteraccion === 1){
+        if (this.ContadorInteraccion === 1){
           textoPrincesa.destroy();
           recuadrojugador1.destroy();
           //animacion
@@ -272,24 +275,24 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
       //bardo
 
-      bardoAnimacion = this.add.sprite(1680, this.cameras.main.centerY + 93, 'bardo-spritesheet').setScale(1)
+      this.bardoAnimacion = this.add.sprite(1680, this.cameras.main.centerY + 93, 'bardo-spritesheet').setScale(1)
        .setInteractive({
         useHandCursor: true
        })
       .on('pointerdown', () => {
 
           //desbloqueo de click // bloqueo para no poder tocar mientras esta el pop up
-          if (ContadorInteraccion === 1){
-            bardoAnimacion.play('bardoSeleccionado')
-            bardoAnimacion.removeInteractive();
-            bardoboolean = 1;
+          if (this.ContadorInteraccion === 1){
+            this.bardoAnimacion.play('bardoSeleccionado')
+            this.bardoAnimacion.removeInteractive();
+            this.bardoboolean = 1;
             //desabilitar jugadores
             this.BloqueoYDesbloqueo();
-            players.push(bardo);
-            console.log(players);
+            this.players.push(bardo);
+            console.log(this.players);
   
             this.add.image(1680, this.cameras.main.centerY + 93, 'recuadrojugador3').setScale(0.93);
-            textoBardo = this.add.text(1565, 303, 'Jugador ' + numjugador)
+            textoBardo = this.add.text(1565, 303, 'Jugador ' + this.numjugador)
             .setStyle({
               fontFamily: 'Times', 
               fontStyle: 'italic', 
@@ -297,13 +300,13 @@ export class SeleccionDePersonaje extends Phaser.Scene {
               fill: '#FFC81C',
             });
   
-            numjugador = numjugador + 1;
+            this.numjugador = this.numjugador + 1;
   
-            if(numjugador > 4){
+            if(this.numjugador > 4){
             }else{
               //texto de seleccion de jugador segun la cantidad de jugadores
-              if(numjugador <= CantidadJugadores){
-                selplayer1.setText('Selección jugador ' + numjugador)
+              if(this.numjugador <= this.CantidadJugadores){
+                this.selplayer1.setText('Selección jugador ' + this.numjugador)
               }
             }
           }
@@ -312,10 +315,10 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       })
       .on('pointerover', () => {
         
-        if (ContadorInteraccion === 1){
+        if (this.ContadorInteraccion === 1){
           recuadrojugador3 = this.add.image(1680, this.cameras.main.centerY + 93, 'recuadrojugador3').setScale(0.93);
           this.animacionSeleccionBardo();
-          textoBardo = this.add.text(1565, 303, 'Jugador ' + numjugador)
+          textoBardo = this.add.text(1565, 303, 'Jugador ' + this.numjugador)
           .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -325,7 +328,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
         }
       })
       .on('pointerout', () => {
-        if (ContadorInteraccion === 1){
+        if (this.ContadorInteraccion === 1){
           recuadrojugador3.destroy();
           textoBardo.destroy();
           //animacion
@@ -335,26 +338,26 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
       //hechicero
 
-        hechiceroAnimacion = this.add.sprite(1260, 575, 'hechicero-spritesheet').setScale(1.138)
+      this.hechiceroAnimacion = this.add.sprite(1260, 575, 'hechicero-spritesheet').setScale(1.138)
        .setInteractive({
         useHandCursor: true
        })
       .on('pointerdown', () => {
 
          //desbloqueo de click // bloqueo para no poder tocar mientras esta el pop up
-       if (ContadorInteraccion === 1){
+       if (this.ContadorInteraccion === 1){
 
-        hechiceroAnimacion.play('hechiceroSeleccionado')
-        hechiceroAnimacion.removeInteractive();
-        hechiceroboolean = 1;
+        this.hechiceroAnimacion.play('hechiceroSeleccionado')
+        this.hechiceroAnimacion.removeInteractive();
+        this.hechiceroboolean = 1;
         //desabilitar jugadores
         this.BloqueoYDesbloqueo();
-        players.push(hechicero);
+        this.players.push(hechicero);
 
-        console.log(players);
+        console.log(this.players);
 
         this.add.image(1240, 625, 'recuadrojugador4').setScale(0.93);
-        this.add.text(1150, 295, 'Jugador ' + numjugador)
+        this.add.text(1150, 295, 'Jugador ' + this.numjugador)
           .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -363,12 +366,12 @@ export class SeleccionDePersonaje extends Phaser.Scene {
           });
 
 
-        numjugador = numjugador + 1;
-        if(numjugador > 4){
+          this.numjugador = this.numjugador + 1;
+        if(this.numjugador > 4){
         }else{
           //texto de seleccion de jugador segun la cantidad de jugadores
-          if(numjugador <= CantidadJugadores){
-            selplayer1.setText('Selección jugador ' + numjugador)
+          if(this.numjugador <= this.CantidadJugadores){
+            this.selplayer1.setText('Selección jugador ' + this.numjugador)
           }
         }
       }
@@ -376,11 +379,11 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       })
       .on('pointerover', () => {
         
-        if (ContadorInteraccion === 1){
+        if (this.ContadorInteraccion === 1){
          
           recuadrojugador4 = this.add.image(1240, 625, 'recuadrojugador4').setScale(0.93);
           this.animacionSeleccionHechicero();
-          textoHechicero = this.add.text(1150, 295, 'Jugador ' + numjugador)
+          textoHechicero = this.add.text(1150, 295, 'Jugador ' + this.numjugador)
           .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -392,7 +395,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       })
       .on('pointerout', () => {
         
-        if (ContadorInteraccion === 1){
+        if (this.ContadorInteraccion === 1){
 
           textoHechicero.destroy();
           recuadrojugador4.destroy();
@@ -409,7 +412,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
 
       //ogro
-      ogroAnimacion.anims.create({
+      this.ogroAnimacion.anims.create({
       key: 'ogroSeleccionado',
       frames: this.anims.generateFrameNumbers('ogro-spritesheet', { start: 0, end: 3 }),
       frameRate: 2,
@@ -418,7 +421,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       });  
 
       //princesa
-      princesaAnimacion.anims.create({
+      this.princesaAnimacion.anims.create({
       key: 'princesaSeleccionado',
       frames: this.anims.generateFrameNumbers('princesa-spritesheet', { start: 0, end: 3 }),
       frameRate: 2,
@@ -427,7 +430,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       });  
 
       //bardo
-      bardoAnimacion.anims.create({
+      this.bardoAnimacion.anims.create({
       key: 'bardoSeleccionado',
       frames: this.anims.generateFrameNumbers('bardo-spritesheet', { start: 0, end: 3 }),
       frameRate: 2,
@@ -436,7 +439,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       });  
 
       //hechicero
-      hechiceroAnimacion.anims.create({
+      this.hechiceroAnimacion.anims.create({
       key: 'hechiceroSeleccionado',
       frames: this.anims.generateFrameNumbers('hechicero-spritesheet', { start: 0, end: 3 }),
       frameRate: 2,
@@ -483,20 +486,20 @@ export class SeleccionDePersonaje extends Phaser.Scene {
         var popupseleccion = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY + 30, 'popupseleccion')
 
       //2 jugadores
-      var popupseleccion2 = this.add.image(this.cameras.main.centerX, 530, 'botonseleccion1').setScale(0.9)
+      var popupseleccion2 = this.add.image(this.cameras.main.centerX, 530, 'botonseleccion1').setScale(0.9).setAlpha(0.8)
       .setInteractive({
         useHandCursor: true
        })
       .on('pointerdown', () => {
         
         //desbloquea todos los botones
-        ContadorInteraccion = ContadorInteraccion + 1;
+        this.ContadorInteraccion = this.ContadorInteraccion + 1;
         
 
         //sirve para saber cuando desbloquear el boton de jugar
-        CantidadJugadores = 2;
+        this.CantidadJugadores = 2;
         
-        selplayer1 = this.add.text(620, 30, 'Selección jugador ' + numjugador,
+        this.selplayer1 = this.add.text(620, 30, 'Selección jugador ' + this.numjugador,
         { fontFamily: 'Times', fontStyle: 'italic', fontSize: '80px', color: '#000000' });
 
         trans.destroy();
@@ -524,18 +527,18 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
 
       //3 jugadores
-      var popupseleccion3 = this.add.image(this.cameras.main.centerX, 630, 'botonseleccion1').setScale(0.9)
+      var popupseleccion3 = this.add.image(this.cameras.main.centerX, 630, 'botonseleccion1').setScale(0.9).setAlpha(0.8)
       .setInteractive({
         useHandCursor: true
        })
       .on('pointerdown', () => {
        
-        ContadorInteraccion = ContadorInteraccion + 1;
+        this.ContadorInteraccion = this.ContadorInteraccion + 1;
 
         //sirve para saber cuando desbloquear el boton de jugar
-        CantidadJugadores = 3;
+        this.CantidadJugadores = 3;
         
-        selplayer1 = this.add.text(620, 30, 'Selección jugador ' + numjugador,
+        this.selplayer1 = this.add.text(620, 30, 'Selección jugador ' + this.numjugador,
         { fontFamily: 'Times', fontStyle: 'italic', fontSize: '80px', color: '#000000' });
 
         trans.destroy();
@@ -563,18 +566,18 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
 
       //4 jugadores
-      var popupseleccion4 = this.add.image(this.cameras.main.centerX, 730, 'botonseleccion1').setScale(0.9)
+      var popupseleccion4 = this.add.image(this.cameras.main.centerX, 730, 'botonseleccion1').setScale(0.9).setAlpha(0.8)
       .setInteractive({
         useHandCursor: true
        })
       .on('pointerdown', () => {
         
-        ContadorInteraccion = ContadorInteraccion + 1;
+        this.ContadorInteraccion = this.ContadorInteraccion + 1;
 
         //sirve para saber cuando desbloquear el boton de jugar
-        CantidadJugadores = 4;
+        this.CantidadJugadores = 4;
         
-        selplayer1 = this.add.text(620, 30, 'Selección jugador ' + numjugador,
+        this.selplayer1 = this.add.text(620, 30, 'Selección jugador ' + this.numjugador,
         { fontFamily: 'Times', fontStyle: 'italic', fontSize: '80px', color: '#000000' });
 
         trans.destroy();
@@ -602,14 +605,14 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
     var textJugadores = this.add.text(790, 360, 'Elegir un número\n de jugadores')
     .setStyle({
-            fontFamily: 'Times', 
+            fontFamily: 'Ink Free', 
             fontStyle: 'italic', 
             fontSize: '50px', 
             fill: '#ffffff',
-          });
+          }).setAlpha(0.8);
 
 
-    var textDosJug = this.add.text(837, 500, '2 jugadores')
+    var textDosJug = this.add.text(837, 500, '2 jugadores').setAlpha(0.8)
     .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -617,7 +620,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fill: '#FFFFFF',
           });
 
-    var textTresJug = this.add.text(837, 600, '3 jugadores')
+    var textTresJug = this.add.text(837, 600, '3 jugadores').setAlpha(0.8)
     .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -625,7 +628,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fill: '#FFFFFF',
           });
           
-    var textCuatroJug = this.add.text(837, 700, '4 jugadores')
+    var textCuatroJug = this.add.text(837, 700, '4 jugadores').setAlpha(0.8)
     .setStyle({
             fontFamily: 'Times', 
             fontStyle: 'italic', 
@@ -645,74 +648,75 @@ export class SeleccionDePersonaje extends Phaser.Scene {
  
 
     reseteosVariables(){
-      CantidadJugadores = (CantidadJugadores - CantidadJugadores);
-      numjugador = 1;
-      ogroboolean = 0;
-      princesaboolean = 0;
-      bardoboolean = 0;
-      hechiceroboolean = 0;
-      ogronum = 0;
-      princesanum = 0;
-      bardonum = 0;
-      hechiceronum = 0;
-      ContadorInteraccion = (ContadorInteraccion - ContadorInteraccion);
+      this.CantidadJugadores = (this.CantidadJugadores - this.CantidadJugadores);
+      this.numjugador = 1;
+      this.ogroboolean = 0;
+      this.princesaboolean = 0;
+      this.bardoboolean = 0;
+      this.hechiceroboolean = 0;
+      this.ogronum = 0;
+      this.princesanum = 0;
+      this.bardonum = 0;
+      this.hechiceronum = 0;
+      this.ContadorInteraccion = (this.ContadorInteraccion - this.ContadorInteraccion);
       //
     }
 
 
     BloqueoYDesbloqueo(){
 
-      if(numjugador === CantidadJugadores){
-        if (ogroboolean === 0){
+      if(this.numjugador === this.CantidadJugadores){
+        if (this.ogroboolean === 0){
           this.add.image(250, this.cameras.main.centerY + 83, 'ogrobyn');
-          ogroAnimacion.removeInteractive();
+          this.ogroAnimacion.removeInteractive();
         };
-        if (princesaboolean === 0){
+        if (this.princesaboolean === 0){
           this.add.image(750, this.cameras.main.centerY + 100, 'princesabyn');
-          princesaAnimacion.removeInteractive();
+          this.princesaAnimacion.removeInteractive();
         };
-        if (bardoboolean === 0){
+        if (this.bardoboolean === 0){
           this.add.image(1680, this.cameras.main.centerY + 93, 'bardobyn');
-          bardoAnimacion.removeInteractive();
+          this.bardoAnimacion.removeInteractive();
         };
-        if (hechiceroboolean === 0){
+        if (this.hechiceroboolean === 0){
           this.add.image(1222, 610, 'hechicerobyn');
-          hechiceroAnimacion.removeInteractive();
+          this.hechiceroAnimacion.removeInteractive();
         };
 
-        botonjugar = this.add.image(1650, 1000, 'jugar')
+        this.botonjugar = this.add.image(1650, 1000, 'jugar')
         .setInteractive({
         useHandCursor: true
         })
         .on('pointerdown', () => {
 
-        if (ContadorInteraccion === 1){
+        if (this.ContadorInteraccion === 1){
           
-          sonidobotones2.play()
+          this.sonidobotones2.play()
           this.scene.start("Preloads", 
-          {players: players,
-          CantidadJugadores: CantidadJugadores,
+          {players: this.players,
+          CantidadJugadores: this.CantidadJugadores,
+          temporizador: this.temporizador
           })
-          botonjugar.destroy(); 
+          this.botonjugar.destroy(); 
           //reseteos de variables
-          ContadorInteraccion = (ContadorInteraccion - ContadorInteraccion);
-          ogronum = 0;
-          princesanum = 0;
-          bardonum = 0;
-          hechiceronum = 0;
-          numjugador = 1;
+          this.ContadorInteraccion = (this.ContadorInteraccion - this.ContadorInteraccion);
+          this.ogronum = 0;
+          this.princesanum = 0;
+          this.bardonum = 0;
+          this.hechiceronum = 0;
+          this.numjugador = 1;
         }
         })
         .on('pointerover', () => {
-          if (ContadorInteraccion === 1){
-          sonidobotones1.play()
-          botonjugar.setScale(1.2)
+          if (this.ContadorInteraccion === 1){
+            this.sonidobotones1.play()
+            this.botonjugar.setScale(1.2)
           
           }
         
         })
         .on('pointerout', () => {
-          botonjugar.setScale(1)
+          this.botonjugar.setScale(1)
         });
 
       }
@@ -734,60 +738,60 @@ export class SeleccionDePersonaje extends Phaser.Scene {
    //ogro
   
    animacionSeleccionOgro(){
-    if(ogronum === 0){
+    if(this.ogronum === 0){
 
       setTimeout(() => {
-        ogroAnimacion.setScale(1.01)
+        this.ogroAnimacion.setScale(1.01)
       }, 50);
   
       setTimeout(() => {
-        ogroAnimacion.setScale(1.02)
+        this.ogroAnimacion.setScale(1.02)
       }, 100);
   
       setTimeout(() => {
-        ogroAnimacion.setScale(1.03)
+        this.ogroAnimacion.setScale(1.03)
       }, 150);
   
       setTimeout(() => {
-        ogroAnimacion.setScale(1.04)
+        this.ogroAnimacion.setScale(1.04)
       }, 200);
   
       setTimeout(() => {
-        ogroAnimacion.setScale(1.05)
+        this.ogroAnimacion.setScale(1.05)
       }, 250);
 
       setTimeout(() => {
-        ogronum = 1;
+        this.ogronum = 1;
       }, 300);
     }
    }
    /////////
    animacionSeleccionOgro2(){
 
-    if(ogronum === 1){
+    if(this.ogronum === 1){
 
       setTimeout(() => {
-        ogroAnimacion.setScale(1.04)
+        this.ogroAnimacion.setScale(1.04)
       }, 50);
   
       setTimeout(() => {
-        ogroAnimacion.setScale(1.03)
+        this.ogroAnimacion.setScale(1.03)
       }, 100);
   
       setTimeout(() => {
-        ogroAnimacion.setScale(1.02)
+        this.ogroAnimacion.setScale(1.02)
       }, 150);
   
       setTimeout(() => {
-        ogroAnimacion.setScale(1.01)
+        this.ogroAnimacion.setScale(1.01)
       }, 200);
   
       setTimeout(() => {
-        ogroAnimacion.setScale(1)
+        this.ogroAnimacion.setScale(1)
       }, 250);
 
       setTimeout(() => {
-        ogronum = 0;
+        this.ogronum = 0;
       }, 300);
       
     } 
@@ -796,30 +800,30 @@ export class SeleccionDePersonaje extends Phaser.Scene {
    //princesa
    animacionSeleccionPrincesa(){
 
-    if(princesanum === 0){
+    if(this.princesanum === 0){
 
       setTimeout(() => {
-        princesaAnimacion.setScale(1.01)
+        this.princesaAnimacion.setScale(1.01)
       }, 50);
   
       setTimeout(() => {
-        princesaAnimacion.setScale(1.02)
+        this.princesaAnimacion.setScale(1.02)
       }, 100);
   
       setTimeout(() => {
-        princesaAnimacion.setScale(1.03)
+        this.princesaAnimacion.setScale(1.03)
       }, 150);
   
       setTimeout(() => {
-        princesaAnimacion.setScale(1.04)
+        this.princesaAnimacion.setScale(1.04)
       }, 200);
   
       setTimeout(() => {
-        princesaAnimacion.setScale(1.05)
+        this.princesaAnimacion.setScale(1.05)
       }, 250);
 
       setTimeout(() => {
-        princesanum = 1;
+        this.princesanum = 1;
       }, 300);
     } 
    }
@@ -827,30 +831,30 @@ export class SeleccionDePersonaje extends Phaser.Scene {
    /////////
    animacionSeleccionPrincesa2(){
 
-    if(princesanum === 1){
+    if(this.princesanum === 1){
 
       setTimeout(() => {
-        princesaAnimacion.setScale(1.04)
+        this.princesaAnimacion.setScale(1.04)
       }, 50);
   
       setTimeout(() => {
-        princesaAnimacion.setScale(1.03)
+        this.princesaAnimacion.setScale(1.03)
       }, 100);
   
       setTimeout(() => {
-        princesaAnimacion.setScale(1.02)
+        this.princesaAnimacion.setScale(1.02)
       }, 150);
   
       setTimeout(() => {
-        princesaAnimacion.setScale(1.01)
+        this.princesaAnimacion.setScale(1.01)
       }, 200);
   
       setTimeout(() => {
-        princesaAnimacion.setScale(1)
+        this.princesaAnimacion.setScale(1)
       }, 250);
 
       setTimeout(() => {
-        princesanum = 0;
+        this.princesanum = 0;
       }, 300);
     } 
    }
@@ -859,30 +863,30 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
    animacionSeleccionBardo(){
 
-    if(bardonum === 0){
+    if(this.bardonum === 0){
 
       setTimeout(() => {
-      bardoAnimacion.setScale(1.01)
+        this.bardoAnimacion.setScale(1.01)
     }, 50);
 
     setTimeout(() => {
-      bardoAnimacion.setScale(1.02)
+      this.bardoAnimacion.setScale(1.02)
     }, 100);
 
     setTimeout(() => {
-      bardoAnimacion.setScale(1.03)
+      this.bardoAnimacion.setScale(1.03)
     }, 150);
 
     setTimeout(() => {
-      bardoAnimacion.setScale(1.04)
+      this.bardoAnimacion.setScale(1.04)
     }, 200);
 
     setTimeout(() => {
-      bardoAnimacion.setScale(1.05)
+      this.bardoAnimacion.setScale(1.05)
     }, 250);
 
     setTimeout(() => {
-      bardonum = 1;
+      this.bardonum = 1;
     }, 300);
     }
     
@@ -892,30 +896,30 @@ export class SeleccionDePersonaje extends Phaser.Scene {
    /////////
    animacionSeleccionBardo2(){
 
-    if(bardonum === 1){
+    if(this.bardonum === 1){
 
       setTimeout(() => {
-        bardoAnimacion.setScale(1.04)
+        this.bardoAnimacion.setScale(1.04)
       }, 50);
   
       setTimeout(() => {
-        bardoAnimacion.setScale(1.03)
+        this.bardoAnimacion.setScale(1.03)
       }, 100);
   
       setTimeout(() => {
-        bardoAnimacion.setScale(1.02)
+        this.bardoAnimacion.setScale(1.02)
       }, 150);
   
       setTimeout(() => {
-        bardoAnimacion.setScale(1.01)
+        this.bardoAnimacion.setScale(1.01)
       }, 200);
   
       setTimeout(() => {
-        bardoAnimacion.setScale(1)
+        this.bardoAnimacion.setScale(1)
       }, 250);
 
       setTimeout(() => {
-        bardonum = 0;
+        this.bardonum = 0;
       }, 300);
     }
     }
@@ -924,31 +928,31 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
     animacionSeleccionHechicero(){
 
-      if(hechiceronum === 0){
+      if(this.hechiceronum === 0){
 
         setTimeout(() => {
-          hechiceroAnimacion.setScale(1.148)
+          this.hechiceroAnimacion.setScale(1.148)
         }, 50);
     
         setTimeout(() => {
           
-          hechiceroAnimacion.setScale(1.158)
+          this.hechiceroAnimacion.setScale(1.158)
         }, 100);
     
         setTimeout(() => {
-          hechiceroAnimacion.setScale(1.168)
+          this.hechiceroAnimacion.setScale(1.168)
         }, 150);
     
         setTimeout(() => {
-          hechiceroAnimacion.setScale(1.178)
+          this.hechiceroAnimacion.setScale(1.178)
         }, 200);
     
         setTimeout(() => {
-          hechiceroAnimacion.setScale(1.188)
+          this.hechiceroAnimacion.setScale(1.188)
         }, 250);
 
         setTimeout(() => {
-          hechiceronum = 1;
+          this.hechiceronum = 1;
         }, 300);
       }
       
@@ -956,30 +960,30 @@ export class SeleccionDePersonaje extends Phaser.Scene {
      /////////
      animacionSeleccionHechicero2(){
 
-      if(hechiceronum === 1){
+      if(this.hechiceronum === 1){
 
         setTimeout(() => {
-          hechiceroAnimacion.setScale(1.178)
+          this.hechiceroAnimacion.setScale(1.178)
         }, 50);
     
         setTimeout(() => {
-          hechiceroAnimacion.setScale(1.168)
+          this.hechiceroAnimacion.setScale(1.168)
         }, 100);
     
         setTimeout(() => {
-          hechiceroAnimacion.setScale(1.158)
+          this.hechiceroAnimacion.setScale(1.158)
         }, 150);
     
         setTimeout(() => {
-          hechiceroAnimacion.setScale(1.148)
+          this.hechiceroAnimacion.setScale(1.148)
         }, 200);
     
         setTimeout(() => {
-          hechiceroAnimacion.setScale(1.138)
+          this.hechiceroAnimacion.setScale(1.138)
         }, 250);
 
         setTimeout(() => {
-          hechiceronum = 0;
+          this.hechiceronum = 0;
         }, 300);
       }
   

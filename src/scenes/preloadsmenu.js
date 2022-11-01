@@ -31,7 +31,11 @@ export class PreloadsMenu extends Phaser.Scene {
 
       //configuracion
       this.load.image("banderinidioma", "assets/images/banderin_idioma.png");
+
       this.load.image("banderintemporizador", "assets/images/banderin_temporizador.png");
+      this.load.image("botontemp0", "assets/images/temporizador_boton0.png");
+      this.load.image("botontemp15", "assets/images/temporizador_boton15.png");
+      this.load.image("botontemp30", "assets/images/temporizador_boton30.png");
 
       this.load.image("banderinvolumen", "assets/images/banderin_volumen.png");
       this.load.image("barrasonido", "assets/images/barrasonido.png");

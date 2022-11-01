@@ -4,6 +4,10 @@ var volumenmusica = 1;
 
 
 export class Configuracion extends Phaser.Scene {
+
+
+  temporizador
+
     constructor() {
       // Se asigna una key para despues poder llamar a la escena
       super("Configuracion");
@@ -38,8 +42,7 @@ export class Configuracion extends Phaser.Scene {
        })
       .on('pointerdown', () => {
         sonidobotones3.play()
-        this.scene.start("MainMenu"),
-        { volumenmusica: volumenmusica };
+        this.scene.start("MainMenu", { temporizador: this.temporizador })
       })
       .on('pointerover', () => {
         sonidobotones1.play()
@@ -55,7 +58,119 @@ export class Configuracion extends Phaser.Scene {
       //banderines
 
       this.add.image(1600, this.cameras.main.centerY, 'banderinidioma').setScale(1);
+
+      //banderin temporizador
       this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'banderintemporizador').setScale(1);
+
+      this.add.text(this.cameras.main.centerX - 100, 280, 'Seleccione el tiempo \npara el temporizador')
+          .setStyle({
+            fontFamily: 'Times', 
+            fontStyle: 'italic', 
+            fontSize: '24px', 
+            fill: '#000',
+          });
+
+      
+      //sin temporizador
+      var ceroSeg = this.add.image(this.cameras.main.centerX - 80, 410, 'botontemp0')
+      .setInteractive({
+        useHandCursor: true
+       })
+      .on('pointerdown', () => {
+        this.temporizador = 0
+        console.log(this.temporizador)
+        ceroSeg.disableInteractive();
+        treintaSeg.setInteractive();
+        quinceSeg.setInteractive();
+      })
+      .on('pointerover', () => {
+        
+      })
+      .on('pointerout', () => {
+        
+      });
+      var text0 = this.add.text(this.cameras.main.centerX - 90, 393, '0')
+          .setStyle({
+            fontFamily: 'Times', 
+            fontStyle: 'italic', 
+            fontSize: '36px', 
+            fill: '#800101',
+          });
+      this.add.text(this.cameras.main.centerX - 45, 395, 'Sin tiempo')
+          .setStyle({
+            fontFamily: 'Times', 
+            fontStyle: 'italic', 
+            fontSize: '28px', 
+            fill: '#000',
+          });
+
+      //15 segundos
+      var quinceSeg = this.add.image(this.cameras.main.centerX - 80, 510, 'botontemp15')
+      .setInteractive({
+        useHandCursor: true
+       })
+      .on('pointerdown', () => {
+        this.temporizador = 15;
+        console.log(this.temporizador)
+        quinceSeg.disableInteractive();
+        ceroSeg.setInteractive();
+        treintaSeg.setInteractive();
+        
+      })
+      .on('pointerover', () => {
+        
+      })
+      .on('pointerout', () => {
+        
+      });
+      this.add.text(this.cameras.main.centerX - 100, 493, '15')
+          .setStyle({
+            fontFamily: 'Times', 
+            fontStyle: 'italic', 
+            fontSize: '36px', 
+            fill: '#015B80',
+          });
+      this.add.text(this.cameras.main.centerX - 45, 495, '15 segundos')
+          .setStyle({
+            fontFamily: 'Times', 
+            fontStyle: 'italic', 
+            fontSize: '28px', 
+            fill: '#000',
+          });
+
+
+      //30 segundos
+      var treintaSeg = this.add.image(this.cameras.main.centerX - 80, 610, 'botontemp30')
+      .setInteractive({
+        useHandCursor: true
+       })
+      .on('pointerdown', () => {
+        this.temporizador = 30
+        console.log(this.temporizador)
+        treintaSeg.disableInteractive();
+        ceroSeg.setInteractive();
+        quinceSeg.setInteractive();
+      })
+      .on('pointerover', () => {
+        
+      })
+      .on('pointerout', () => {
+        
+      });
+      this.add.text(this.cameras.main.centerX - 100, 593, '30')
+          .setStyle({
+            fontFamily: 'Times', 
+            fontStyle: 'italic', 
+            fontSize: '36px', 
+            fill: '#610180',
+          });
+      this.add.text(this.cameras.main.centerX - 45, 595, '30 segundos')
+          .setStyle({
+            fontFamily: 'Times', 
+            fontStyle: 'italic', 
+            fontSize: '28px', 
+            fill: '#000',
+          });
 
 
       //banderin volumen
