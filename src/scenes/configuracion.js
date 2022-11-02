@@ -1,30 +1,42 @@
 import Phaser from 'phaser'
-var sonidogeneral = 10;
-var volumenmusica = 1;
+import Sonido from "../clases/Sonido.js";
 
 
 export class Configuracion extends Phaser.Scene {
 
+  //banderin sonidos
+  sonido;
+  sonidoboolean;
+  volumenX = 400;
+  volumenX2 = 400;
+  musicamainmenu;
 
+  //sonidos
+  sonidobotones1;
+  sonidobotones3;
+  //banderin temporizador
   temporizador
 
     constructor() {
       // Se asigna una key para despues poder llamar a la escena
       super("Configuracion");
     }
+
+    init(data) {
+      this.temporizador = data.temporizador;
+      this.sonido = data.sonido;
+      this.musicamainmenu = data.musicamainmenu;
+      this.sonidosgenerales = data.sonidosgenerales;
+    }
   
     create() {
 
+      console.log('sonido', this.sonido.volumenGeneral)
       //sonidos
 
-      //botones
-      var sonidobotones1;
-      var sonidobotones3;
+      
 
-      sonidobotones1 = this.sound.add('sonidobotones1');
-      sonidobotones1.setVolume(0.3);
-      sonidobotones3 = this.sound.add('sonidobotones3');
-      sonidobotones3.setVolume(1);
+      
 
       //fondo
       this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'fondo_menu').setScale(1);
@@ -34,23 +46,35 @@ export class Configuracion extends Phaser.Scene {
       .setAlpha(0.5);
 
       //boton
-      var botonvolver;
-
-      botonvolver = this.add.image(250, 1000, 'volver')
+      var botonvolver = this.add
+      .image(250, 1000, "boton").setFlip(true, false)
       .setInteractive({
-        useHandCursor: true
-       })
-      .on('pointerdown', () => {
-        sonidobotones3.play()
-        this.scene.start("MainMenu", { temporizador: this.temporizador })
+        useHandCursor: true,
       })
-      .on('pointerover', () => {
-        sonidobotones1.play()
-        botonvolver.setScale(1.1)
+      .on("pointerdown", () => {
+        this.sonidosgenerales[2].play();
+        this.scene.start("MainMenu", 
+        {temporizador: this.temporizador, 
+          sonido: this.sonido, 
+          sonidoboolean: this.sonidoboolean, 
+          musicamainmenu: this.musicamainmenu,
+          sonidosgenerales: this.sonidosgenerales
+        });
       })
-      .on('pointerout', () => {
-        botonvolver.setScale(1)
+      .on("pointerover", () => {
+        this.sonidosgenerales[0].play();
+        botonvolver.setScale(1.1);
+        textovolver.setStyle({color: '#fff'});
+      })
+      .on("pointerout", () => {
+        botonvolver.setScale(1);
+        textovolver.setStyle({color: '#000'});
       });
+      var textovolver = this.add.text(175, 968, "Volver", {
+        fontFamily: "Garamond",
+        fontSize: "60px",
+        color: "#000",
+        });
   
       
 
@@ -177,22 +201,87 @@ export class Configuracion extends Phaser.Scene {
 
       this.add.image(this.cameras.main.centerX/3, this.cameras.main.centerY, 'banderinvolumen').setScale(1);
 
-      this.add.image(330, 300, 'barrasonido').setScale(0.4);
+  
+      
 
+      //sonido general del juego
+      
+      this.add.image(330, 650, 'barrasonido').setScale(0.4);
+      
+      this.add.text(240, 500, 'Volumen sonidos')
+          .setStyle({
+            fontFamily: 'Times', 
+            fontStyle: 'italic', 
+            fontSize: '28px', 
+            fill: '#000',
+          });
+      
 
-      //botones subir y bajar volumen
-
-      this.add.image(200, 300, 'flechasonidoizq').setScale(0.3)
+      var desmutesonidos = this.add.image(280, 580, 'botontemp30')
       .setInteractive({
         useHandCursor: true
        })
       .on('pointerdown', () => {
         
-        if (sonidogeneral === 0){
+        this.sonidosgenerales.forEach(element => {
+          
+          element.setMute(false);
+        });
+
+      })
+      .on('pointerover', () => {
+        
+      })
+      .on('pointerout', () => {
+        
+      });
+
+      var mutesonidos = this.add.image(380, 580, 'botontemp30')
+      .setInteractive({
+        useHandCursor: true
+       })
+      .on('pointerdown', () => {
+        
+        this.sonidosgenerales.forEach(element => {
+          
+          element.setMute(true);
+        });
+
+      })
+      .on('pointerover', () => {
+        
+      })
+      .on('pointerout', () => {
+        
+      });
+
+      
+      var imagenvolumen = this.add.image(this.volumenX, 650, 'botontemp30')
+
+      
+
+      this.add.image(200, 650, 'flechasonidoizq').setScale(0.3)
+      .setInteractive({
+        useHandCursor: true
+       })
+      .on('pointerdown', () => {
+        
+        if (this.sonido.volumenGeneral === 10){
 
         }else {
-          sonidogeneral = sonidogeneral - 1
-          console.log(sonidogeneral)
+          this.sonido.volumenGeneral = this.sonido.volumenGeneral + 1
+          this.sonidosgenerales[0].setVolume(0.3 / this.sonido.volumenGeneral);
+          this.sonidosgenerales[0].play();
+          console.log('sonido', this.sonido.volumenGeneral)
+          this.tweens.add({
+            targets: imagenvolumen,
+            duration: 300,
+            x:  this.volumenX - 16.6,
+            ease: "Power3",
+            repeat: 0,
+            yoyo: false,
+          });
+          this.volumenX = this.volumenX - 16.6
         }
       })
       .on('pointerover', () => {
@@ -203,17 +292,28 @@ export class Configuracion extends Phaser.Scene {
       });
 
 
-      this.add.image(450, 300, 'flechasonidoder').setScale(0.3)
+      this.add.image(450, 650, 'flechasonidoder').setScale(0.3)
       .setInteractive({
         useHandCursor: true
        })
       .on('pointerdown', () => {
 
-        if (sonidogeneral === 10){
+        if (this.sonido.volumenGeneral === 1){
 
         }else {
-          sonidogeneral = sonidogeneral + 1
-          console.log(sonidogeneral)
+          this.sonido.volumenGeneral = this.sonido.volumenGeneral - 1
+          this.sonidosgenerales[0].setVolume(0.3 / this.sonido.volumenGeneral);
+          this.sonidosgenerales[0].play();
+          console.log('sonido', this.sonido.volumenGeneral)
+          this.tweens.add({
+            targets: imagenvolumen,
+            duration: 300,
+            x:  this.volumenX + 16.6,
+            ease: "Power3",
+            repeat: 0,
+            yoyo: false,
+          });
+          this.volumenX = this.volumenX + 16.6
         } 
       })
       .on('pointerover', () => {
@@ -222,24 +322,124 @@ export class Configuracion extends Phaser.Scene {
       .on('pointerout', () => {
         
       });
-     
 
+      
+      //musica del juego
 
-     var scope; 
-     var botonsonido10 = this.add.image(415, 300, 'barrasonido1').setScale(0.4)
-     .setInteractive({ draggable: true, useHandCursor: true })
-     .on('dragstart', function(pointer, dragX, dragY){
-         // ...
-     }, scope)
-     .on('drag', function(pointer, dragX, dragY){
-      botonsonido10.setPosition(dragX, dragY);
-     }, scope)
-     .on('dragend', function(pointer, dragX, dragY, dropped){
-         // ...
-     }, scope);
+      var desmutemusica = this.add.image(280, 350, 'botontemp30')
+      .setInteractive({
+        useHandCursor: true
+       })
+      .on('pointerdown', () => {
+        
+        this.musicamainmenu.play()
+
+      })
+      .on('pointerover', () => {
+        
+      })
+      .on('pointerout', () => {
+        
+      });
+
+      var mutemusica = this.add.image(380, 350, 'botontemp30')
+      .setInteractive({
+        useHandCursor: true
+       })
+      .on('pointerdown', () => {
+        
+        this.musicamainmenu.stop()
+
+      })
+      .on('pointerover', () => {
+        
+      })
+      .on('pointerout', () => {
+        
+      });
+
+      this.add.image(330, 420, 'barrasonido').setScale(0.4);
+
+      this.add.text(240, 280, 'Volumen musica')
+          .setStyle({
+            fontFamily: 'Times', 
+            fontStyle: 'italic', 
+            fontSize: '28px', 
+            fill: '#000',
+          });
+
+      var imagenvolumen2 = this.add.image(this.volumenX2, 420, 'botontemp30')
 
       
 
+      this.add.image(200, 420, 'flechasonidoizq').setScale(0.3)
+      .setInteractive({
+        useHandCursor: true
+       })
+      .on('pointerdown', () => {
+        
+        if (this.sonido.volumenMusica === 10){
+
+        }else {
+          this.sonido.volumenMusica = this.sonido.volumenMusica + 1
+          this.musicamainmenu.pause();
+          this.musicamainmenu.setVolume(0.4 / this.sonido.volumenMusica);
+          this.musicamainmenu.resume();
+          this.tweens.add({
+            targets: imagenvolumen2,
+            duration: 300,
+            x:  this.volumenX2 - 16.6,
+            ease: "Power3",
+            repeat: 0,
+            yoyo: false,
+          });
+          this.volumenX2 = this.volumenX2 - 16.6
+        }
+      })
+      .on('pointerover', () => {
+        
+      })
+      .on('pointerout', () => {
+        
+      });
+
+
+      this.add.image(450, 420, 'flechasonidoder').setScale(0.3)
+      .setInteractive({
+        useHandCursor: true
+       })
+      .on('pointerdown', () => {
+
+        if (this.sonido.volumenMusica === 1){
+
+        }else {
+          this.sonido.volumenMusica = this.sonido.volumenMusica - 1
+          this.musicamainmenu.pause();
+          this.musicamainmenu.setVolume(0.4 / this.sonido.volumenMusica);
+          this.musicamainmenu.resume();
+          this.tweens.add({
+            targets: imagenvolumen2,
+            duration: 300,
+            x:  this.volumenX2 + 16.6,
+            ease: "Power3",
+            repeat: 0,
+            yoyo: false,
+          });
+          this.volumenX2 = this.volumenX2 + 16.6
+        } 
+      })
+      .on('pointerover', () => {
+       
+      })
+      .on('pointerout', () => {
+        
+      });
+
+    }
+
+    update(){
+      this.sonidosgenerales[0].setVolume(0.3 / this.sonido.volumenGeneral);
+      this.sonidosgenerales[2].setVolume(1 / this.sonido.volumenGeneral);
     }
 
   }

@@ -1,22 +1,22 @@
 import Phaser from "phaser";
-import Boton from "../clases/boton.js";
 export class Instrucciones extends Phaser.Scene {
   constructor() {
     // Se asigna una key para despues poder llamar a la escena
     super("Instrucciones");
   }
 
+  init(data) {
+    this.sonido = data.sonido;
+    this.sonidosgenerales = data.sonidosgenerales;
+    this.musicamainmenu = data.musicamainmenu;
+  }
+
   create() {
     //sonidos
 
     //botones
-    var sonidobotones1;
-    var sonidobotones3;
-
-    sonidobotones1 = this.sound.add("sonidobotones1");
-    sonidobotones1.setVolume(0.3);
-    sonidobotones3 = this.sound.add("sonidobotones3");
-    sonidobotones3.setVolume(1);
+    this.sonidosgenerales[0].setVolume(0.3 / this.sonido.volumenGeneral)
+    this.sonidosgenerales[2].setVolume(1 / this.sonido.volumenGeneral)
 
     //escena
     this.add
@@ -60,61 +60,66 @@ export class Instrucciones extends Phaser.Scene {
       color: "#000",
     })
 
-    this.add.text(this.cameras.main.centerX + 125, this.cameras.main.centerY - 230, "Retroceso: al caer en esta casilla,\n el jugador deberá retroceder dos\n lugares", {
+    this.add.text(this.cameras.main.centerX + 125, this.cameras.main.centerY - 220, "Casilla Retroceso: el jugador deberá\n retroceder dos casillas", {
       fontFamily: "MV Boli",
       fontSize: "22px",
       color: "#000",
     })
 
-    this.add.text(this.cameras.main.centerX + 125, this.cameras.main.centerY - 135, "Avance: al caer en esta casilla,\n el jugador avanzará la cantidad de\n casillas indicadas en la ruleta", {
+    this.add.text(this.cameras.main.centerX + 125, this.cameras.main.centerY - 135, "Casilla Avance: el jugador avanzará la\n cantidad de casillas indicadas\n en la ruleta", {
       fontFamily: "MV Boli",
       fontSize: "22px",
       color: "#000",
     })
 
-    this.add.text(this.cameras.main.centerX + 125, this.cameras.main.centerY - 40, "Monedas gratis: al caer en esta\n casilla, el jugador obtendrá una\n cantidad determinada de monedas", {
+    this.add.text(this.cameras.main.centerX + 125, this.cameras.main.centerY - 30, "Casilla Monedas: el jugador obtendrá una\n cantidad determinada de monedas", {
       fontFamily: "MV Boli",
       fontSize: "22px",
       color: "#000",
     })
 
-    this.add.text(this.cameras.main.centerX + 125, this.cameras.main.centerY + 50, "Pierde turno: como indica su nombre,\n el jugador que caiga en esta casilla\n perderá un turno al dado", {
+    this.add.text(this.cameras.main.centerX + 125, this.cameras.main.centerY + 45, "Casilla Pierde turno: el jugador que caiga\n en esta casilla perderá dos turnos\n en el juego", {
       fontFamily: "MV Boli",
       fontSize: "22px",
       color: "#000",
     })
 
-    this.add.text(this.cameras.main.centerX + 125, this.cameras.main.centerY + 135, "Trivia: el jugador que caiga en esta\n casilla deberá responder una pregunta,\n si lo hace de forma correcta ganará\n monedas", {
+    this.add.text(this.cameras.main.centerX + 125, this.cameras.main.centerY + 140, "Casilla Trivia: el jugador deberá responder\n una pregunta, si lo hace de forma\n correcta ganará monedas", {
       fontFamily: "MV Boli",
       fontSize: "22px",
       color: "#000",
     })
+
+
+
     //boton
 
-    var botonvolver;
-
-    botonvolver = this.add
-      .image(250, 1000, "volver")
+    var botonvolver = this.add
+      .image(250, 1000, "boton").setFlip(true, false)
       .setInteractive({
         useHandCursor: true,
       })
       .on("pointerdown", () => {
-        sonidobotones3.play();
-        this.scene.start("MainMenu");
+        this.sonidosgenerales[2].play();
+        this.scene.start("MainMenu", { 
+          sonido: this.sonido,  
+          musicamainmenu: this.musicamainmenu,
+          sonidosgenerales: this.sonidosgenerales
+        });
       })
       .on("pointerover", () => {
-        sonidobotones1.play();
+        this.sonidosgenerales[0].play();
         botonvolver.setScale(1.1);
-        textojugar.setScale(1.1);
+        textovolver.setStyle({color: '#fff'});
       })
       .on("pointerout", () => {
         botonvolver.setScale(1);
-        textojugar.setScale(1);
+        textovolver.setStyle({color: '#000'});
       });
-    var textojugar = this.add.text(200, 950, "Volver", {
-      fontFamily: "Papyrus",
-      fontSize: "64px",
-      color: "#000",
-    })
+      var textovolver = this.add.text(175, 968, "Volver", {
+        fontFamily: "Garamond",
+        fontSize: "60px",
+        color: "#000",
+        });
   }
 }

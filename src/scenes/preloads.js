@@ -17,7 +17,9 @@ export class Preloads extends Phaser.Scene {
       this.players = data.players; 
       this.CantidadJugadores = data.CantidadJugadores;
       this.temporizador = data.temporizador;
-      
+      this.sonido = data.sonido;
+      this.sonidosgenerales = data.sonidosgenerales;
+      this.musicamainmenu = data.musicamainmenu;
     }
 
     
@@ -113,21 +115,6 @@ export class Preloads extends Phaser.Scene {
     
     //final
     this.load.image("resultado", "assets/images/fin_del_juego.png");
-    
-
-    //sonidos
-    
-    //ruleta
-    this.load.audio("ruleta-sonido","assets/sounds/SFX/ruletafinal.mp3");
-    
-    //popup pregunta
-    this.load.audio("monedaayuda","assets/sounds/SFX/monedaayuda.wav");
-    this.load.audio("respuestaincorrecta","assets/sounds/SFX/respuestaincorrecta.mp3");
-    this.load.audio("respuestacorrecta","assets/sounds/SFX/respuestacorrecta.wav");
-    //carteles
-    this.load.audio("sonido-cartelbosque","assets/sounds/SFX/cartel-bosque.wav");
-    //casillas
-    this.load.audio("sonidocasillamonedas","assets/sounds/SFX/casillamonedas.mp3");
   
     }
   
@@ -158,7 +145,10 @@ export class Preloads extends Phaser.Scene {
           "Game",
           { players: this.players,
             CantidadJugadores: this.CantidadJugadores,
-            temporizador: this.temporizador
+            temporizador: this.temporizador,
+            sonido: this.sonido,  
+            musicamainmenu: this.musicamainmenu,
+            sonidosgenerales: this.sonidosgenerales
           })
 
       }, 4000)

@@ -1,6 +1,11 @@
 import Phaser from 'phaser'
+import Sonido from "../clases/Sonido";
 
 export class PreloadsMenu extends Phaser.Scene {
+
+  sonido;
+  sonidosgenerales = [];
+
     constructor() {
       
       super("PreloadsMenu");
@@ -60,8 +65,8 @@ export class PreloadsMenu extends Phaser.Scene {
 
       //botones
 
-      this.load.image("volver", "assets/images/boton_volver.png");
-      this.load.image("jugar", "assets/images/boton_jugar.png");
+      
+      this.load.image("boton", "assets/images/boton_jugar.png");
       this.load.image("jugargris", "assets/images/boton_jugar_gris.png");
 
 
@@ -105,27 +110,63 @@ export class PreloadsMenu extends Phaser.Scene {
 
       //SFX
 
+      //sonidos generales juego
+
       this.load.audio("sonidobotones1", "assets/sounds/SFX/sonidobotones1.wav");
       this.load.audio("sonidobotones2", "assets/sounds/SFX/sonidobotones2.mp3");
       this.load.audio("sonidobotones3", "assets/sounds/SFX/sonidobotones3.mp3");
-      this.load.audio("caraspersonajes", "assets/sounds/SFX/caraspersonajes.wav");
+      this.load.audio("selpersonajes", "assets/sounds/SFX/caraspersonajes.wav");
+
+      //sonidos gameplay
+    
+      //ruleta
+      this.load.audio("ruleta-sonido","assets/sounds/SFX/ruletafinal.mp3");
+    
+      //popup pregunta
+      this.load.audio("monedaayuda","assets/sounds/SFX/monedaayuda.wav");
+      this.load.audio("respuestaincorrecta","assets/sounds/SFX/respuestaincorrecta.mp3");
+      this.load.audio("respuestacorrecta","assets/sounds/SFX/respuestacorrecta.wav");
+      //carteles
+      this.load.audio("sonido-cartelbosque","assets/sounds/SFX/cartel-bosque.wav");
+      //casillas
+      this.load.audio("sonidocasillamonedas","assets/sounds/SFX/casillamonedas.mp3");
  
     }
   
     create() {
 
+      this.sonido = new Sonido();
+
       this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'transparencia').setScale(1)
 
       this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'logo').setScale(1);
 
+
+     
+      var sonidobotones1 = this.sound.add("sonidobotones1",{
+      volume: 0.3 / this.sonido.volumenGeneral,
+      });
+      var sonidobotones2 = this.sound.add("sonidobotones2",{
+      volume: 1 / this.sonido.volumenGeneral,
+      });
+      var sonidobotones3 = this.sound.add("sonidobotones3",{
+        volume: 1 / this.sonido.volumenGeneral,
+      });
+      var selpersonajes = this.sound.add('selpersonajes',{
+        volume: 0.1 / this.sonido.volumenGeneral,
+      });
+      
+
+      this.sonidosgenerales.push(sonidobotones1);
+      this.sonidosgenerales.push(sonidobotones2);
+      this.sonidosgenerales.push(sonidobotones3);
+      this.sonidosgenerales.push(selpersonajes);
+
+
+
+
       setTimeout(() => {
-
-
-        this.scene.start("MainMenu");
-
-
-
-
+        this.scene.start("MainMenu", {sonido: this.sonido, sonidosgenerales: this.sonidosgenerales});
       }, 2000)
        
     }

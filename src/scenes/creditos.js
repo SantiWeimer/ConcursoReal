@@ -6,19 +6,19 @@ export class Creditos extends Phaser.Scene {
       super("Creditos");
     }
 
+    init(data) {
+      this.sonido = data.sonido;
+      this.sonidosgenerales = data.sonidosgenerales;
+      this.musicamainmenu = data.musicamainmenu;
+    }
   
     create() {
 
       //sonidos
 
       //botones
-      var sonidobotones1;
-      var sonidobotones3;
-
-      sonidobotones1 = this.sound.add('sonidobotones1');
-      sonidobotones1.setVolume(0.3);
-      sonidobotones3 = this.sound.add('sonidobotones3');
-      sonidobotones3.setVolume(1);
+      this.sonidosgenerales[0].setVolume(0.3 / this.sonido.volumenGeneral)
+      this.sonidosgenerales[2].setVolume(1 / this.sonido.volumenGeneral)
 
 
       //fondo
@@ -39,24 +39,33 @@ export class Creditos extends Phaser.Scene {
       this.add.image(1600, this.cameras.main.centerY, 'cartel_santi').setScale(0.9);
 
       //boton
-      var botonvolver;
-
-      botonvolver = this.add.image(250, 1000, 'volver')
+      var botonvolver = this.add
+      .image(250, 1000, "boton").setFlip(true, false)
       .setInteractive({
-        useHandCursor: true
-       })
-      .on('pointerdown', () => {
-        sonidobotones3.play()
-        this.scene.start("MainMenu");
-        
+        useHandCursor: true,
       })
-      .on('pointerover', () => {
-        sonidobotones1.play()
-        botonvolver.setScale(1.1)
+      .on("pointerdown", () => {
+        this.sonidosgenerales[2].play();
+        this.scene.start("MainMenu",{
+          sonido: this.sonido,  
+          musicamainmenu: this.musicamainmenu,
+          sonidosgenerales: this.sonidosgenerales
+        });
       })
-      .on('pointerout', () => {
-        botonvolver.setScale(1)
+      .on("pointerover", () => {
+        this.sonidosgenerales[0].play();
+        botonvolver.setScale(1.1);
+        textovolver.setStyle({color: '#fff'});
+      })
+      .on("pointerout", () => {
+        botonvolver.setScale(1);
+        textovolver.setStyle({color: '#000'});
       });
+      var textovolver = this.add.text(175, 968, "Volver", {
+        fontFamily: "Garamond",
+        fontSize: "60px",
+        color: "#000",
+        });
 
 
       

@@ -79,6 +79,9 @@ export class Game extends Phaser.Scene {
     this.players = data.players;
     this.CantidadJugadores = data.CantidadJugadores;
     this.temporizador = data.temporizador;
+    this.sonido = data.sonido;
+    this.sonidosgenerales = data.sonidosgenerales;
+    this.musicamainmenu = data.musicamainmenu;
   }
 
   create() {
@@ -1213,6 +1216,10 @@ export class Game extends Phaser.Scene {
         this.scene.start("Resultado", {
           CantidadJugadores: this.CantidadJugadores,
           players: this.players,
+          temporizador: this.temporizador,
+          sonido: this.sonido,  
+          musicamainmenu: this.musicamainmenu,
+          sonidosgenerales: this.sonidosgenerales
         });
       }, 500);
     } else {

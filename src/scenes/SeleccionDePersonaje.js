@@ -11,9 +11,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
   //boton
   botonjugar;
-  sonidobotones1;
-  sonidobotones2;
-  sonidobotones3;
+  textojugar;
 
   //seleccion de jugadores
   players;
@@ -48,6 +46,9 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
     init(data) {
       this.temporizador = data.temporizador;
+      this.sonido = data.sonido;
+      this.sonidosgenerales = data.sonidosgenerales;
+      this.musicamainmenu = data.musicamainmenu;
     }
   
     
@@ -57,15 +58,12 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       //
       //sonidos
 
-      var caraspersonajes;
 
-      this.sonidobotones1 = this.sound.add('sonidobotones1');
-      this.sonidobotones1.setVolume(0.3);
-      this.sonidobotones2 = this.sound.add('sonidobotones2');
-      this.sonidobotones2
-      this.sonidobotones3 = this.sound.add('sonidobotones3');
-      caraspersonajes = this.sound.add('caraspersonajes');
-      caraspersonajes.setVolume(0.1);
+      this.sonidosgenerales[0].setVolume(0.3 / this.sonido.volumenGeneral)
+      this.sonidosgenerales[1].setVolume(1 / this.sonido.volumenGeneral)
+      this.sonidosgenerales[2].setVolume(1 / this.sonido.volumenGeneral)
+      this.sonidosgenerales[3].setVolume(0.1 / this.sonido.volumenGeneral)
+
 
       //
       //
@@ -79,17 +77,17 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
       //botones
 
-      var botonvolver;
+      
 
       
-      botonvolver = this.add.image(250, 1000, 'volver')
+      var botonvolver = this.add.image(250, 1000, 'boton')
       .setInteractive({
         useHandCursor: true
-       })
+       }).setFlip(true, false)
       .on('pointerdown', () => {
 
         if (this.ContadorInteraccion === 1){
-          this.sonidobotones3.play()
+          this.sonidosgenerales[2].play()
           this.scene.start("MainMenu");
 
           //funcion reseteadora
@@ -97,21 +95,34 @@ export class SeleccionDePersonaje extends Phaser.Scene {
            
         }
 
-        })
-        .on('pointerover', () => {
+      })
+      .on('pointerover', () => {
           if (this.ContadorInteraccion === 1){
-            this.sonidobotones1.play()
-          botonvolver.setScale(1.1)
+            this.sonidosgenerales[0].play()
+          botonvolver.setScale(1.1);
+          textovolver.setStyle({color: '#fff'});
           
           }
         
-        })
-        .on('pointerout', () => {
-          botonvolver.setScale(1)
-        });
+      })
+      .on('pointerout', () => {
+          botonvolver.setScale(1);
+          textovolver.setStyle({color: '#000'});
+      });
+
+      var textovolver = this.add.text(175, 968, "Volver", {
+      fontFamily: "Garamond",
+      fontSize: "60px",
+      color: "#000",
+      });
       
 
       var botonjugargris = this.add.image(1650, 1000, 'jugargris').setScale(1)
+      this.textojugar = this.add.text(1570, 960, "Jugar", {
+        fontFamily: "Garamond",
+        fontSize: "64px",
+        color: "#000",
+        });
 
 
 
@@ -517,12 +528,12 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       .on('pointerover', () => {
         
         popupseleccion2.setTexture('botonseleccion2')
-        textDosJug.setStyle({ fill: '#999999'})
+        textDosJug.setStyle({ fill: '#fff'})
       })
       .on('pointerout', () => {
         
         popupseleccion2.setTexture('botonseleccion1')
-        textDosJug.setStyle({ fill: '#ffffff'})
+        textDosJug.setStyle({ fill: '#000'})
       });
 
 
@@ -556,12 +567,12 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       .on('pointerover', () => {
         
         popupseleccion3.setTexture('botonseleccion2')
-        textTresJug.setStyle({ fill: '#999999'})
+        textTresJug.setStyle({ fill: '#fff'})
       })
       .on('pointerout', () => {
         
         popupseleccion3.setTexture('botonseleccion1')
-        textTresJug.setStyle({ fill: '#ffffff'})
+        textTresJug.setStyle({ fill: '#000'})
       });
 
 
@@ -595,12 +606,12 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       .on('pointerover', () => {
         
         popupseleccion4.setTexture('botonseleccion2')
-        textCuatroJug.setStyle({ fill: '#999999'})
+        textCuatroJug.setStyle({ fill: '#fff'})
       })
       .on('pointerout', () => {
         
         popupseleccion4.setTexture('botonseleccion1')
-        textCuatroJug.setStyle({ fill: '#ffffff'})
+        textCuatroJug.setStyle({ fill: '#000'})
       });
 
     var textJugadores = this.add.text(790, 360, 'Elegir un número\n de jugadores')
@@ -608,7 +619,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fontFamily: 'Ink Free', 
             fontStyle: 'italic', 
             fontSize: '50px', 
-            fill: '#ffffff',
+            fill: '#000',
           }).setAlpha(0.8);
 
 
@@ -617,7 +628,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fontFamily: 'Times', 
             fontStyle: 'italic', 
             fontSize: '48px', 
-            fill: '#FFFFFF',
+            fill: '#000',
           });
 
     var textTresJug = this.add.text(837, 600, '3 jugadores').setAlpha(0.8)
@@ -625,7 +636,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fontFamily: 'Times', 
             fontStyle: 'italic', 
             fontSize: '48px', 
-            fill: '#FFFFFF',
+            fill: '#000',
           });
           
     var textCuatroJug = this.add.text(837, 700, '4 jugadores').setAlpha(0.8)
@@ -633,7 +644,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fontFamily: 'Times', 
             fontStyle: 'italic', 
             fontSize: '48px', 
-            fill: '#FFFFFF',
+            fill: '#000',
           });
 
       }, 2000);
@@ -668,22 +679,22 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       if(this.numjugador === this.CantidadJugadores){
         if (this.ogroboolean === 0){
           this.add.image(250, this.cameras.main.centerY + 83, 'ogrobyn');
-          this.ogroAnimacion.removeInteractive();
+          this.ogroAnimacion.destroy();
         };
         if (this.princesaboolean === 0){
           this.add.image(750, this.cameras.main.centerY + 100, 'princesabyn');
-          this.princesaAnimacion.removeInteractive();
+          this.princesaAnimacion.destroy();
         };
         if (this.bardoboolean === 0){
           this.add.image(1680, this.cameras.main.centerY + 93, 'bardobyn');
-          this.bardoAnimacion.removeInteractive();
+          this.bardoAnimacion.destroy();
         };
         if (this.hechiceroboolean === 0){
           this.add.image(1222, 610, 'hechicerobyn');
-          this.hechiceroAnimacion.removeInteractive();
+          this.hechiceroAnimacion.destroy();
         };
 
-        this.botonjugar = this.add.image(1650, 1000, 'jugar')
+        this.botonjugar = this.add.image(1650, 1000, 'boton')
         .setInteractive({
         useHandCursor: true
         })
@@ -691,13 +702,17 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
         if (this.ContadorInteraccion === 1){
           
-          this.sonidobotones2.play()
+          this.sonidosgenerales[1].play()
           this.scene.start("Preloads", 
           {players: this.players,
           CantidadJugadores: this.CantidadJugadores,
-          temporizador: this.temporizador
+          temporizador: this.temporizador,
+          sonido: this.sonido,  
+          musicamainmenu: this.musicamainmenu,
+          sonidosgenerales: this.sonidosgenerales
           })
           this.botonjugar.destroy(); 
+          this.textojugar.destroy();
           //reseteos de variables
           this.ContadorInteraccion = (this.ContadorInteraccion - this.ContadorInteraccion);
           this.ogronum = 0;
@@ -709,14 +724,23 @@ export class SeleccionDePersonaje extends Phaser.Scene {
         })
         .on('pointerover', () => {
           if (this.ContadorInteraccion === 1){
-            this.sonidobotones1.play()
-            this.botonjugar.setScale(1.2)
-          
+            this.sonidosgenerales[0].play();
+            this.botonjugar.setScale(1.2);
+            this.textojugar.setStyle({color: '#fff'});
           }
         
         })
         .on('pointerout', () => {
-          this.botonjugar.setScale(1)
+          this.botonjugar.setScale(1);
+          this.textojugar.setStyle({color: '#000'});
+        });
+
+        this.textojugar.destroy();
+
+        this.textojugar = this.add.text(1570, 960, "Jugar", {
+          fontFamily: "Garamond",
+          fontSize: "64px",
+          color: "#000",
         });
 
       }

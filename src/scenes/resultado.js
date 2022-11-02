@@ -10,8 +10,12 @@ export class Resultado extends Phaser.Scene {
     }
 
     init(data) {
-      players = data.players;
-      CantidadJugadores = data.CantidadJugadores;
+      this.players = data.players;
+      this.CantidadJugadores = data.CantidadJugadores;
+      this.temporizador = data.temporizador;
+      this.sonido = data.sonido;
+      this.sonidosgenerales = data.sonidosgenerales;
+      this.musicamainmenu = data.musicamainmenu;
     }
   
     create() {
@@ -171,7 +175,12 @@ export class Resultado extends Phaser.Scene {
       })
       .on('pointerdown', () => {
       sonidobotones3.play()
-      this.scene.start("MainMenu");
+      this.scene.start("MainMenu", {
+        temporizador: this.temporizador,
+        sonido: this.sonido,  
+        musicamainmenu: this.musicamainmenu,
+        sonidosgenerales: this.sonidosgenerales
+      });
   
       CantidadJugadores = CantidadJugadores - CantidadJugadores;
   
