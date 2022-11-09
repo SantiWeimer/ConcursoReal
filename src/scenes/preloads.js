@@ -6,6 +6,7 @@ export class Preloads extends Phaser.Scene {
   players;
   CantidadJugadores;
   temporizador;
+
     constructor() {
       // Se asigna una key para despues poder llamar a la escena
       super("Preloads");
@@ -20,12 +21,18 @@ export class Preloads extends Phaser.Scene {
       this.sonido = data.sonido;
       this.sonidosgenerales = data.sonidosgenerales;
       this.musicamainmenu = data.musicamainmenu;
+      this.idioma = data.idioma;
+      this.preloadboolean = data.preloadboolean;
     }
 
     
     preload() {
-  
-     //ruleta
+
+    
+    console.log(this.preloadboolean)
+    if(this.preloadboolean === false){
+      this.preloadboolean = true;
+       //ruleta
     this.load.image("ruletaimagen", "assets/images/ruleta.png");
     this.load.image("ruleta_resplandor", "assets/images/ruleta_resplandor.png");
     this.load.image("agujaruleta", "assets/images/agujaruleta.png");
@@ -44,6 +51,7 @@ export class Preloads extends Phaser.Scene {
     this.load.image("casilla_pantano_moneda_X", "assets/images/casilla_pantano_moneda_X.jpg");
     this.load.image("casilla_pantano_moneda_Y", "assets/images/casilla_pantano_moneda_Y.jpg");
     this.load.image("casilla_pantano_esquina", "assets/images/casilla_pantano_esquina.jpg");
+    this.load.image("casilla_pantano_pierde_turno_esquina", "assets/images/casilla_pantano_pierde_turno_esquina.jpg");
     this.load.image("troncos_pantano", "assets/images/troncos_pantano.png");
     //bosque
     this.load.image("casilla_bosque_comun", "assets/images/casilla_bosque_comun.jpg");
@@ -52,9 +60,12 @@ export class Preloads extends Phaser.Scene {
     this.load.image("casilla_bosque_pregunta_X", "assets/images/casilla_bosque_pregunta_X.jpg");
     this.load.image("casilla_bosque_pregunta_Y", "assets/images/casilla_bosque_pregunta_Y.jpg");
     this.load.image("casilla_bosque_avanzar", "assets/images/casilla_bosque_avanzar.jpg");
+    this.load.image("casilla_bosque_avanzar_esquina", "assets/images/casilla_bosque_avanzar_esquina.jpg");
     this.load.image("casilla_bosque_moneda_X", "assets/images/casilla_bosque_moneda_X.jpg");
     this.load.image("casilla_bosque_moneda_Y", "assets/images/casilla_bosque_moneda_Y.jpg");
+    this.load.image("casilla_bosque_moneda_esquina", "assets/images/casilla_bosque_moneda_esquina.jpg");
     this.load.image("casilla_bosque_esquina", "assets/images/casilla_bosque_esquina.jpg");
+    
     //aldea
     this.load.image("casilla_aldea_comun", "assets/images/casilla_aldea_comun.jpg");
     this.load.image("casilla_aldea_pierde_turno", "assets/images/casilla_aldea_pierde_turno.jpg");
@@ -65,7 +76,10 @@ export class Preloads extends Phaser.Scene {
     this.load.image("casilla_aldea_moneda_X", "assets/images/casilla_aldea_moneda_X.jpg");
     this.load.image("casilla_aldea_moneda_Y", "assets/images/casilla_aldea_moneda_Y.jpg");
     this.load.image("casilla_aldea_esquina", "assets/images/casilla_aldea_esquina.jpg");
-    //aldea
+    this.load.image("casilla_aldea_moneda_esquina", "assets/images/casilla_aldea_moneda_esquina.jpg");
+    this.load.image("casilla_aldea_pierde_turno_esquina", "assets/images/casilla_aldea_pierde_turno_esquina.jpg");
+
+    //castillo
     this.load.image("casilla_castillo_comun", "assets/images/casilla_castillo_comun.jpg");
     this.load.image("casilla_castillo_pierde_turno", "assets/images/casilla_castillo_pierde_turno.jpg");
     this.load.image("casilla_castillo_volver", "assets/images/casilla_castillo_volver.jpg");
@@ -75,8 +89,9 @@ export class Preloads extends Phaser.Scene {
     this.load.image("casilla_castillo_moneda_X", "assets/images/casilla_castillo_moneda_X.jpg");
     this.load.image("casilla_castillo_moneda_Y", "assets/images/casilla_castillo_moneda_Y.jpg");
     this.load.image("casilla_castillo_esquina", "assets/images/casilla_castillo_esquina.jpg");
-
-   
+    this.load.image("casilla_castillo_esquina_pierde_turno", "assets/images/casilla_castillo_esquina_pierde_turno.jpg");
+    this.load.image("casilla_castillo_esquina_volver", "assets/images/casilla_castillo_esquina_volver.jpg");
+    
     //personajes jugables
     this.load.spritesheet('ogrojuego', 'assets/images/ogro_spritesheet.png', { frameWidth: 125, frameHeight: 250 });
     this.load.image("princesajuego", "assets/images/princesa.png");
@@ -115,42 +130,46 @@ export class Preloads extends Phaser.Scene {
     
     //final
     this.load.image("resultado", "assets/images/fin_del_juego.png");
-  
+    this.load.image("resultadoingles", "assets/images/game_over.png");
+
+    this.load.on('progress', (e) => {
+
+      this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'preload').setScale(1);
+      this.monedacarga = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, 'monedacarga');
+      this.monedacarga.anims.create({
+        key: 'monedacarga',
+        frames: this.anims.generateFrameNumbers('monedacarga', { start: 0, end: 4 }),
+        frameRate: 0.5,
+        repeat: -1,
+        
+      });
+      this.monedacarga.anims.play('monedacarga', true);
+
+      console.log(e)
+    })
+
+    this.load.on('complete', () => {
+
+      setTimeout(() => {
+        console.log('completado')
+        this.scene.start(
+        "Game",
+        { players: this.players,
+          CantidadJugadores: this.CantidadJugadores,
+          temporizador: this.temporizador,
+          sonido: this.sonido,  
+          musicamainmenu: this.musicamainmenu,
+          sonidosgenerales: this.sonidosgenerales,
+          idioma: this.idioma,
+          preloadboolean: this.preloadboolean
+      })
+      }, 2000);
+      
+    })
+    }
+    
     }
   
     create() {
-  
-    this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'preload').setScale(1);
-
-  
-
-    var monedacarga = this.add.sprite(this.cameras.main.centerX, this.cameras.main.centerY, 'monedacarga');
-    
-
-    monedacarga.anims.create({
-      key: 'monedacarga',
-      frames: this.anims.generateFrameNumbers('monedacarga', { start: 0, end: 4 }),
-      frameRate: 2.5,
-      repeat: -1,
-      
-    });
-
-    monedacarga.anims.play('monedacarga', true);
-
-
-      setTimeout(() => {
-
-
-        this.scene.start(
-          "Game",
-          { players: this.players,
-            CantidadJugadores: this.CantidadJugadores,
-            temporizador: this.temporizador,
-            sonido: this.sonido,  
-            musicamainmenu: this.musicamainmenu,
-            sonidosgenerales: this.sonidosgenerales
-          })
-
-      }, 4000)
     }
   }

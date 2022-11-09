@@ -1,4 +1,6 @@
 import Phaser from 'phaser'
+import Boton from "../clases/Boton.js";
+import {getPhrase} from '../services/translations.js'
 
 export class Creditos extends Phaser.Scene {
     constructor() {
@@ -10,6 +12,8 @@ export class Creditos extends Phaser.Scene {
       this.sonido = data.sonido;
       this.sonidosgenerales = data.sonidosgenerales;
       this.musicamainmenu = data.musicamainmenu;
+      this.temporizador = data.temporizador;
+      this.idioma = data.idioma;
     }
   
     create() {
@@ -22,14 +26,13 @@ export class Creditos extends Phaser.Scene {
 
 
       //fondo
-      var trans;
       
       this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'fondo_menu')
       .setScale(1);
 
      
 
-      trans = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'transparencia').setScale(1)
+      this.trans = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'transparencia').setScale(1)
       .setAlpha(0.5);
       
 
@@ -38,9 +41,27 @@ export class Creditos extends Phaser.Scene {
       this.add.image(this.cameras.main.centerX/3, this.cameras.main.centerY, 'cartel_luci').setScale(0.9);
       this.add.image(1600, this.cameras.main.centerY, 'cartel_santi').setScale(0.9);
 
+      this.add.text(this.cameras.main.centerX, 240, getPhrase("SE BUSCA"), {
+        fontFamily: "Times",
+        fontSize: "72px",
+        color: "#000",
+      }).setOrigin(0.5);
+
+      this.add.text(this.cameras.main.centerX/3, 240, getPhrase("SE BUSCA"), {
+      fontFamily: "Times",
+      fontSize: "72px",
+      color: "#000",
+      }).setOrigin(0.5);
+
+      this.add.text(1600, 240, getPhrase("SE BUSCA"), {
+        fontFamily: "Times",
+        fontSize: "72px",
+        color: "#000",
+        }).setOrigin(0.5);
+
       //boton
-      var botonvolver = this.add
-      .image(250, 1000, "boton").setFlip(true, false)
+      this.botonvolver = new Boton(this, 250, 1000, "boton")
+      this.botonvolver.boton.setFlip(true, false)
       .setInteractive({
         useHandCursor: true,
       })
@@ -49,27 +70,58 @@ export class Creditos extends Phaser.Scene {
         this.scene.start("MainMenu",{
           sonido: this.sonido,  
           musicamainmenu: this.musicamainmenu,
-          sonidosgenerales: this.sonidosgenerales
+          sonidosgenerales: this.sonidosgenerales,
+          temporizador: this.temporizador,
+          idioma: this.idioma,
         });
       })
       .on("pointerover", () => {
         this.sonidosgenerales[0].play();
-        botonvolver.setScale(1.1);
-        textovolver.setStyle({color: '#fff'});
+        this.botonvolver.boton.setScale(1.1);
+        this.textovolver.setStyle({color: '#fff'});
       })
       .on("pointerout", () => {
-        botonvolver.setScale(1);
-        textovolver.setStyle({color: '#000'});
+        this.botonvolver.boton.setScale(1);
+        this.textovolver.setStyle({color: '#000'});
       });
-      var textovolver = this.add.text(175, 968, "Volver", {
+      this.textovolver = this.add.text(255, 998, getPhrase("Volver"), {
         fontFamily: "Garamond",
         fontSize: "60px",
         color: "#000",
-        });
+      }).setOrigin(0.5);
 
 
-      
+      //creditos musica
+
+      this.add.image(1800, 100, 'boton_musica')
+      .setInteractive({
+        useHandCursor: true,
+      })
+      .on("pointerover", () => {
+ 
+        this.botonmusicablanco.setVisible(true);
+        this.textomusicacreditos.setVisible(true);
+        this.textomusicacreditos2.setVisible(true);
+      })
+      .on("pointerout", () => {
+        this.botonmusicablanco.setVisible(false);
+        this.textomusicacreditos.setVisible(false);
+        this.textomusicacreditos2.setVisible(false);
+      });
 
 
+      this.botonmusicablanco = this.add.image(1800, 100, 'boton_musica_blanco').setVisible(false).setAlpha(0.5);
+
+      this.textomusicacreditos = this.add.text(this.cameras.main.centerX + 200, 50, "Adventure - Alexander Nakarada", {
+        fontFamily: "Garamond",
+        fontSize: "40px",
+        color: "#fff",
+      }).setVisible(false);
+
+      this.textomusicacreditos2 = this.add.text(this.cameras.main.centerX + 200, 100, "Victory! - Alexander Nakarada", {
+        fontFamily: "Garamond",
+        fontSize: "40px",
+        color: "#fff",
+      }).setVisible(false);
     }
   }

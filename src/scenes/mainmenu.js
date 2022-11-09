@@ -1,4 +1,7 @@
 import Phaser from "phaser";
+import Pregunta from "../clases/Pregunta.js"
+import Boton from "../clases/Boton.js";
+import {getPhrase} from '../services/translations.js'
 
 export class MainMenu extends Phaser.Scene {
   //temporizador
@@ -9,6 +12,7 @@ export class MainMenu extends Phaser.Scene {
   sonido;
   sonidoboolean = true;
   musicamainmenu;
+  sonidosgenerales;
   constructor() {
     // Se asigna una key para despues poder llamar a la escena
     super("MainMenu");
@@ -19,11 +23,11 @@ export class MainMenu extends Phaser.Scene {
     this.sonido = data.sonido;
     this.musicamainmenu = data.musicamainmenu;
     this.sonidosgenerales = data.sonidosgenerales;
+    this.idioma = data.idioma;
   }
 
   create() {
 
-    console.log(this.sonidosgenerales);
     //musica y sonido
 
     //sirve para desbugear, es para la primera vez que se entra al juego
@@ -34,10 +38,11 @@ export class MainMenu extends Phaser.Scene {
       });
       this.musicamainmenu.play();
       this.sonidoboolean = false;
+      this.idioma = 1;
     }else {
 
     }
-
+    
     //sonidos generales
 
     //botones
@@ -50,16 +55,12 @@ export class MainMenu extends Phaser.Scene {
       .image(this.cameras.main.centerX, this.cameras.main.centerY, "fondo_menu")
       .setScale(1);
 
-    var botonjugar;
-    var botoninstrucciones;
-    var botonconfiguracion;
-    var botoncreditos;
 
     this.add.image(1600, 810, "postemenu").setScale(1);
     //this.add.image(1100, 600, 'rey').setScale(0.4);
     this.add.image(1400, 250, "titulojuego").setScale(0.9);
 
-    botonjugar = this.add
+    this.botonjugar = this.add
       .image(1600, 550, "botonmenu")
       .setInteractive({
         useHandCursor: true,
@@ -69,21 +70,23 @@ export class MainMenu extends Phaser.Scene {
         this.scene.start("SeleccionDePersonaje", {
           temporizador: this.temporizador,
           sonido: this.sonido,
-          sonidosgenerales: this.sonidosgenerales
+          sonidosgenerales: this.sonidosgenerales,
+          musicamainmenu: this.musicamainmenu,
+          idioma: this.idioma,
         });
       })
       .on("pointerover", () => {
         this.sonidosgenerales[0].play();
-        botonjugar.setScale(1.1);
-        textojugar.setStyle({color: '#fff'});
+        this.botonjugar.setScale(1.1);
+        this.textojugar.setStyle({color: '#fff'});
       })
       .on("pointerout", () => {
-        botonjugar.setScale(1);
-        textojugar.setStyle({color: '#000'});
+        this.botonjugar.setScale(1);
+        this.textojugar.setStyle({color: '#000'});
       });
     
 
-    botoninstrucciones = this.add
+    this.botoninstrucciones = this.add
       .image(1600, 680, "botonmenu")
       .setInteractive({
         useHandCursor: true,
@@ -93,19 +96,21 @@ export class MainMenu extends Phaser.Scene {
         this.scene.start("Instrucciones", 
         { sonido: this.sonido, 
           sonidosgenerales: this.sonidosgenerales, 
-          musicamainmenu: this.musicamainmenu});
+          musicamainmenu: this.musicamainmenu,
+          temporizador: this.temporizador,
+          idioma: this.idioma});
       })
       .on("pointerover", () => {
         this.sonidosgenerales[0].play();
-        botoninstrucciones.setScale(1.1);
-        textoinstrucciones.setStyle({color: '#fff'});
+        this.botoninstrucciones.setScale(1.1);
+        this.textoinstrucciones.setStyle({color: '#fff'});
       })
       .on("pointerout", () => {
-        botoninstrucciones.setScale(1);
-        textoinstrucciones.setStyle({color: '#000'});
+        this.botoninstrucciones.setScale(1);
+        this.textoinstrucciones.setStyle({color: '#000'});
       });
 
-    botonconfiguracion = this.add
+    this.botonconfiguracion = this.add
       .image(1600, 780, "botonmenu").setFlip(true,false)
       .setInteractive({
         useHandCursor: true,
@@ -116,19 +121,22 @@ export class MainMenu extends Phaser.Scene {
         {sonido: this.sonido, 
           sonidoboolean: this.sonidoboolean, 
           musicamainmenu: this.musicamainmenu,
-          sonidosgenerales: this.sonidosgenerales});
+          sonidosgenerales: this.sonidosgenerales,
+          temporizador: this.temporizador,
+          idioma: this.idioma
+          });
       })
       .on("pointerover", () => {
         this.sonidosgenerales[0].play();
-        botonconfiguracion.setScale(1.1);
-        textoconfiguracion.setStyle({color: '#fff'});
+        this.botonconfiguracion.setScale(1.1);
+        this.textoconfiguracion.setStyle({color: '#fff'});
       })
       .on("pointerout", () => {
-        botonconfiguracion.setScale(1);
-        textoconfiguracion.setStyle({color: '#000'});
+        this.botonconfiguracion.setScale(1);
+        this.textoconfiguracion.setStyle({color: '#000'});
       });
 
-    botoncreditos = this.add
+    this.botoncreditos = this.add
       .image(1600, 900, "botonmenu").setFlip(true,false)
       .setInteractive({
         useHandCursor: true,
@@ -138,40 +146,52 @@ export class MainMenu extends Phaser.Scene {
         this.scene.start("Creditos", 
         { sonido: this.sonido, 
           sonidosgenerales: this.sonidosgenerales, 
-          musicamainmenu: this.musicamainmenu});
+          musicamainmenu: this.musicamainmenu,
+          temporizador: this.temporizador,
+          idioma: this.idioma
+          });
       })
       .on("pointerover", () => {
         this.sonidosgenerales[0].play();
-        botoncreditos.setScale(1.1);
-        textocreditos.setStyle({color: '#fff'});
+        this.botoncreditos.setScale(1.1);
+        this.textocreditos.setStyle({color: '#fff'});
       })
       .on("pointerout", () => {
-        botoncreditos.setScale(1);
-        textocreditos.setStyle({color: '#000'});
+        this.botoncreditos.setScale(1);
+        this.textocreditos.setStyle({color: '#000'});
       });
 
 
     
-    var textojugar = this.add.text(1520, 510, "Jugar", {
+    this.textojugar = this.add.text(1580, 545, getPhrase("Jugar"), {
         fontFamily: "Garamond",
         fontSize: "64px",
         color: "#000",
+        
+
     })
-    var textoinstrucciones = this.add.text(1490, 655, "Instrucciones", {
+    
+    this.textoinstrucciones = this.add.text(1585, 680, getPhrase("Instrucciones"), {
       fontFamily: "Garamond",
       fontSize: "40px",
       color: "#000",
     })
-    var textoconfiguracion = this.add.text(1490, 755, "Configuración", {
+    this.textoconfiguracion = this.add.text(1600, 780, getPhrase("Configuración"), {
       fontFamily: "Garamond",
       fontSize: "40px",
       color: "#000",
     })
-    var textocreditos = this.add.text(1530, 878, "Créditos", {
+    this.textocreditos = this.add.text(1595, 895, getPhrase("Créditos"), {
       fontFamily: "Garamond",
       fontSize: "40px",
       color: "#000",
     })
+    
+    //centrado de textos para varios idiomas
+    this.textojugar.setOrigin(0.5)
+    this.textoinstrucciones.setOrigin(0.5)
+    this.textoconfiguracion.setOrigin(0.5)
+    this.textocreditos.setOrigin(0.5)
 
 
     //temporizador
@@ -188,5 +208,11 @@ export class MainMenu extends Phaser.Scene {
     }
 
    
+    /* this.pregunta = new Pregunta(this)
+
+    this.pregunta.trans.setVisible(false)
+    this.pregunta.popup.setVisible(false)
+    this.pregunta.iconomonedaayuda.setVisible(false) */
+
   }
 }

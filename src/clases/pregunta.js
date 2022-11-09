@@ -1,10 +1,7 @@
 
 class Pregunta {
 
-    trans
-    popup
-    iconomonedaayuda
-    textmonedasayuda
+    
     constructor(scene) {
         
         this.trans = scene.add.image(scene.cameras.main.centerX, scene.cameras.main.centerY,"transparencia").setAlpha(0.5).setScrollFactor(0);

@@ -1,21 +1,23 @@
+import { getPhrase } from "../services/translations";
+
 const preguntas = {
     '1': {
-        pregunta: "¿En qué año comienza y \ntermina la edad media?",
+        pregunta: getPhrase("¿En qué año comienza y termina la edad media?"),
         opciones: {
             "1": {
-                texto: "500 dc a 1500 dc",
+                texto: getPhrase("500 dc a 1500 dc"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "1 dc a 1500 dc",
+                texto: getPhrase("1 dc a 1500 dc"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "1000 dc a 1500 dc",
+                texto: getPhrase("1000 dc a 1500 dc"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "500 ac a 500 dc",
+                texto: getPhrase("500 ac a 500 dc"),
                 esCorrecta: false,
             }
         }
@@ -23,22 +25,22 @@ const preguntas = {
     },
 
     '2': {
-        pregunta: "¿Qué tipo de armaduras \nusaban los soldados?",
+        pregunta: getPhrase("¿Qué tipo de armadura usaban los soldados?"),
         opciones: {
             "1": {
-                texto: "Armadura de cuero",
+                texto: getPhrase("Armadura de cuero"),
                 esCorrecta: false,
             },
             "2": {
-                texto: "Cota de malla",
+                texto: getPhrase("Cota de malla"),
                 esCorrecta: true,
             },
             "3": {
-                texto: "No tenian protección",
+                texto: getPhrase("No tenían protección"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Armadura de metal",
+                texto: getPhrase("Armadura de metal"),
                 esCorrecta: false,
             }
         }
@@ -46,18 +48,18 @@ const preguntas = {
     },
 
     '3': {
-        pregunta: "¿Cuál de estas personas no \npertenece a la edad media?",
+        pregunta: getPhrase("¿Cuál de estas personas no pertenece a la edad media?"),
         opciones: {
             "1": {
-                texto: "Ana Bolena",
+                texto: getPhrase("Ana Bolena"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "Juana de Arco",
+                texto: getPhrase("Juana de Arco"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "María Antonieta",
+                texto: getPhrase("María Antonieta"),
                 esCorrecta: false,
             },
             "4": {
@@ -69,22 +71,22 @@ const preguntas = {
     },
 
     '4': {
-        pregunta: "¿Qué acontecimiento marcó el \ninicio de la edad media?",
+        pregunta: getPhrase("¿Qué acontecimiento marcó el inicio de la edad media?"),
         opciones: {
             "1": {
-                texto: "Ataque de los vikingos",
+                texto: getPhrase("Ataque de los vikingos"),
                 esCorrecta: false,
             },
             "2": {
-                texto: "Caída del imperio Romano",
+                texto: getPhrase("Caída del imperio Romano"),
                 esCorrecta: true,
             },
             "3": {
-                texto: "Caída de Constantinopla",
+                texto: getPhrase("Caída de Constantinopla"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Caída del imperio Bizantino",
+                texto: getPhrase("Caída del imperio Bizantino"),
                 esCorrecta: false,
             }
         }
@@ -92,22 +94,22 @@ const preguntas = {
     },
 
     '5': {
-        pregunta: "¿Qué religión predominaba en \nel periodo medieval?",
+        pregunta: getPhrase("¿Qué religión predominaba en el periodo medieval?"),
         opciones: {
             "1": {
-                texto: "Islamismo",
+                texto: getPhrase("Islamismo"),
                 esCorrecta: false,
             },
             "2": {
-                texto: "Protestantismo",
+                texto: getPhrase("Protestantismo"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Catolicismo",
+                texto: getPhrase("Catolicismo"),
                 esCorrecta: true,
             },
             "4": {
-                texto: "Judaísmo",
+                texto: getPhrase("Judaísmo"),
                 esCorrecta: false,
             }
         }
@@ -115,22 +117,22 @@ const preguntas = {
     },
 
     '6': {
-        pregunta: "¿Qué clase social debía tener \nde nacimiento un caballero?",
+        pregunta: getPhrase("¿Qué clase social debía tener de nacimiento un caballero?"),
         opciones: {
             "1": {
-                texto: "Artesanos",
+                texto: getPhrase("Artesanos"),
                 esCorrecta: false,
             },
             "2": {
-                texto: "Campesinos",
+                texto: getPhrase("Campesinos"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Hijos de nobles",
+                texto: getPhrase("Hijos de nobles"),
                 esCorrecta: true,
             },
             "4": {
-                texto: "Burgueses",
+                texto: getPhrase("Burgueses"),
                 esCorrecta: false,
             }
         }
@@ -138,22 +140,22 @@ const preguntas = {
     },
 
     '7': {
-        pregunta: "¿Qué nombre recibe la organi-\nzación social y económica desa-\nrrollada durante la Edad Media?",
+        pregunta: getPhrase("¿Qué nombre recibe la organización social y económica desarrollada durante la Edad Media?"),
         opciones: {
             "1": {
-                texto: "Feudalismo",
+                texto: getPhrase("Feudalismo"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "Vasallaje",
+                texto: getPhrase("Vasallaje"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Cruzada",
+                texto: getPhrase("Cruzada"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Todas las anteriores",
+                texto: getPhrase("Todas las anteriores"),
                 esCorrecta: false,
             }
         }
@@ -161,22 +163,22 @@ const preguntas = {
     },
 
     '8': {
-        pregunta: "¿Mediante qué ceremonia el \nvasallo juraba fidelidad al \nseñor?",
+        pregunta: getPhrase("¿Mediante qué ceremonia el vasallo juraba fidelidad al señor?"),
         opciones: {
             "1": {
-                texto: "Investidura",
+                texto: getPhrase("Investidura"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "Homenaje",
+                texto: getPhrase("Homenaje"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Feudalismo",
+                texto: getPhrase("Feudalismo"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Vigilia",
+                texto: getPhrase("Vigilia"),
                 esCorrecta: false,
             }
         }
@@ -184,22 +186,22 @@ const preguntas = {
     },
 
     '9': {
-        pregunta: "¿De donde era originaria la \npeste negra?",
+        pregunta: getPhrase("¿De donde era originaria la peste negra?"),
         opciones: {
             "1": {
-                texto: "De Asia",
+                texto: getPhrase("De Asia"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "De América",
+                texto: getPhrase("De América"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "De África",
+                texto: getPhrase("De África"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "De Europa",
+                texto: getPhrase("De Europa"),
                 esCorrecta: false,
             }
         }
@@ -207,22 +209,22 @@ const preguntas = {
     },
 
     '10': {
-        pregunta: "¿Cómo murió Juana de Arco?",
+        pregunta: getPhrase("¿Cómo murió Juana de Arco?"),
         opciones: {
             "1": {
-                texto: "Quemada en la hoguera",
+                texto: getPhrase("Quemada en la hoguera"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "En una guerra",
+                texto: getPhrase("En una guerra"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Por la peste negra",
+                texto: getPhrase("Por la peste negra"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Por la edad",
+                texto: getPhrase("Por la edad"),
                 esCorrecta: false,
             }
         }
@@ -230,22 +232,22 @@ const preguntas = {
     },
 
     '11': {
-        pregunta: "¿Dónde surgió la religión \nislámica?",
+        pregunta: getPhrase("¿Dónde surgió la religión islámica?"),
         opciones: {
             "1": {
-                texto: "En la Península de Arabia",
+                texto: getPhrase("En la Península de Arabia"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "En Al-Andalus",
+                texto: getPhrase("En Al-Andalus"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "En Palestina",
+                texto: getPhrase("En Palestina"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "En Iraq",
+                texto: getPhrase("En Iraq"),
                 esCorrecta: false,
             }
         }
@@ -253,22 +255,22 @@ const preguntas = {
     },
 
     '12': {
-        pregunta: "¿Qué caracterizó al siglo XIV \nen Europa?",
+        pregunta: getPhrase("¿Qué caracterizó al siglo XIV en Europa?"),
         opciones: {
             "1": {
-                texto: "Todas son correctas",
+                texto: getPhrase("Todas son correctas"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "Retroceso económico",
+                texto: getPhrase("Retroceso económico"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Periodo de crisis",
+                texto: getPhrase("Periodo de crisis"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Retroceso demográfico",
+                texto: getPhrase("Retroceso demográfico"),
                 esCorrecta: false,
             }
         }
@@ -276,22 +278,22 @@ const preguntas = {
     },
 
     '13': {
-        pregunta: "¿Cuál es una característica de \nla Edad Media?",
+        pregunta: getPhrase("¿Cuál es una característica de la Edad Media?"),
         opciones: {
             "1": {
-                texto: "Economía de auto-subsistencia",
+                texto: getPhrase("Economía de auto-subsistencia"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "Teocentrismo",
+                texto: getPhrase("Teocentrismo"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Desarrollo cultural y artístico",
+                texto: getPhrase("Desarrollo cultural y artístico"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Movilidad social",
+                texto: getPhrase("Movilidad social"),
                 esCorrecta: false,
             }
         }
@@ -299,22 +301,22 @@ const preguntas = {
     },
 
     '14': {
-        pregunta: "En el periodo medieval, el \nestamento más alto después del\nrey no pagaba impuestos. ¿A \nqué grupo social corresponde?",
+        pregunta: getPhrase("En el periodo medieval, el estamento más alto después del rey no pagaba impuestos. ¿A qué grupo social corresponde?"),
         opciones: {
             "1": {
-                texto: "La nobleza",
+                texto: getPhrase("La nobleza"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "Los vasallos",
+                texto: getPhrase("Los vasallos"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "El clero",
+                texto: getPhrase("El clero"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Los campesinos",
+                texto: getPhrase("Los campesinos"),
                 esCorrecta: false,
             }
         }
@@ -322,22 +324,22 @@ const preguntas = {
     },
 
     '15': {
-        pregunta: "¿Quiénes habitaban en pequeñas \naldeas en las afueras del castillo \ny se preocupaban de trabajar \nlas tierras del señor feudal?",
+        pregunta: getPhrase("¿Quiénes habitaban en pequeñas aldeas en las afueras del castillo y se preocupaban de trabajar las tierras del señor feudal?"),
         opciones: {
             "1": {
-                texto: "Los campesinos",
+                texto: getPhrase("Los campesinos"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "El clero",
+                texto: getPhrase("El clero"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "La nobleza",
+                texto: getPhrase("La nobleza"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Los señores feudales",
+                texto: getPhrase("Los señores feudales"),
                 esCorrecta: false,
             }
         }
@@ -345,22 +347,22 @@ const preguntas = {
     },
 
     '16': {
-        pregunta: "¿Para qué servían los castillos?",
+        pregunta: getPhrase("¿Para qué servían los castillos?"),
         opciones: {
             "1": {
-                texto: "Como defensa",
+                texto: getPhrase("Como defensa"),
                 esCorrecta: false,
             },
             "2": {
-                texto: "Resguardarse por los ataques",
+                texto: getPhrase("Resguardarse por los ataques"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Vivienda de la nobleza",
+                texto: getPhrase("Vivienda de la nobleza"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Todas las anteriores",
+                texto: getPhrase("Todas las anteriores"),
                 esCorrecta: true,
             }
         }
@@ -368,22 +370,22 @@ const preguntas = {
     },
 
     '17': {
-        pregunta: "¿Cuántos siglos duro la Edad \nMedia?",
+        pregunta: getPhrase("¿Cuántos siglos duro la Edad Media?"),
         opciones: {
             "1": {
-                texto: "10 siglos",
+                texto: getPhrase("10 siglos"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "8 siglos",
+                texto: getPhrase("8 siglos"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "9 siglos",
+                texto: getPhrase("9 siglos"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "7 siglos",
+                texto: getPhrase("7 siglos"),
                 esCorrecta: false,
             }
         }
@@ -391,22 +393,22 @@ const preguntas = {
     },
 
     '18': {
-        pregunta: "¿Con qué le pagaban los siervos \npor el uso de las tierras a los \nseñores?",
+        pregunta: getPhrase("¿Con qué le pagaban los siervos por el uso de las tierras a los señores?"),
         opciones: {
             "1": {
-                texto: "Un tributo en dinero",
+                texto: getPhrase("Un tributo en dinero"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "Con parte de lo producido",
+                texto: getPhrase("Con parte de lo producido"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Un tributo en trabajo",
+                texto: getPhrase("Un tributo en trabajo"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "No les pagaban",
+                texto: getPhrase("No les pagaban"),
                 esCorrecta: false,
             }
         }
@@ -414,22 +416,22 @@ const preguntas = {
     },
 
     '19': {
-        pregunta: "¿Cuál no es característica de \nla Edad Media?",
+        pregunta: getPhrase("¿Cuál no es característica de la Edad Media?"),
         opciones: {
             "1": {
-                texto: "Aparición de los Parlamentos",
+                texto: getPhrase("Aparición de los Parlamentos"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "Prevalencia del Feudo",
+                texto: getPhrase("Prevalencia del Feudo"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Desarrollo Mercantil",
+                texto: getPhrase("Desarrollo Mercantil"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Aumento del Poder real",
+                texto: getPhrase("Aumento del Poder real"),
                 esCorrecta: false,
             }
         }
@@ -437,22 +439,22 @@ const preguntas = {
     },
 
     '20': {
-        pregunta: "¿En que se dividía la sociedad \nfeudal?",
+        pregunta: getPhrase("¿En que se dividía la sociedad feudal?"),
         opciones: {
             "1": {
-                texto: "En estamentos",
+                texto: getPhrase("En estamentos"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "En clases",
+                texto: getPhrase("En clases"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "En tribus",
+                texto: getPhrase("En tribus"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "En castas",
+                texto: getPhrase("En castas"),
                 esCorrecta: false,
             }
         }
@@ -460,22 +462,22 @@ const preguntas = {
     },
 
     '21': {
-        pregunta: "¿Qué capital tuvo el imperio \nRomano de oriente?",
+        pregunta: getPhrase("¿Qué capital tuvo el imperio Romano de oriente?"),
         opciones: {
             "1": {
-                texto: "Constantinopla",
+                texto: getPhrase("Constantinopla"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "Bizancio",
+                texto: getPhrase("Bizancio"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Roma",
+                texto: getPhrase("Roma"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Francia",
+                texto: getPhrase("Francia"),
                 esCorrecta: false,
             }
         }
@@ -483,22 +485,22 @@ const preguntas = {
     },
 
     '22': {
-        pregunta: "¿Cómo se conocía al antiguo \nImperio Romano de Oriente \ndurante la Edad Media?",
+        pregunta: getPhrase("¿Cómo se conocía al antiguo Imperio Romano de Oriente durante la Edad Media?"),
         opciones: {
             "1": {
-                texto: "Imperio Bizantino",
+                texto: getPhrase("Imperio Bizantino"),
                 esCorrecta: true,
             },
             "2": {
-                texto: "Imperio Turco-Otomano",
+                texto: getPhrase("Imperio Turco-Otomano"),
                 esCorrecta: false,
             },
             "3": {
-                texto: "Imperio Islámico",
+                texto: getPhrase("Imperio Islámico"),
                 esCorrecta: false,
             },
             "4": {
-                texto: "Imperio Normando",
+                texto: getPhrase("Imperio Normando"),
                 esCorrecta: false,
             }
         }
@@ -507,32 +509,13 @@ const preguntas = {
 }
 
 var preguntasArray = [];
-preguntasArray.push(preguntas["1"]);
-preguntasArray.push(preguntas["2"]);
-preguntasArray.push(preguntas["3"]);
-preguntasArray.push(preguntas["4"]);
-preguntasArray.push(preguntas["5"]);
-preguntasArray.push(preguntas["6"]);
-preguntasArray.push(preguntas["7"]);
-preguntasArray.push(preguntas["8"]);
-preguntasArray.push(preguntas["9"]);
-preguntasArray.push(preguntas["10"]);
-preguntasArray.push(preguntas["11"]);
-preguntasArray.push(preguntas["12"]);
-preguntasArray.push(preguntas["13"]);
-preguntasArray.push(preguntas["14"]);
-preguntasArray.push(preguntas["15"]); 
-preguntasArray.push(preguntas["16"]);
-preguntasArray.push(preguntas["17"]);
-preguntasArray.push(preguntas["18"]); 
-preguntasArray.push(preguntas["19"]);
-preguntasArray.push(preguntas["20"]);
-preguntasArray.push(preguntas["21"]);
-preguntasArray.push(preguntas["22"]);
+
+for (const key in preguntas) {
+    preguntasArray.push(preguntas[key])  
+}
 
 
 
-console.log(preguntasArray)
 preguntasArray.sort(() => Math.random() - 0.5)
 
 export default preguntasArray

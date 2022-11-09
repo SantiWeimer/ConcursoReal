@@ -1,9 +1,14 @@
 import Phaser from 'phaser'
+import Boton from "../clases/Boton.js";
+import {getPhrase} from '../services/translations.js'
 //variables importadas
 
-var players;
-var CantidadJugadores;
+
 export class Resultado extends Phaser.Scene {
+
+  players;
+  CantidadJugadores;
+
     constructor() {
       // Se asigna una key para despues poder llamar a la escena
       super("Resultado");
@@ -16,182 +21,231 @@ export class Resultado extends Phaser.Scene {
       this.sonido = data.sonido;
       this.sonidosgenerales = data.sonidosgenerales;
       this.musicamainmenu = data.musicamainmenu;
+      this.idioma = data.idioma;
     }
   
     create() {
 
+      //musica
+      this.musicamainmenu.stop();
+      
+      this.musicavictoria = this.sound.add("musicavictoria",{
+        volume: 0.5 / this.sonido.volumenMusica,
+      });
+      this.musicavictoria.play();
+      
+      //el booleano cambia la musica si la de victoria no terminó
+      this.booleanmusica = true;
+      this.musicavictoria.once('complete', () => {
+        this.musicamainmenu.play();
+        this.booleanmusica = false});
       //sonidos
   
       //botones
-      var sonidobotones1;
-      var sonidobotones3;
-  
-      sonidobotones1 = this.sound.add('sonidobotones1');
-      sonidobotones1.setVolume(0.3);
-      sonidobotones3 = this.sound.add('sonidobotones3');
-      sonidobotones3.setVolume(1);
+      //botones
+      this.sonidosgenerales[0].setVolume(0.3 / this.sonido.volumenGeneral)
+      this.sonidosgenerales[2].setVolume(1 / this.sonido.volumenGeneral)
       
       this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'fondo_menu').setScale(1);
       this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'transparencia').setScale(1).setAlpha(0.5);
-      this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'resultado').setScale(1);
+      this.result = this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, 'resultado').setScale(1);
+
+      if(this.idioma === 2){
+        this.result.setTexture('resultadoingles')
+      }
       this.add.image(1650, 700, 'rey').setScale(1);
         
       //puntajes
       
-      if (CantidadJugadores === 2){
+      if (this.CantidadJugadores >= 2){
   
-        this.add.text(720, 500, 'Jugador 1  $ ' + players[0].monedas, 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' });
+        this.add.text(this.cameras.main.centerX - 200, 520, getPhrase('Jugador 1'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' }).setOrigin(0.5);
   
-        this.add.text(720, 550, 'Jugador 2  $ ' + players[1].monedas, 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' });
-  
-      //ganador
-      if (players[0].monedas > players[1].monedas){
-        //gano jugador 1
-        this.add.text(600, 800, 'Ganó el Jugador 1', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' });
+        this.add.text(this.cameras.main.centerX, 520, this.players[0].monedas, 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' }).setOrigin(0.5);
+        this.add.image(this.cameras.main.centerX - 70, 520, 'iconomoneda')
+
+        this.add.text(this.cameras.main.centerX - 200, 580, getPhrase('Jugador 2'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' }).setOrigin(0.5);
+
+        this.add.text(this.cameras.main.centerX, 580, this.players[1].monedas, 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' }).setOrigin(0.5);
+
+        this.add.image(this.cameras.main.centerX - 70, 580, 'iconomoneda')
+      }
+
+      if (this.CantidadJugadores >= 3){
+
+        this.add.text(this.cameras.main.centerX - 200, 640, getPhrase('Jugador 3'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' }).setOrigin(0.5);
+
+        this.add.text(this.cameras.main.centerX, 640, this.players[2].monedas, 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' }).setOrigin(0.5);
+
+        this.add.image(this.cameras.main.centerX - 70, 640, 'iconomoneda')
+      }
       
-      } else if (players[1].monedas > players[0].monedas){
-        //gano jugador 2
-        this.add.text(600, 800, 'Ganó el Jugador 2', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' });
+      if (this.CantidadJugadores === 4){
   
-      }else{
-        //empate
-        this.add.text(690, 800, '¡Hubo empate!', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' });
-  
+        this.add.text(this.cameras.main.centerX - 200, 700, getPhrase('Jugador 4'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' }).setOrigin(0.5);
+
+        this.add.text(this.cameras.main.centerX, 700, this.players[3].monedas, 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' }).setOrigin(0.5);
+        
+        this.add.image(this.cameras.main.centerX - 70, 700, 'iconomoneda')
       }
   
-      }else if (CantidadJugadores === 3){
-  
-        this.add.text(720, 500, 'Jugador 1  $ ' + players[0].monedas, 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' });
-  
-        this.add.text(720, 550, 'Jugador 2  $ ' + players[2].monedas, 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' });
-  
-        this.add.text(720, 600, 'Jugador 3  $ ' + players[3].monedas, 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', color: '#FFFFFF' });
-  
+
       //ganador
+
+      if (this.CantidadJugadores === 2){
   
-      if (players[0].monedas > players[1].monedas && players[0].monedas > players[2].monedas){
+        //2 jugadores
+
+        if (this.players[0].monedas > this.players[1].monedas){
+        //gano jugador 1
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('!Ganó el Jugador 1!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
+      
+        } else if (this.players[1].monedas > this.players[0].monedas){
+        //gano jugador 2
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('!Ganó el Jugador 2!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
+  
+        }else{
+        //empate
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('¡Hubo empate!'), 
+          { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
+  
+        }
+          
+      } else if (this.CantidadJugadores === 3){
+  
+        //3 jugadores
+  
+        if (this.players[0].monedas > this.players[1].monedas && this.players[0].monedas > this.players[2].monedas){
   
         //gano jugador 1
   
-        this.add.text(600, 800, 'Ganó el Jugador 1', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', fill: '#color' });
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('!Ganó el Jugador 1!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
   
-      } else if (players[1].monedas > players[0].monedas && players[1].monedas > players[2].monedas){
+        } else if (this.players[1].monedas > this.players[0].monedas && this.players[1].monedas > this.players[2].monedas){
   
         //gano jugador 2
   
-        this.add.text(600, 800, 'Ganó el Jugador 2', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', fill: '#color' });
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('!Ganó el Jugador 2!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
   
-      } else if (players[2].monedas > players[0].monedas && players[2].monedas > players[1].monedas){
+        } else if (this.players[2].monedas > this.players[0].monedas && this.players[2].monedas > this.players[1].monedas){
   
         //gano jugador 3
   
-        this.add.text(600, 800, 'Ganó el Jugador 3', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', fill: '#color' });
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('!Ganó el Jugador 3!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
   
-      } else{
+        } else{
   
         //empate
   
-        this.add.text(690, 800, '¡Hubo empate!', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', fill: '#color' });
+        this.add.text(this.cameras.main.centerX, 800, getPhrase('¡Hubo empate!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
+        }
+          
+      } else if (this.CantidadJugadores === 4){
   
-      }
-  
-      }else if (CantidadJugadores === 4){
-  
-  
-        this.add.text(720, 500, 'Jugador 1  $ ' + players[0].monedas, 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', fill: '#color' });
-  
-        this.add.text(720, 550, 'Jugador 2  $ ' + players[1].monedas, 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', fill: '#color' });
-  
-        this.add.text(720, 600, 'Jugador 3  $ ' + players[2].monedas, 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', fill: '#color' });
-  
-      this.add.text(720, 650, 'Jugador 4  $ ' + players[3].monedas, 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '48px', fill: '#color' });
-  
-      //ganador
-  
-      if (players[0].monedas > players[1].monedas && players[0].monedas > players[2].monedas && players[0].monedas > players[3].monedas){
+        //4 jugadores
+
+        if (this.players[0].monedas > this.players[1].monedas && this.players[0].monedas > this.players[2].monedas && this.players[0].monedas > this.players[3].monedas){
   
         //gano jugador 1
   
-        this.add.text(600, 800, 'Ganó el Jugador 1', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', fill: '#FFFFFF' });
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('!Ganó el Jugador 1!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
   
-      } else if (players[1].monedas > players[0].monedas && players[1].monedas > players[2].monedas && players[1].monedas > players[3].monedas){
+        } else if (this.players[1].monedas > this.players[0].monedas && this.players[1].monedas > this.players[2].monedas && this.players[1].monedas > this.players[3].monedas){
   
         //gano jugador 2
   
-        this.add.text(600, 800, 'Ganó el Jugador 2', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', fill: '#FFFFFF' });
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('!Ganó el Jugador 2!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
   
-      } else if (players[2].monedas > players[0].monedas && players[2].monedas > players[1].monedas && players[2].monedas > players[3].monedas){
+        } else if (this.players[2].monedas > this.players[0].monedas && this.players[2].monedas > this.players[1].monedas && this.players[2].monedas > this.players[3].monedas){
   
         //gano jugador 3
   
-        this.add.text(600, 800, 'Ganó el Jugador 3', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', fill: '#FFFFFF' });
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('!Ganó el Jugador 3!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
   
-      } else if (players[3].monedas > players[0].monedas && players[3].monedas > players[1].monedas && players[3].monedas > players[2].monedas){
+        } else if (this.players[3].monedas > this.players[0].monedas && this.players[3].monedas > this.players[1].monedas && this.players[3].monedas > this.players[2].monedas){
   
         //gano jugador 4
   
-        this.add.text(600, 800, 'Ganó el Jugador 4', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', fill: '#FFFFFF' });
-      } else{
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('!Ganó el Jugador 4!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
+        } else{
   
         //empate
   
-        this.add.text(690, 800, '¡Hubo empate!', 
-      { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', fill: '#FFFFFF' });
+        this.add.text(this.cameras.main.centerX - 70, 850, getPhrase('¡Hubo empate!'), 
+        { fontFamily: 'Times', fontStyle: 'italic', fontSize: '64px', color: '#FFFFFF' }).setOrigin(0.5);
   
-      }
+        }
         
       }
-  
-  
   
       
-        
+      
+      
+
+
+      
       //boton
-      var botonvolver;
-  
-      botonvolver = this.add.image(250, 1000, 'volver')
+
+      this.botonvolver = new Boton(this, 250, 1000, "boton");
+      this.botonvolver.boton
+      .setFlip(true, false)
       .setInteractive({
       useHandCursor: true
       })
       .on('pointerdown', () => {
-      sonidobotones3.play()
+      this.sonidosgenerales[2].play()
+
+      //parar musica de victoria y cambiar a la de menu
+      if(this.booleanmusica === true){
+        this.musicavictoria.stop();
+        this.musicamainmenu.play();
+      }
       this.scene.start("MainMenu", {
         temporizador: this.temporizador,
         sonido: this.sonido,  
         musicamainmenu: this.musicamainmenu,
-        sonidosgenerales: this.sonidosgenerales
+        sonidosgenerales: this.sonidosgenerales,
+        idioma: this.idioma
       });
   
-      CantidadJugadores = CantidadJugadores - CantidadJugadores;
+      this.CantidadJugadores = this.CantidadJugadores - this.CantidadJugadores;
   
       })
       .on('pointerover', () => {
-      botonvolver.setScale(1.1)
-      sonidobotones1.play()
+      this.botonvolver.boton.setScale(1.1)
+      this.textovolver.setStyle({ color: "#fff" });
+      this.sonidosgenerales[0].play()
       })
       .on('pointerout', () => {
-      botonvolver.setScale(1)
+      this.botonvolver.boton.setScale(1)
+      this.textovolver.setStyle({ color: "#000" });
     });
+
+    this.textovolver = this.add
+      .text(255, 998, getPhrase("Volver"), {
+        fontFamily: "Garamond",
+        fontSize: "60px",
+        color: "#000",
+      })
+      .setOrigin(0.5);
   
-      }
+    }
   }
