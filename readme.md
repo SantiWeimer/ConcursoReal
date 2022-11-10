@@ -1,4 +1,6 @@
-Juego: Concurso Real
+(https://i.ibb.co/k2WHx0T/logo.png)
+
+Juego: Concurso Real \
 
 Integrantes: Aldana Domingues, Lucia Pascua y Santiago Weimer.
 
