@@ -93,34 +93,38 @@ export class Creditos extends Phaser.Scene {
 
       //creditos musica
 
-      this.add.image(1800, 100, 'boton_musica')
+      this.add.image(1820, 80, 'boton_musica')
       .setInteractive({
         useHandCursor: true,
       })
       .on("pointerover", () => {
  
-        this.botonmusicablanco.setVisible(true);
+        this.botonMusicaBlanco.setVisible(true);
         this.textomusicacreditos.setVisible(true);
         this.textomusicacreditos2.setVisible(true);
+        this.cartelMusica.setVisible(true);
       })
       .on("pointerout", () => {
-        this.botonmusicablanco.setVisible(false);
+        this.botonMusicaBlanco.setVisible(false);
         this.textomusicacreditos.setVisible(false);
         this.textomusicacreditos2.setVisible(false);
+        this.cartelMusica.setVisible(false);
       });
 
 
-      this.botonmusicablanco = this.add.image(1800, 100, 'boton_musica_blanco').setVisible(false).setAlpha(0.5);
+      this.botonMusicaBlanco = this.add.image(1820, 80, 'boton_musica_blanco').setVisible(false).setAlpha(0.5);
 
-      this.textomusicacreditos = this.add.text(this.cameras.main.centerX + 200, 50, "Adventure - Alexander Nakarada", {
+      this.cartelMusica = this.add.image(1450, 100, 'cartel_musica').setVisible(false).setAlpha(0.6).setScale(0.8)
+
+      this.textomusicacreditos = this.add.text(this.cameras.main.centerX + 240, 70, "Adventure - Alexander Nakarada", {
         fontFamily: "Garamond",
-        fontSize: "40px",
+        fontSize: "36px",
         color: "#fff",
       }).setVisible(false);
 
-      this.textomusicacreditos2 = this.add.text(this.cameras.main.centerX + 200, 100, "Victory! - Alexander Nakarada", {
+      this.textomusicacreditos2 = this.add.text(this.cameras.main.centerX + 255, 105, "Victory! - Alexander Nakarada", {
         fontFamily: "Garamond",
-        fontSize: "40px",
+        fontSize: "36px",
         color: "#fff",
       }).setVisible(false);
     }

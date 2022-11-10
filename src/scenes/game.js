@@ -51,16 +51,12 @@ export class Game extends Phaser.Scene {
 
   
     //sonidos
+    this.sonidosgenerales[10].setVolume(1 / this.sonido.volumenGeneral);
+    this.sonidosgenerales[11].setVolume(0.7 / this.sonido.volumenGeneral);
+    this.sonidosgenerales[12].setVolume(0.55 / this.sonido.volumenGeneral);
+    this.sonidosgenerales[13].setVolume(1.5 / this.sonido.volumenGeneral);
+    this.sonidosgenerales[14].setVolume(0.8 / this.sonido.volumenGeneral);
     
-    //popup
-    this.respuestaincorrecta = this.sound.add("respuestaincorrecta");
-    this.respuestaincorrecta.setVolume(0.55).setRate(1.5);
-    this.respuestacorrecta = this.sound.add("respuestacorrecta");
-    this.respuestacorrecta.setVolume(0.7).setRate(0.9);
-    this.sonidocasillamonedas = this.sound.add("sonidocasillamonedas");
-    this.sonidocasillamonedas.setVolume(1);
-    this.monedaayuda = this.sound.add("monedaayuda");
-    this.monedaayuda.setVolume(1.5);
 
     //tablero
 
@@ -331,10 +327,12 @@ export class Game extends Phaser.Scene {
       }
     });
 
-
+    
     ////
     //aplicacion de sprite e informacion a cada jugador
     this.InformacionPlayers();
+    //farola tablero
+    this.farola = this.add.image(7100, 1600, 'farola').setDepth(2);
 
     //hud
     this.add.image(this.cameras.main.centerX, this.cameras.main.centerY, "hud").setScrollFactor(0).setDepth(3);
@@ -372,7 +370,7 @@ export class Game extends Phaser.Scene {
         useHandCursor: true,
       })
       .on("pointerdown", () => {
-        this.sound.play("ruleta-sonido");
+        this.sonidosgenerales[10].play();
         this.girar(this.ruleta);
         this.ruleta.disableInteractive();
         this.contadorRuleta = false;
@@ -402,31 +400,7 @@ export class Game extends Phaser.Scene {
 
     this.add.image(1200, 20, "agujaruleta").setScale(1).setScrollFactor(0).setDepth(4);
 
-    this.boton = new Boton(this, this.cameras.main.centerX, this.cameras.main.centerY, 'boton')
-
-    this.boton.boton.setDepth(8).setScrollFactor(0);
-    this.boton.boton.setInteractive({
-      useHandCursor: true,
-    })
-    .on("pointerdown", () => {
-      //limpia el array de casillas
-      this.casillas.length = 0;
-      this.scene.start("Resultado", {
-        CantidadJugadores: this.CantidadJugadores,
-        players: this.players,
-        temporizador: this.temporizador,
-        sonido: this.sonido,  
-        musicamainmenu: this.musicamainmenu,
-        sonidosgenerales: this.sonidosgenerales,
-        idioma: this.idioma,
-      });
-    })
-    .on("pointerover", () => {
-      this.boton.boton.setScale(1.1)
-    })
-    .on("pointerout", () => {
-      this.boton.boton.setScale(1)
-    });
+    
     
   }
 
@@ -752,7 +726,7 @@ export class Game extends Phaser.Scene {
         this.botonRespuesta1.setTexture('popup_respuesta_correcta')
 
         setTimeout(() => {
-          this.respuestacorrecta.play();
+          this.sonidosgenerales[11].play();
           this.mago.setTexture('magofestejando')
         }, 200);
 
@@ -763,7 +737,7 @@ export class Game extends Phaser.Scene {
           } else {
             this.players[this.turno].monedas = this.players[this.turno].monedas + 100;
           }
-          this.sonidocasillamonedas.play();
+          this.sonidosgenerales[14].play();
         }, 2000);
 
       }else{
@@ -771,7 +745,7 @@ export class Game extends Phaser.Scene {
         this.botonRespuesta1.setTexture('popup_respuesta_incorrecta')
 
         setTimeout(() => {
-          this.respuestaincorrecta.play();
+          this.sonidosgenerales[12].play();
           this.mago.setTexture('magotriste')
         }, 200);
       }
@@ -806,7 +780,7 @@ export class Game extends Phaser.Scene {
         this.botonRespuesta2.setTexture('popup_respuesta_correcta')
 
         setTimeout(() => {
-          this.respuestacorrecta.play();
+          this.sonidosgenerales[11].play();
           this.mago.setTexture('magofestejando')
         }, 200);
 
@@ -817,14 +791,14 @@ export class Game extends Phaser.Scene {
           } else {
             this.players[this.turno].monedas = this.players[this.turno].monedas + 100;
           }
-          this.sonidocasillamonedas.play();
+          this.sonidosgenerales[14].play();
         }, 2000);
 
       }else{
         this.botonRespuesta2.setTexture('popup_respuesta_incorrecta')
 
         setTimeout(() => {
-          this.respuestaincorrecta.play();
+          this.sonidosgenerales[12].play();
           this.mago.setTexture('magotriste')
         }, 200);
 
@@ -859,7 +833,7 @@ export class Game extends Phaser.Scene {
 
         this.botonRespuesta3.setTexture('popup_respuesta_correcta')
         setTimeout(() => {
-          this.respuestacorrecta.play();
+          this.sonidosgenerales[11].play();
           this.mago.setTexture('magofestejando')
         }, 200);
 
@@ -870,7 +844,7 @@ export class Game extends Phaser.Scene {
           } else {
             this.players[this.turno].monedas = this.players[this.turno].monedas + 100;
           }
-          this.sonidocasillamonedas.play();
+          this.sonidosgenerales[14].play();
         }, 2000);
 
         
@@ -878,7 +852,7 @@ export class Game extends Phaser.Scene {
         this.botonRespuesta3.setTexture('popup_respuesta_incorrecta')
 
         setTimeout(() => {
-          this.respuestaincorrecta.play();
+          this.sonidosgenerales[12].play();
           this.mago.setTexture('magotriste')
         }, 200);
         
@@ -914,7 +888,7 @@ export class Game extends Phaser.Scene {
         this.botonRespuesta4.setTexture('popup_respuesta_correcta')
 
         setTimeout(() => {
-          this.respuestacorrecta.play();
+          this.sonidosgenerales[11].play();
           this.mago.setTexture('magofestejando')
         }, 200);
 
@@ -925,14 +899,14 @@ export class Game extends Phaser.Scene {
           } else {
             this.players[this.turno].monedas = this.players[this.turno].monedas + 100;
           }
-          this.sonidocasillamonedas.play();
+          this.sonidosgenerales[14].play();
           
         }, 2000);
       }else{
         this.botonRespuesta4.setTexture('popup_respuesta_incorrecta')
 
         setTimeout(() => {
-          this.respuestaincorrecta.play();
+          this.sonidosgenerales[12].play();
           this.mago.setTexture('magotriste')
         }, 200);
         
@@ -959,7 +933,7 @@ export class Game extends Phaser.Scene {
     this.botonayudaimg = this.add.image(1140, 920, "boton_ayuda").setScrollFactor(0).setDepth(7)
     .setInteractive({ useHandCursor: true })
     .on("pointerdown", () => {
-      this.monedaayuda.play();
+      this.sonidosgenerales[13].play();
 
       this.monedabotonayuda = true;
       this.botonayudaboolean = true;
@@ -1094,7 +1068,7 @@ export class Game extends Phaser.Scene {
     if(this.TempTime === 0){
       this.tempTimeText.setText('0');
       this.mago.setTexture('magotriste')
-      this.respuestaincorrecta.play();
+      this.sonidosgenerales[12].play();
       this.removesPopUp();
       this.destroysPopUp()
       this.finalPopUp();
@@ -1269,7 +1243,7 @@ export class Game extends Phaser.Scene {
       this.cartelfunc = 2;
       this.cartelFunciones();
       this.monedas();
-      this.sonidocasillamonedas.play();
+      this.sonidosgenerales[14].play();
   
       setTimeout(() => {
         this.contadorturno = true;

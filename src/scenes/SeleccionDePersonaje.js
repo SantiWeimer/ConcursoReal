@@ -71,7 +71,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
       this.sonidosgenerales[6].setVolume(0.3 / this.sonido.volumenGeneral)
       this.sonidosgenerales[7].setVolume(0.5 / this.sonido.volumenGeneral)
       this.sonidosgenerales[8].setVolume(0.5 / this.sonido.volumenGeneral)
-
+      this.sonidosgenerales[9].setVolume(0.5 / this.sonido.volumenGeneral)
       //
       //
       //
@@ -198,8 +198,8 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fontStyle: 'italic', 
             fontSize: '58px', 
             fill: '#42FF1C',
-          });
-
+          }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);
+          
         } 
         
      
@@ -262,7 +262,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fontStyle: 'italic', 
             fontSize: '58px', 
             fill: '#1CFFFF',
-          });
+          }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);;
         } 
       })
       .on('pointerout', () => {
@@ -288,6 +288,10 @@ export class SeleccionDePersonaje extends Phaser.Scene {
 
           //desbloqueo de click // bloqueo para no poder tocar mientras esta el pop up
           if (this.ContadorInteraccion === 1){
+            setTimeout(() => {
+              this.sonidosgenerales[9].play()
+            }, 500);
+    
             this.bardoAnimacion.play('bardoSeleccionado')
             this.bardoAnimacion.removeInteractive();
             this.bardoboolean = 1;
@@ -319,7 +323,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fontStyle: 'italic', 
             fontSize: '58px', 
             fill: '#FFC81C',
-          });
+          }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);;
         }
       })
       .on('pointerout', () => {
@@ -378,7 +382,7 @@ export class SeleccionDePersonaje extends Phaser.Scene {
             fontStyle: 'italic', 
             fontSize: '58px', 
             fill: '#FF17F4',
-          });
+          }).setShadow(3, 3, 'rgba(0,0,0,0.5)', 5);;
         } 
         
       })

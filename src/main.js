@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-import { Preloads } from "./scenes/preloads.js";
+
 import { MainMenu } from "./scenes/mainmenu.js";
 import { Configuracion } from "./scenes/configuracion.js";
 import { Instrucciones } from "./scenes/instrucciones.js";

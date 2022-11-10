@@ -32,11 +32,7 @@ export class MainMenu extends Phaser.Scene {
 
     //sirve para desbugear, es para la primera vez que se entra al juego
     if (this.sonidoboolean === true) {
-      this.musicamainmenu = this.sound.add("musicamainmenu", {
-        volume: 0.4,
-        loop: true,
-      });
-      this.musicamainmenu.play();
+      this.musicamainmenu[0].play()
       this.sonidoboolean = false;
       this.idioma = 1;
     }else {
@@ -47,8 +43,10 @@ export class MainMenu extends Phaser.Scene {
 
     //botones
     
+    //calibrar el volumen
     this.sonidosgenerales[0].setVolume(0.3 / this.sonido.volumenGeneral)
     this.sonidosgenerales[1].setVolume(1 / this.sonido.volumenGeneral)
+    this.musicamainmenu[0].setVolume(0.4 / this.sonido.volumenMusica)
 
     // Fondo del menú principal
     this.add

@@ -442,7 +442,10 @@ export class Configuracion extends Phaser.Scene {
       })
       .on("pointerdown", () => {
         this.sonido.musicaMute = false;
-        this.musicamainmenu.play();
+        this.musicamainmenu.forEach(element => {
+          element.setMute(false);
+      });
+        this.musicamainmenu[0].play();
         this.desmutemusica.disableInteractive();
         this.mutemusica.setInteractive();
         this.mutemusica.setTexture('boton_cuadrado');
@@ -469,7 +472,10 @@ export class Configuracion extends Phaser.Scene {
       .on("pointerdown", () => {
         this.sonido.musicaMute = true;
         this.mutemusica.disableInteractive();
-        this.musicamainmenu.stop();
+        this.musicamainmenu[0].stop();
+        this.musicamainmenu.forEach(element => {
+            element.setMute(true);
+        });
         this.desmutemusica.setInteractive();
         this.desmutemusica.setTexture('boton_cuadrado');
         this.mutemusica.setTexture('botones_cuadrado_gris');
@@ -534,9 +540,9 @@ export class Configuracion extends Phaser.Scene {
         if (this.sonido.volumenMusica === 10) {
         } else {
           this.sonido.volumenMusica = this.sonido.volumenMusica + 1;
-          this.musicamainmenu.pause();
-          this.musicamainmenu.setVolume(0.4 / this.sonido.volumenMusica);
-          this.musicamainmenu.resume();
+          this.musicamainmenu[0].pause();
+          this.musicamainmenu[0].setVolume(0.4 / this.sonido.volumenMusica);
+          this.musicamainmenu[0].resume();
           this.tweens.add({
             targets: this.imagenvolumen2,
             duration: 200,
@@ -560,9 +566,9 @@ export class Configuracion extends Phaser.Scene {
         if (this.sonido.volumenMusica === 1) {
         } else {
           this.sonido.volumenMusica = this.sonido.volumenMusica - 1;
-          this.musicamainmenu.pause();
-          this.musicamainmenu.setVolume(0.4 / this.sonido.volumenMusica);
-          this.musicamainmenu.resume();
+          this.musicamainmenu[0].pause();
+          this.musicamainmenu[0].setVolume(0.4 / this.sonido.volumenMusica);
+          this.musicamainmenu[0].resume();
           this.tweens.add({
             targets: this.imagenvolumen2,
             duration: 200,

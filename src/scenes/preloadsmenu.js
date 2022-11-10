@@ -5,7 +5,8 @@ export class PreloadsMenu extends Phaser.Scene {
 
   sonido;
   sonidosgenerales = [];
-
+  musicamainmenu = [];
+   
     constructor() {
       
       super("PreloadsMenu");
@@ -16,11 +17,7 @@ export class PreloadsMenu extends Phaser.Scene {
       this.load.image("logo", "assets/images/logo.png");
       //transparencia
       this.load.image("transparencia", "assets/images/transparencia.png");
-      //preload
-      this.load.image("preload", "assets/images/pantalla_carga.jpg");
-      this.load.spritesheet('monedacarga', 'assets/images/spritesheet_moneda_carga.png', { frameWidth: 410, frameHeight: 393 });
 
-      
 
       //menu principal
       this.load.image("fondo_menu", "assets/images/fondo_menu.jpg");
@@ -39,16 +36,9 @@ export class PreloadsMenu extends Phaser.Scene {
     
       //banderin temporizador
       this.load.image("banderintemporizador", "assets/images/banderin_temporizador.png");
-      this.load.image("botontemp0", "assets/images/temporizador_boton0.png");
-      this.load.image("botontemp15", "assets/images/temporizador_boton15.png");
-      this.load.image("botontemp30", "assets/images/temporizador_boton30.png");
 
       //banderin volumen
       this.load.image("banderinvolumen", "assets/images/banderin_volumen.png");
-      this.load.image("barrasonido", "assets/images/barrasonido.png");
-      this.load.image("barrasonido1", "assets/images/barrasonido1.png");
-      this.load.image("flechasonidoizq", "assets/images/flechasonidoizq.png");
-      this.load.image("flechasonidoder", "assets/images/flechasonidoder.png");
       this.load.image("sogaVolumen", "assets/images/soga_volumen.png");
       this.load.image("borlaVolumen", "assets/images/borla_volumen.png");
       this.load.image("dijeVolumen", "assets/images/dije_volumen.png");
@@ -70,6 +60,7 @@ export class PreloadsMenu extends Phaser.Scene {
       this.load.image("cartel_aldi", "assets/images/cartel_aldi.png");
       this.load.image("cartel_santi", "assets/images/cartel_santi.png");
       this.load.image("cartel_luci", "assets/images/cartel_luci.png");
+      this.load.image("cartel_musica", "assets/images/cartel_musica.png");
       this.load.image("boton_musica", "assets/images/boton_musica.png");
       this.load.image("boton_musica_blanco", "assets/images/boton_musica_blanco.png");
 
@@ -131,115 +122,114 @@ export class PreloadsMenu extends Phaser.Scene {
       this.load.image("rey", "assets/images/rey.png");
 
 
-    //gameplay 
+      //gameplay 
 
-    //ruleta
-    this.load.image("ruletaimagen", "assets/images/ruleta.png");
-    this.load.image("ruleta_resplandor", "assets/images/ruleta_resplandor.png");
-    this.load.image("agujaruleta", "assets/images/agujaruleta.png");
-    this.load.image("flechanegra", "assets/images/flechanegra.png");
+      //ruleta
+      this.load.image("ruletaimagen", "assets/images/ruleta.png");
+      this.load.image("ruleta_resplandor", "assets/images/ruleta_resplandor.png");
+      this.load.image("agujaruleta", "assets/images/agujaruleta.png");
+      this.load.image("flechanegra", "assets/images/flechanegra.png");
 
-    //tablero y casillas
-    this.load.tilemapTiledJSON("tilemap", "assets/tilemaps/tilemap2.json");
-    this.load.image("tablero", "assets/images/tablero.png");
-    //pantano
-    this.load.image("casilla_pantano_comun", "assets/images/casilla_pantano_comun.jpg");
-    this.load.image("casilla_pantano_pierde_turno", "assets/images/casilla_pantano_pierde_turno.jpg");
-    this.load.image("casilla_pantano_volver", "assets/images/casilla_pantano_volver.jpg");
-    this.load.image("casilla_pantano_pregunta_X", "assets/images/casilla_pantano_pregunta_X.jpg");
-    this.load.image("casilla_pantano_pregunta_Y", "assets/images/casilla_pantano_pregunta_Y.jpg");
-    this.load.image("casilla_pantano_avanzar", "assets/images/casilla_pantano_avanzar.jpg");
-    this.load.image("casilla_pantano_moneda_X", "assets/images/casilla_pantano_moneda_X.jpg");
-    this.load.image("casilla_pantano_moneda_Y", "assets/images/casilla_pantano_moneda_Y.jpg");
-    this.load.image("casilla_pantano_esquina", "assets/images/casilla_pantano_esquina.jpg");
-    this.load.image("casilla_pantano_pierde_turno_esquina", "assets/images/casilla_pantano_pierde_turno_esquina.jpg");
-    this.load.image("troncos_pantano", "assets/images/troncos_pantano.png");
-    //bosque
-    this.load.image("casilla_bosque_comun", "assets/images/casilla_bosque_comun.jpg");
-    this.load.image("casilla_bosque_pierde_turno", "assets/images/casilla_bosque_pierde_turno.jpg");
-    this.load.image("casilla_bosque_volver", "assets/images/casilla_bosque_volver.jpg");
-    this.load.image("casilla_bosque_pregunta_X", "assets/images/casilla_bosque_pregunta_X.jpg");
-    this.load.image("casilla_bosque_pregunta_Y", "assets/images/casilla_bosque_pregunta_Y.jpg");
-    this.load.image("casilla_bosque_avanzar", "assets/images/casilla_bosque_avanzar.jpg");
-    this.load.image("casilla_bosque_avanzar_esquina", "assets/images/casilla_bosque_avanzar_esquina.jpg");
-    this.load.image("casilla_bosque_moneda_X", "assets/images/casilla_bosque_moneda_X.jpg");
-    this.load.image("casilla_bosque_moneda_Y", "assets/images/casilla_bosque_moneda_Y.jpg");
-    this.load.image("casilla_bosque_moneda_esquina", "assets/images/casilla_bosque_moneda_esquina.jpg");
-    this.load.image("casilla_bosque_esquina", "assets/images/casilla_bosque_esquina.jpg");
+      //tablero y casillas
+      this.load.tilemapTiledJSON("tilemap", "assets/tilemaps/tilemap2.json");
+      this.load.image("tablero", "assets/images/tablero.png");
+      this.load.image("farola", "assets/images/farola.png");
+      //pantano
+      this.load.image("casilla_pantano_comun", "assets/images/casilla_pantano_comun.jpg");
+      this.load.image("casilla_pantano_pierde_turno", "assets/images/casilla_pantano_pierde_turno.jpg");
+      this.load.image("casilla_pantano_volver", "assets/images/casilla_pantano_volver.jpg");
+      this.load.image("casilla_pantano_pregunta_X", "assets/images/casilla_pantano_pregunta_X.jpg");
+      this.load.image("casilla_pantano_pregunta_Y", "assets/images/casilla_pantano_pregunta_Y.jpg");
+      this.load.image("casilla_pantano_avanzar", "assets/images/casilla_pantano_avanzar.jpg");
+      this.load.image("casilla_pantano_moneda_X", "assets/images/casilla_pantano_moneda_X.jpg");
+      this.load.image("casilla_pantano_moneda_Y", "assets/images/casilla_pantano_moneda_Y.jpg");
+      this.load.image("casilla_pantano_esquina", "assets/images/casilla_pantano_esquina.jpg");
+      this.load.image("casilla_pantano_pierde_turno_esquina", "assets/images/casilla_pantano_pierde_turno_esquina.jpg");
+      this.load.image("troncos_pantano", "assets/images/troncos_pantano.png");
+      //bosque
+      this.load.image("casilla_bosque_comun", "assets/images/casilla_bosque_comun.jpg");
+      this.load.image("casilla_bosque_pierde_turno", "assets/images/casilla_bosque_pierde_turno.jpg");
+      this.load.image("casilla_bosque_volver", "assets/images/casilla_bosque_volver.jpg");
+      this.load.image("casilla_bosque_pregunta_X", "assets/images/casilla_bosque_pregunta_X.jpg");
+      this.load.image("casilla_bosque_pregunta_Y", "assets/images/casilla_bosque_pregunta_Y.jpg");
+      this.load.image("casilla_bosque_avanzar", "assets/images/casilla_bosque_avanzar.jpg");
+      this.load.image("casilla_bosque_avanzar_esquina", "assets/images/casilla_bosque_avanzar_esquina.jpg");
+      this.load.image("casilla_bosque_moneda_X", "assets/images/casilla_bosque_moneda_X.jpg");
+      this.load.image("casilla_bosque_moneda_Y", "assets/images/casilla_bosque_moneda_Y.jpg");
+      this.load.image("casilla_bosque_moneda_esquina", "assets/images/casilla_bosque_moneda_esquina.jpg");
+      this.load.image("casilla_bosque_esquina", "assets/images/casilla_bosque_esquina.jpg");
     
-    //aldea
-    this.load.image("casilla_aldea_comun", "assets/images/casilla_aldea_comun.jpg");
-    this.load.image("casilla_aldea_pierde_turno", "assets/images/casilla_aldea_pierde_turno.jpg");
-    this.load.image("casilla_aldea_volver", "assets/images/casilla_aldea_volver.jpg");
-    this.load.image("casilla_aldea_pregunta_X", "assets/images/casilla_aldea_pregunta_X.jpg");
-    this.load.image("casilla_aldea_pregunta_Y", "assets/images/casilla_aldea_pregunta_Y.jpg");
-    this.load.image("casilla_aldea_avanzar", "assets/images/casilla_aldea_avanzar.jpg");
-    this.load.image("casilla_aldea_moneda_X", "assets/images/casilla_aldea_moneda_X.jpg");
-    this.load.image("casilla_aldea_moneda_Y", "assets/images/casilla_aldea_moneda_Y.jpg");
-    this.load.image("casilla_aldea_esquina", "assets/images/casilla_aldea_esquina.jpg");
-    this.load.image("casilla_aldea_moneda_esquina", "assets/images/casilla_aldea_moneda_esquina.jpg");
-    this.load.image("casilla_aldea_pierde_turno_esquina", "assets/images/casilla_aldea_pierde_turno_esquina.jpg");
+      //aldea
+      this.load.image("casilla_aldea_comun", "assets/images/casilla_aldea_comun.jpg");
+      this.load.image("casilla_aldea_pierde_turno", "assets/images/casilla_aldea_pierde_turno.jpg");
+      this.load.image("casilla_aldea_volver", "assets/images/casilla_aldea_volver.jpg");
+      this.load.image("casilla_aldea_pregunta_X", "assets/images/casilla_aldea_pregunta_X.jpg");
+      this.load.image("casilla_aldea_pregunta_Y", "assets/images/casilla_aldea_pregunta_Y.jpg");
+      this.load.image("casilla_aldea_avanzar", "assets/images/casilla_aldea_avanzar.jpg");
+      this.load.image("casilla_aldea_moneda_X", "assets/images/casilla_aldea_moneda_X.jpg");
+      this.load.image("casilla_aldea_moneda_Y", "assets/images/casilla_aldea_moneda_Y.jpg");
+      this.load.image("casilla_aldea_esquina", "assets/images/casilla_aldea_esquina.jpg");
+      this.load.image("casilla_aldea_moneda_esquina", "assets/images/casilla_aldea_moneda_esquina.jpg");
+      this.load.image("casilla_aldea_pierde_turno_esquina", "assets/images/casilla_aldea_pierde_turno_esquina.jpg");
 
-    //castillo
-    this.load.image("casilla_castillo_comun", "assets/images/casilla_castillo_comun.jpg");
-    this.load.image("casilla_castillo_pierde_turno", "assets/images/casilla_castillo_pierde_turno.jpg");
-    this.load.image("casilla_castillo_volver", "assets/images/casilla_castillo_volver.jpg");
-    this.load.image("casilla_castillo_pregunta_X", "assets/images/casilla_castillo_pregunta_X.jpg");
-    this.load.image("casilla_castillo_pregunta_Y", "assets/images/casilla_castillo_pregunta_Y.jpg");
-    this.load.image("casilla_castillo_avanzar", "assets/images/casilla_castillo_avanzar.jpg");
-    this.load.image("casilla_castillo_moneda_X", "assets/images/casilla_castillo_moneda_X.jpg");
-    this.load.image("casilla_castillo_moneda_Y", "assets/images/casilla_castillo_moneda_Y.jpg");
-    this.load.image("casilla_castillo_esquina", "assets/images/casilla_castillo_esquina.jpg");
-    this.load.image("casilla_castillo_esquina_pierde_turno", "assets/images/casilla_castillo_esquina_pierde_turno.jpg");
-    this.load.image("casilla_castillo_esquina_volver", "assets/images/casilla_castillo_esquina_volver.jpg");
+      //castillo
+      this.load.image("casilla_castillo_comun", "assets/images/casilla_castillo_comun.jpg");
+      this.load.image("casilla_castillo_pierde_turno", "assets/images/casilla_castillo_pierde_turno.jpg");
+      this.load.image("casilla_castillo_volver", "assets/images/casilla_castillo_volver.jpg");
+      this.load.image("casilla_castillo_pregunta_X", "assets/images/casilla_castillo_pregunta_X.jpg");
+      this.load.image("casilla_castillo_pregunta_Y", "assets/images/casilla_castillo_pregunta_Y.jpg");
+      this.load.image("casilla_castillo_avanzar", "assets/images/casilla_castillo_avanzar.jpg");
+      this.load.image("casilla_castillo_moneda_X", "assets/images/casilla_castillo_moneda_X.jpg");
+      this.load.image("casilla_castillo_moneda_Y", "assets/images/casilla_castillo_moneda_Y.jpg");
+      this.load.image("casilla_castillo_esquina", "assets/images/casilla_castillo_esquina.jpg");
+      this.load.image("casilla_castillo_esquina_pierde_turno", "assets/images/casilla_castillo_esquina_pierde_turno.jpg");
+      this.load.image("casilla_castillo_esquina_volver", "assets/images/casilla_castillo_esquina_volver.jpg");
     
-    //personajes jugables
-    this.load.spritesheet('ogrojuego', 'assets/images/ogro_spritesheet.png', { frameWidth: 125, frameHeight: 250 });
-    this.load.image("princesajuego", "assets/images/princesa.png");
-    this.load.image("hechicerojuego", "assets/images/hechicero.png");
-    this.load.image("bardojuego", "assets/images/bardo.png");
+      //personajes jugables
+      this.load.spritesheet('ogrojuego', 'assets/images/ogro_spritesheet.png', { frameWidth: 125, frameHeight: 250 });
+      this.load.image("princesajuego", "assets/images/princesa.png");
+      this.load.image("hechicerojuego", "assets/images/hechicero.png");
+      this.load.image("bardojuego", "assets/images/bardo.png");
 
-    //personajes no jugables
-    this.load.image("magopregunta", "assets/images/mago_pregunta.png");
-    this.load.image("magotriste", "assets/images/mago_triste.png");
-    this.load.image("magofestejando", "assets/images/mago_festejando.png");
+      //personajes no jugables
+      this.load.image("magopregunta", "assets/images/mago_pregunta.png");
+      this.load.image("magotriste", "assets/images/mago_triste.png");
+      this.load.image("magofestejando", "assets/images/mago_festejando.png");
     
 
-    //HUD
-    this.load.image("hud", "assets/images/marco_gameplay.png");
-    this.load.image("hudmadera", "assets/images/hud_madera.png");
-    this.load.image("cartelfunciones", "assets/images/cartel_aviso_funciones.png");
-    this.load.image("cartelpantano", "assets/images/cartel_pantano.png");
-    this.load.image("cartelbosque", "assets/images/cartel_bosque.png");
-    this.load.image("cartelaldea", "assets/images/cartel_aldea.png");
-    this.load.image("cartelcastillo", "assets/images/cartel_castillo.png");
-    this.load.image("iconomoneda", "assets/images/icono_moneda.png");
-    this.load.image("bloqueoruleta", "assets/images/bloqueo-ruleta.png");
-    this.load.image("triangulo", "assets/images/triangulo_turno.png");
+      //HUD
+      this.load.image("hud", "assets/images/marco_gameplay.png");
+      this.load.image("hudmadera", "assets/images/hud_madera.png");
+      this.load.image("cartelfunciones", "assets/images/cartel_aviso_funciones.png");
+      this.load.image("cartelpantano", "assets/images/cartel_pantano.png");
+      this.load.image("cartelbosque", "assets/images/cartel_bosque.png");
+      this.load.image("cartelaldea", "assets/images/cartel_aldea.png");
+      this.load.image("cartelcastillo", "assets/images/cartel_castillo.png");
+      this.load.image("iconomoneda", "assets/images/icono_moneda.png");
+      this.load.image("bloqueoruleta", "assets/images/bloqueo-ruleta.png");
+      this.load.image("triangulo", "assets/images/triangulo_turno.png");
 
-    //preguntas
-    this.load.image("popup", "assets/images/popup-pregunta.png");
-    this.load.image("boton_respuesta", "assets/images/boton_respuesta.jpg");
-    this.load.image("boton_respuesta2", "assets/images/boton_respuesta2.jpg");
-    this.load.image("popup_respuesta_correcta", "assets/images/boton_respuesta_correcta.jpg");
-    this.load.image("popup_respuesta_incorrecta", "assets/images/boton_respuesta_incorrecta.jpg");
-    this.load.image("boton_ayuda", "assets/images/boton_ayuda.jpg");
-    this.load.image("boton_ayuda2", "assets/images/boton_ayuda2.jpg");
-    this.load.image("boton_ayuda3", "assets/images/boton_ayuda3.jpg");
-    this.load.image("cronometro", "assets/images/simbolo_cronometro.png");
+      //preguntas
+      this.load.image("popup", "assets/images/popup-pregunta.png");
+      this.load.image("boton_respuesta", "assets/images/boton_respuesta.jpg");
+      this.load.image("boton_respuesta2", "assets/images/boton_respuesta2.jpg");
+      this.load.image("popup_respuesta_correcta", "assets/images/boton_respuesta_correcta.jpg");
+      this.load.image("popup_respuesta_incorrecta", "assets/images/boton_respuesta_incorrecta.jpg");
+      this.load.image("boton_ayuda", "assets/images/boton_ayuda.jpg");
+      this.load.image("boton_ayuda2", "assets/images/boton_ayuda2.jpg");
+      this.load.image("boton_ayuda3", "assets/images/boton_ayuda3.jpg");
+      this.load.image("cronometro", "assets/images/simbolo_cronometro.png");
 
     
-    //final
-    this.load.image("resultado", "assets/images/fin_del_juego.png");
-    this.load.image("resultadoingles", "assets/images/game_over.png");
-
-
-
+      //final
+      this.load.image("resultado", "assets/images/fin_del_juego.png");
+      this.load.image("resultadoingles", "assets/images/game_over.png");
 
 
       //musica
-      this.load.audio("musicamainmenu", "assets/sounds/music/mainmenu.mp3");
-      this.load.audio("musicavictoria", "assets/sounds/music/Victory.mp3");
+
+      this.load.audio("musica_main_menu", "assets/sounds/music/mainmenu.mp3");
+      this.load.audio("musica_victoria", "assets/sounds/music/Victory.mp3");
 
       //SFX
 
@@ -253,28 +243,27 @@ export class PreloadsMenu extends Phaser.Scene {
       //seleccion personaje
       this.load.audio("cadenas","assets/sounds/SFX/cadenas.wav");
       this.load.audio("golpe_madera_sel","assets/sounds/SFX/golpe_madera_seleccion.wav");
-      this.load.audio("ogro_fuerza","assets/sounds/SFX/ogro_fuerza.wav");
+      this.load.audio("ogro_seleccion","assets/sounds/SFX/ogro_fuerza.wav");
       this.load.audio("princesa_seleccion","assets/sounds/SFX/princesa_seleccion.wav");
-      this.load.audio("hechicero_golpe","assets/sounds/SFX/hechicero_sel.wav");
-
+      this.load.audio("hechicero_seleccion","assets/sounds/SFX/hechicero_sel.wav");
+      this.load.audio("bardo_seleccion","assets/sounds/SFX/bardo_sel.wav");
       //sonidos gameplay
     
       //ruleta
-      this.load.audio("ruleta-sonido","assets/sounds/SFX/ruletafinal.mp3");
+      this.load.audio("ruleta_sonido","assets/sounds/SFX/ruletafinal.mp3");
     
       //popup pregunta
-      this.load.audio("monedaayuda","assets/sounds/SFX/monedaayuda.wav");
-      this.load.audio("respuestaincorrecta","assets/sounds/SFX/respuestaincorrecta.mp3");
-      this.load.audio("respuestacorrecta","assets/sounds/SFX/respuestacorrecta.wav");
-      //carteles
-      this.load.audio("sonido-cartelbosque","assets/sounds/SFX/cartel-bosque.wav");
+      this.load.audio("moneda_ayuda","assets/sounds/SFX/monedaayuda.wav");
+      this.load.audio("respuesta_incorrecta","assets/sounds/SFX/respuestaincorrecta.mp3");
+      this.load.audio("respuesta_correcta","assets/sounds/SFX/respuestacorrecta.wav");
+   
       //casillas
-      this.load.audio("sonidocasillamonedas","assets/sounds/SFX/casillamonedas.mp3");
+      this.load.audio("sonido_casilla_monedas","assets/sounds/SFX/casillamonedas.mp3");
 
  
       this.load.on('complete', () => {
         setTimeout(() => {
-          this.scene.start("MainMenu", {sonido: this.sonido, sonidosgenerales: this.sonidosgenerales});
+          this.scene.start("MainMenu", {sonido: this.sonido, sonidosgenerales: this.sonidosgenerales, musicamainmenu: this.musicamainmenu});
         }, 1000)
       })
  
@@ -289,16 +278,16 @@ export class PreloadsMenu extends Phaser.Scene {
 
 
       //botones
-      this.sonidobotones1 = this.sound.add("sonidobotones1",{
+      this.sonidoBotones1 = this.sound.add("sonidobotones1",{
       volume: 0.3 / this.sonido.volumenGeneral,
       });
-      this.sonidobotones2 = this.sound.add("sonidobotones2",{
+      this.sonidoBotones2 = this.sound.add("sonidobotones2",{
       volume: 1 / this.sonido.volumenGeneral,
       });
-      this.sonidobotones3 = this.sound.add("sonidobotones3",{
+      this.sonidoBotones3 = this.sound.add("sonidobotones3",{
         volume: 1 / this.sonido.volumenGeneral,
       });
-      this.selpersonajes = this.sound.add('selpersonajes',{
+      this.selPersonajes = this.sound.add('selpersonajes',{
         volume: 0.1 / this.sonido.volumenGeneral,
       });
       //seleccion de personaje
@@ -309,27 +298,66 @@ export class PreloadsMenu extends Phaser.Scene {
         volume: 0.8 / this.sonido.volumenGeneral,
       });
       //personajes
-      this.ogroFuerza = this.sound.add('ogro_fuerza',{
+      this.ogroSeleccion = this.sound.add('ogro_seleccion',{
         volume: 0.3 / this.sonido.volumenGeneral,
       });
       this.princesaSeleccion = this.sound.add('princesa_seleccion',{
         volume: 0.5 / this.sonido.volumenGeneral,
       });
-      this.hechiceroSeleccion = this.sound.add('hechicero_golpe',{
+      this.hechiceroSeleccion = this.sound.add('hechicero_seleccion',{
         volume: 0.5 / this.sonido.volumenGeneral,
       });
-      
+      this.bardoSeleccion = this.sound.add('bardo_seleccion',{
+        volume: 0.5 / this.sonido.volumenGeneral,
+      });
+      //gameplay
+      this.sonidoRuleta = this.sound.add('ruleta_sonido',{
+        volume: 1 / this.sonido.volumenGeneral,
+      });
+      this.sonidoRespCorrecta = this.sound.add('respuesta_correcta',{
+        volume: 0.7 / this.sonido.volumenGeneral,
+        rate: 0.9
+      });
+      this.sonidoRespIncorrecta = this.sound.add('respuesta_incorrecta',{
+        volume: 0.55 / this.sonido.volumenGeneral,
+        rate: 1.5,
+      });
+      this.monedaAyuda = this.sound.add('moneda_ayuda',{
+        volume: 1.5 / this.sonido.volumenGeneral,
+      });
+      this.casillaMonedas = this.sound.add('sonido_casilla_monedas',{
+        volume: 0.8 / this.sonido.volumenGeneral,
+      });
 
-      this.sonidosgenerales.push(this.sonidobotones1);
-      this.sonidosgenerales.push(this.sonidobotones2);
-      this.sonidosgenerales.push(this.sonidobotones3);
-      this.sonidosgenerales.push(this.selpersonajes);
+     
+
+      this.sonidosgenerales.push(this.sonidoBotones1);
+      this.sonidosgenerales.push(this.sonidoBotones2);
+      this.sonidosgenerales.push(this.sonidoBotones3);
+      this.sonidosgenerales.push(this.selPersonajes);
       this.sonidosgenerales.push(this.cadenas);
       this.sonidosgenerales.push(this.golpeMaderaSel);
-      this.sonidosgenerales.push(this.ogroFuerza);
+      this.sonidosgenerales.push(this.ogroSeleccion);
       this.sonidosgenerales.push(this.princesaSeleccion);
       this.sonidosgenerales.push(this.hechiceroSeleccion);
-       
+      this.sonidosgenerales.push(this.bardoSeleccion);
+      this.sonidosgenerales.push(this.sonidoRuleta);
+      this.sonidosgenerales.push(this.sonidoRespCorrecta);
+      this.sonidosgenerales.push(this.sonidoRespIncorrecta);
+      this.sonidosgenerales.push(this.monedaAyuda);
+      this.sonidosgenerales.push(this.casillaMonedas);
+
+      this.mainMenu = this.sound.add("musica_main_menu", {
+        volume: 0.4,
+        loop: true,
+      })
+
+      this.musicaVictoria = this.sound.add("musica_victoria",{
+        volume: 0.5 / this.sonido.volumenMusica,
+      });
+     
+      this.musicamainmenu.push(this.mainMenu);
+      this.musicamainmenu.push(this.musicaVictoria);
     }
 
     

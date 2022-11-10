@@ -27,17 +27,15 @@ export class Resultado extends Phaser.Scene {
     create() {
 
       //musica
-      this.musicamainmenu.stop();
+      this.musicamainmenu[0].stop();
+      this.musicamainmenu[1].setVolume(0.5 / this.sonido.volumenMusica)
+      this.musicamainmenu[1].play();
       
-      this.musicavictoria = this.sound.add("musicavictoria",{
-        volume: 0.5 / this.sonido.volumenMusica,
-      });
-      this.musicavictoria.play();
       
       //el booleano cambia la musica si la de victoria no terminó
       this.booleanmusica = true;
-      this.musicavictoria.once('complete', () => {
-        this.musicamainmenu.play();
+      this.musicamainmenu[1].once('complete', () => {
+        this.musicamainmenu[0].play();
         this.booleanmusica = false});
       //sonidos
   
@@ -215,8 +213,8 @@ export class Resultado extends Phaser.Scene {
 
       //parar musica de victoria y cambiar a la de menu
       if(this.booleanmusica === true){
-        this.musicavictoria.stop();
-        this.musicamainmenu.play();
+        this.musicamainmenu[1].stop();
+        this.musicamainmenu[0].play();
       }
       this.scene.start("MainMenu", {
         temporizador: this.temporizador,
