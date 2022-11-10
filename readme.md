@@ -1,4 +1,4 @@
-(https://i.ibb.co/k2WHx0T/logo.png)
+[logo](https://i.ibb.co/k2WHx0T/logo.png)
 
 Juego: Concurso Real \
 
