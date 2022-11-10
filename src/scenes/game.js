@@ -718,7 +718,9 @@ export class Game extends Phaser.Scene {
     .setInteractive({ useHandCursor: true })
     .on("pointerdown", () => {
       //pausa temporizador
-      this.timedEvent.paused = true;
+      if(this.temporizador > 0){
+        this.timedEvent.paused = true;
+      }
       //elimina las interacciones
       this.removesPopUp();
       if(this.respPregunta[0].esCorrecta === true){
@@ -772,7 +774,11 @@ export class Game extends Phaser.Scene {
     .setInteractive({ useHandCursor: true })
     .on("pointerdown", () => {
       //pausa temporizador
-      this.timedEvent.paused = true;
+
+      if(this.temporizador > 0){
+        this.timedEvent.paused = true;
+      }
+      
       //elimina las interacciones
       this.removesPopUp();
       if(this.respPregunta[1].esCorrecta  === true){
@@ -826,7 +832,9 @@ export class Game extends Phaser.Scene {
     .setInteractive({ useHandCursor: true })
     .on("pointerdown", () => {
       //pausa temporizador
-      this.timedEvent.paused = true;
+      if(this.temporizador > 0){
+        this.timedEvent.paused = true;
+      }
       //elimina las interacciones
       this.removesPopUp();
       if(this.respPregunta[2].esCorrecta  === true){
@@ -880,7 +888,9 @@ export class Game extends Phaser.Scene {
     .setInteractive({ useHandCursor: true })
     .on("pointerdown", () => {
       //pausa temporizador
-      this.timedEvent.paused = true;
+      if(this.temporizador > 0){
+        this.timedEvent.paused = true;
+      }
       //elimina las interacciones
       this.removesPopUp();
       if(this.respPregunta[3].esCorrecta  === true){

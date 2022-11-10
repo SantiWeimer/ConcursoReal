@@ -117,7 +117,7 @@ export class Configuracion extends Phaser.Scene {
       })
       .on("pointerdown", () => {
         this.temporizador = 0;
-        console.log(this.temporizador);
+        
         this.ceroSeg.disableInteractive();
         this.treintaSeg.setInteractive();
         this.quinceSeg.setInteractive();
@@ -165,7 +165,7 @@ export class Configuracion extends Phaser.Scene {
       })
       .on("pointerdown", () => {
         this.temporizador = 15;
-        console.log(this.temporizador);
+        
         this.quinceSeg.disableInteractive();
         this.ceroSeg.setInteractive();
         this.treintaSeg.setInteractive();
@@ -213,7 +213,7 @@ export class Configuracion extends Phaser.Scene {
       })
       .on("pointerdown", () => {
         this.temporizador = 30;
-        console.log(this.temporizador);
+        
         this.treintaSeg.disableInteractive();
         this.ceroSeg.setInteractive();
         this.quinceSeg.setInteractive();
@@ -390,7 +390,6 @@ export class Configuracion extends Phaser.Scene {
           this.sonidosgenerales[0].setVolume(0.3 / this.sonido.volumenGeneral);
           this.sonidosgenerales[2].setVolume(1 / this.sonido.volumenGeneral);
           this.sonidosgenerales[0].play();
-          console.log("sonido", this.sonido.volumenGeneral);
           this.tweens.add({
             targets: this.imagenvolumen,
             duration: 200,
@@ -417,7 +416,7 @@ export class Configuracion extends Phaser.Scene {
           this.sonidosgenerales[0].setVolume(0.3 / this.sonido.volumenGeneral);
           this.sonidosgenerales[2].setVolume(1 / this.sonido.volumenGeneral);
           this.sonidosgenerales[0].play();
-          console.log("sonido", this.sonido.volumenGeneral);
+          
           this.tweens.add({
             targets: this.imagenvolumen,
             duration: 200,
