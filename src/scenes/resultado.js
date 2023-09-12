@@ -1,6 +1,8 @@
-import Phaser from 'phaser'
+import Phaser from 'phaser';
 import Boton from "../clases/Boton.js";
-import {getPhrase} from '../services/translations.js'
+import {getPhrase} from '../services/translations.js';
+import { collection, addDoc } from "firebase/firestore";
+//import { db } from '../services/firebase.js'
 //variables importadas
 
 
@@ -25,6 +27,8 @@ export class Resultado extends Phaser.Scene {
     }
   
     create() {
+
+
 
       //musica
       this.musicamainmenu[0].stop();
@@ -246,4 +250,8 @@ export class Resultado extends Phaser.Scene {
       .setOrigin(0.5);
   
     }
+
+
   }
+
+  

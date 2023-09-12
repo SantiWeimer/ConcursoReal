@@ -431,35 +431,18 @@ export class Game extends Phaser.Scene {
     while (this.contadorturno === true) {
       this.turno++;
       this.contadorturno = false;
+
       //reinicio de variable
-      if (this.turno === 2 && this.CantidadJugadores === 2) {
+      if(this.turno === this.players.length){
         this.turno = 0;
       }
-
-      if (this.turno === 3 && this.CantidadJugadores === 3) {
-        this.turno = 0;
-      }
-
-      if (this.turno === 4 && this.CantidadJugadores === 4) {
-        this.turno = 0;
-      }
-
+      
       //funcion perder turno
-      if (this.players[this.turno].perderTurno === true) {
-        if (this.players[this.turno].contadorPerderTurno === 2) {
-          this.players[this.turno].perderTurno = false;
-          this.players[this.turno].contadorPerderTurno = 0;
-        } else {
-          this.contadorturno = true;
-          this.players[this.turno].contadorPerderTurno++;
-          if (this.players[this.turno].contadorPerderTurno === 2) {
-            this.players[this.turno].perderTurno = false;
-            this.players[this.turno].contadorPerderTurno = 0;
-          }
-        }
-      }
+      this.PerderTurno();
+      
     }
 
+    
     //desbug perder turno
     if (this.players[this.turno].perderTurno === true) {
       if (
@@ -684,13 +667,26 @@ export class Game extends Phaser.Scene {
       });
       this.count++;
     }
-  }
+  };
 
   //funcion perder turno
+  PerderTurno(){
+    
+    if (this.players[this.turno].perderTurno === true) {
+      if (this.players[this.turno].contadorPerderTurno === 2) {
+        this.players[this.turno].perderTurno = false;
+        this.players[this.turno].contadorPerderTurno = 0;
+      } else {
+        this.contadorturno = true;
+        this.players[this.turno].contadorPerderTurno++;
+        if (this.players[this.turno].contadorPerderTurno === 2) {
+          this.players[this.turno].perderTurno = false;
+          this.players[this.turno].contadorPerderTurno = 0;
+        }
+      }
+    }
+  };
 
-  funcPerderTurno() {
-    this.players[this.turno].perderTurno = true;
-  }
 
   //funcion de pregunta
 
@@ -1304,10 +1300,12 @@ export class Game extends Phaser.Scene {
       this.players[this.turno].acumulador === 91 ||
       this.players[this.turno].acumulador === 99
     ) {
+
       //funcion perder turno
       this.cartelfunc = 3;
       this.cartelFunciones();
-      this.funcPerderTurno();
+      this.players[this.turno].perderTurno = true;
+
       setTimeout(() => {
         this.contadorturno = true;
         this.contadorRuleta = true;

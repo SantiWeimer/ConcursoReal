@@ -1,7 +1,6 @@
 import Phaser from "phaser";
-import Pregunta from "../clases/Pregunta.js"
-import Boton from "../clases/Boton.js";
 import {getPhrase} from '../services/translations.js'
+import { LeaderBoard } from 'phaser3-rex-plugins/plugins/firebase-components.js';
 
 export class MainMenu extends Phaser.Scene {
   //temporizador
@@ -28,6 +27,7 @@ export class MainMenu extends Phaser.Scene {
 
   create() {
 
+   
     //musica y sonido
 
     //sirve para desbugear, es para la primera vez que se entra al juego
@@ -55,7 +55,7 @@ export class MainMenu extends Phaser.Scene {
 
 
     this.add.image(1600, 810, "postemenu").setScale(1);
-    //this.add.image(1100, 600, 'rey').setScale(0.4);
+    
     this.add.image(1400, 250, "titulojuego").setScale(0.9);
 
     this.botonjugar = this.add
@@ -205,12 +205,6 @@ export class MainMenu extends Phaser.Scene {
 
     }
 
-   
-    /* this.pregunta = new Pregunta(this)
-
-    this.pregunta.trans.setVisible(false)
-    this.pregunta.popup.setVisible(false)
-    this.pregunta.iconomonedaayuda.setVisible(false) */
 
   }
 }

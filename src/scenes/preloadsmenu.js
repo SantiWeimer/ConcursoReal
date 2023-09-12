@@ -13,6 +13,8 @@ export class PreloadsMenu extends Phaser.Scene {
     }
   
     preload() {
+      //rexfirebase plign
+      this.load.plugin('rexfirebaseplugin', 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/dist/rexfirebaseplugin.min.js', true);
       //logo
       this.load.image("logo", "assets/images/logo.png");
       //transparencia
